@@ -1,5 +1,9 @@
 #include "arithmatic.h"
 
+#define FIX14_SHIFT 14
+#define FIX14_MULT(a, b) ( (a)*(b) >> FIX14_SHIFT )
+#define FIX14_DIV(a, b) ( ((a) << FIX14_SHIFT) / b )
+
 int16_t sin512(int16_t degs){
     return SIN[((degs % 512) + 512) % 512];
     //first % to get value within range
@@ -17,4 +21,13 @@ int16_t power(int16_t a, int16_t exp) {
     for (i = 1; i <= exp; i++)
         r *= a;
     return(r);
+}
+
+void rotateVector(vector_t *v, int16_t degs){
+    int32_t x = (*v).x;
+    int32_t y = (*v).y;
+    int32_t cosT = cos512(degs);
+    int32_t sinT = sin512(degs);
+    (*v).x = FIX14_MULT(x,cosT) - FIX14_MULT(y,sinT);
+    (*v).y = FIX14_MULT(x,sinT) + FIX14_MULT(y,cosT);
 }

@@ -207,7 +207,7 @@
 
 1591610551 source:c:\users\simon\documents\4. sem\prgprj\microcode\src\charset.c
 
-1591621554 source:c:\users\simon\documents\4. sem\prgprj\microcode\src\main.c
+1591623740 source:c:\users\simon\documents\4. sem\prgprj\microcode\src\main.c
 	"stm32f30x_conf.h"
 	"30010_io.h"
 	"ansi.h"
@@ -235,10 +235,10 @@
 1591620309 c:\users\simon\documents\4. sem\prgprj\microcode\inc\lut.h
 	<stdint.h>
 
-1591621441 source:c:\users\simon\documents\4. sem\prgprj\microcode\src\arithmatic.c
+1591623572 source:c:\users\simon\documents\4. sem\prgprj\microcode\src\arithmatic.c
 	"arithmatic.h"
 
-1591620335 c:\users\simon\documents\4. sem\prgprj\microcode\inc\arithmatic.h
+1591623567 c:\users\simon\documents\4. sem\prgprj\microcode\inc\arithmatic.h
 	<stdint.h>
 	<stdio.h>
 	"lut.h"
