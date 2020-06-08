@@ -71,7 +71,7 @@ void clreol() {
 }
 
 void gotoxy(int8_t x, int8_t y) {
-    printf("%c[%d;%dH", ESC, y, x);
+    printf("%c[%d;%dH", ESC, y + 1, x + 1);
 }
 
 void up(int8_t x) {
@@ -172,3 +172,13 @@ void window(int8_t x1, int8_t y1, int8_t x2, int8_t y2, char title[], int8_t sty
     printf("\n");
     gotoxy(0,0);
 }
+
+void printFix(int32_t i) {
+ // Prints a signed 16.16 fixed point number
+ if ((i & 0x80000000) != 0) { // Handle negative numbers
+ printf("-");
+ i = ~i + 1;
+ }
+ printf("%ld.%04ld", i >> 16, 10000 * (uint32_t)(i & 0xFFFF) >> 16);
+ // Print a maximum of 4 decimal digits to avoid overflow
+ }

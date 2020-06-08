@@ -7,3 +7,8 @@ int16_t strln(char str[]) {
     }
     return index;
 }
+
+int32_t expand(int32_t i) {
+ // Converts an 18.14 fixed point number to 16.16
+ return i << 2;
+ }

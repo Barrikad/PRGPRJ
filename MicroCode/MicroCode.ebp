@@ -91,7 +91,9 @@
 		<Unit filename="cmsis\core_cmInstr.h" />
 		<Unit filename="inc\30010_io.h" />
 		<Unit filename="inc\ansi.h" />
+		<Unit filename="inc\arithmatic.h" />
 		<Unit filename="inc\charset.h" />
+		<Unit filename="inc\lut.h" />
 		<Unit filename="inc\project_utilities.h" />
 		<Unit filename="inc\stm32f30x.h" />
 		<Unit filename="inc\stm32f30x_conf.h" />
@@ -191,7 +193,13 @@
 		<Unit filename="src\ansi.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src\arithmatic.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src\charset.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\lut.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src\main.c">
