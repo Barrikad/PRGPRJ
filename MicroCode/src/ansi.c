@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "charset.h"
+#include "project_utilities.h"
 
 void fgcolor(uint8_t foreground) {
 /*  Value      foreground     Value     foreground
@@ -69,93 +70,84 @@ void clreol() {
     printf("%c[K", ESC);
 }
 
-void gotoxy(char x, char y) {
-    printf("%c[%d;%dH", ESC, x, y);
+void gotoxy(int8_t x, int8_t y) {
+    printf("%c[%d;%dH", ESC, y, x);
 }
 
-void up(char x) {
+void up(int8_t x) {
     printf("%c[%dA", ESC, x);
 }
 
-void down(char x) {
+void down(int8_t x) {
     printf("%c[%dB", ESC, x);
 }
 
-void right(char x) {
+void right(int8_t x) {
     printf("%c[%dC", ESC, x);
 }
 
-void left(char x) {
+void left(int8_t x) {
     printf("%c[%dD", ESC, x);
 }
 
-void underline(char on) {
+void underline(int8_t on) {
     printf("%c[%dm", ESC, on ? 4 : 24);
 }
 
-void blink(char on) {
+void blink(int8_t on) {
     printf("%c[%dm", ESC, on ? 5 : 25);
 }
 
-void inverse(char on) {
+void inverse(int8_t on) {
     printf("%c[%dm", ESC, on ? 7 : 27);
 }
 
-//THIS SHOULD PROLLY BE MOVED
-int strln(char str[]) {
-    int index = 0;
-    while(str[index] != '\0') {
-        index++;
-    }
-    return index;
-}
-
-void printAnsi(char ch, int reps) {
-    for(int i = 0; i < reps; i++){
+void printAnsi(int8_t ch, int16_t reps) {
+    for(int16_t i = 0; i < reps; i++){
         printf("\%c",ch);
     }
 }
 
 
-void window(char x1, char y1, char x2, char y2, char title[], char style) {
-    char height = x2 - x1 + 1; //width is inclusive
-    char width = y2 - y1 + 1;
-    char titleLength = strln(title);
+void window(int8_t x1, int8_t y1, int8_t x2, int8_t y2, char title[], int8_t style) {
+    int8_t height = y2 - y1 + 1; //width is inclusive
+    int8_t width = x2 - x1 + 1;
+    int16_t titleLength = strln(title);
 
-    char cornerTL;
-    char cornerTR;
-    char cornerBL;
-    char cornerBR;
-    char barH;
-    char barV;
-    char titleStart;
-    char titleEnd;
+    int8_t cornerTL;
+    int8_t cornerTR;
+    int8_t cornerBL;
+    int8_t cornerBR;
+    int8_t barH;
+    int8_t barV;
+    int8_t titleStart;
+    int8_t titleEnd;
     switch(style){
         case 0 :
-            cornerTL = corner_TL_S;
-            cornerTR = corner_TR_S;
-            cornerBL = corner_BL_S;
-            cornerBR = corner_BR_S;
-            barH = bar_H_S;
-            barV = bar_V_S;
-            titleStart = cross_L_S;
-            titleEnd = cross_R_S;
+            cornerTL = CORNER_TL_S;
+            cornerTR = CORNER_TR_S;
+            cornerBL = CORNER_BL_S;
+            cornerBR = CORNER_BR_S;
+            barH = BAR_H_S;
+            barV = BAR_V_S;
+            titleStart = CROSS_L_S;
+            titleEnd = CROSS_R_S;
             break;
         case 1 :
-            cornerTL = corner_TL_D;
-            cornerTR = corner_TR_D;
-            cornerBL = corner_BL_D;
-            cornerBR = corner_BR_D;
-            barH = bar_H_D;
-            barV = bar_V_D;
-            titleStart = cross_L_D;
-            titleEnd = cross_R_D;
+            cornerTL = CORNER_TL_D;
+            cornerTR = CORNER_TR_D;
+            cornerBL = CORNER_BL_D;
+            cornerBR = CORNER_BR_D;
+            barH = BAR_H_D;
+            barV = BAR_V_D;
+            titleStart = CROSS_L_D;
+            titleEnd = CROSS_R_D;
             break;
     }
 
-    gotoxy(x1,0);
+    gotoxy(0,y1);
     printf("\n");
-    right(y1-1);
+    right(x1-1);
     printAnsi(cornerTL,1);
     printAnsi(barH,1);
     printAnsi(titleStart,1);
@@ -166,16 +158,17 @@ void window(char x1, char y1, char x2, char y2, char title[], char style) {
     printAnsi(barH,width - 5 - titleLength);
     printAnsi(cornerTR,1);
     printf("\n");
-    for(int i = 1; i < height - 1; i++) {
-        right(y1-1);
+    for(int16_t i = 1; i < height - 1; i++) {
+        right(x1-1);
         printAnsi(barV,1);
         printAnsi(space,width - 2);
         printAnsi(barV,1);
         printf("\n");
     }
-    right(y1-1);
+    right(x1-1);
     printAnsi(cornerBL,1);
     printAnsi(barH,width - 2);
     printAnsi(cornerBR,1);
     printf("\n");
+    gotoxy(0,0);
 }

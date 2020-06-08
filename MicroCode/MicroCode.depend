@@ -196,22 +196,23 @@
 	"stm32f30x_conf.h"
 	<stdio.h>
 
-1591385899 source:c:\users\simon\documents\4. sem\prgprj\microcode\src\ansi.c
+1591611830 source:c:\users\simon\documents\4. sem\prgprj\microcode\src\ansi.c
 	<stdint.h>
 	<stdio.h>
 	<string.h>
 	"charset.h"
+	"project_utilities.h"
 
-1591280189 c:\users\simon\documents\4. sem\prgprj\microcode\inc\charset.h
+1591609871 c:\users\simon\documents\4. sem\prgprj\microcode\inc\charset.h
 
-1591280188 source:c:\users\simon\documents\4. sem\prgprj\microcode\src\charset.c
+1591610551 source:c:\users\simon\documents\4. sem\prgprj\microcode\src\charset.c
 
-1591386014 source:c:\users\simon\documents\4. sem\prgprj\microcode\src\main.c
+1591611308 source:c:\users\simon\documents\4. sem\prgprj\microcode\src\main.c
 	"stm32f30x_conf.h"
 	"30010_io.h"
 	"ansi.h"
 
-1591280598 c:\users\simon\documents\4. sem\prgprj\microcode\inc\ansi.h
+1591608144 c:\users\simon\documents\4. sem\prgprj\microcode\inc\ansi.h
 	<stdint.h>
 	<stdio.h>
 
@@ -219,4 +220,10 @@
 
 1591362891 source:c:\users\simon\documents\4. sem\prgprj\microcode\src\system_stm32f30x.c
 	"stm32f30x.h"
+
+1591611789 c:\users\simon\documents\4. sem\prgprj\microcode\inc\project_utilities.h
+	<stdint.h>
+
+1591611812 source:c:\users\simon\documents\4. sem\prgprj\microcode\src\project_utilities.c
+	<stdint.h>
 

@@ -92,6 +92,7 @@
 		<Unit filename="inc\30010_io.h" />
 		<Unit filename="inc\ansi.h" />
 		<Unit filename="inc\charset.h" />
+		<Unit filename="inc\project_utilities.h" />
 		<Unit filename="inc\stm32f30x.h" />
 		<Unit filename="inc\stm32f30x_conf.h" />
 		<Unit filename="inc\system_stm32f30x.h" />
@@ -196,6 +197,9 @@
 		<Unit filename="src\main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src\project_utilities.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src\startup_stm32f30x.S">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -207,7 +211,7 @@
 		<Extensions>
 			<code_completion />
 			<debugger>
-				<target_debugging_settings target="Release" active_interface="OpenOCD">
+				<target_debugging_settings target="Debug" active_interface="OpenOCD">
 					<debug_interface interface_id="OpenOCD" ip_address="localhost" ip_port="3333" path="C:\Users\simon\Desktop\Debugger_openocd-0.10.0\bin-x64" executable="openocd.exe" description="" dont_start_server="false" backoff_time="100" options="0" reg_filter="0" active_family="All" gdb_before_conn="" gdb_after_conn="">
 						<family_options family_id="All">
 							<option opt_id="ID_BOARD_CH" opt_value="" />
@@ -238,7 +242,7 @@
 						</family_options>
 					</debug_interface>
 				</target_debugging_settings>
-				<target_debugging_settings target="Debug" active_interface="OpenOCD">
+				<target_debugging_settings target="Release" active_interface="OpenOCD">
 					<debug_interface interface_id="OpenOCD" ip_address="localhost" ip_port="3333" path="C:\Users\simon\Desktop\Debugger_openocd-0.10.0\bin-x64" executable="openocd.exe" description="" dont_start_server="false" backoff_time="100" options="0" reg_filter="0" active_family="All" gdb_before_conn="" gdb_after_conn="">
 						<family_options family_id="All">
 							<option opt_id="ID_BOARD_CH" opt_value="" />

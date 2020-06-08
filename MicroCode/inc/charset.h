@@ -1,29 +1,30 @@
 #ifndef ANSI_H_INCLUDED
 #define ANSI_H_INCLUDED
-char corner_TL_S;
-char corner_TR_S;
-char corner_BL_S;
-char corner_BR_S;
-char bar_V_S;
-char bar_H_S;
-char cross_L_S;
-char cross_R_S;
-char cross_U_S;
-char cross_D_S;
-char cross_A_S;
+#define CORNER_TL_S 208 + 10
+#define CORNER_TR_S 176 + 15
+#define CORNER_BL_S 192 + 0
+#define CORNER_BR_S 208 + 9
+#define BAR_V_S 176 + 3
+#define BAR_H_S 192 + 4
+#define CROSS_L_S 176 + 4 //CROSS pointing left
+#define CROSS_R_S 192 + 3
+#define CROSS_U_S 192 + 1
+#define CROSS_D_S 192 + 2
+#define CROSS_A_S 192 + 5 //full CROSS (A for All)
 
-char corner_TL_D;
-char corner_TR_D;
-char corner_BL_D;
-char corner_BR_D;
-char bar_V_D;
-char bar_H_D;
-char cross_L_D;
-char cross_R_D;
-char cross_U_D;
-char cross_D_D;
-char cross_A_D;
+#define CORNER_TL_D 192 + 9
+#define CORNER_TR_D 176 + 11
+#define CORNER_BL_D 192 + 8
+#define CORNER_BR_D 176 + 12
+#define BAR_V_D 176 + 10
+#define BAR_H_D 192 + 13
+#define CROSS_L_D 176 + 9 //CROSS pointing left
+#define CROSS_R_D 192 + 12
+#define CROSS_U_D 192 + 10
+#define CROSS_D_D 192 + 11
+#define CROSS_A_D 192 + 14 //full CROSS (A for All)
 
-char space;
+#define space 32
+
 #endif /* ANSI_H_INCLUDED */
 
