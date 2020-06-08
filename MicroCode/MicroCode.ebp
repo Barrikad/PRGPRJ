@@ -91,6 +91,7 @@
 		<Unit filename="cmsis\core_cmInstr.h" />
 		<Unit filename="inc\30010_io.h" />
 		<Unit filename="inc\ansi.h" />
+		<Unit filename="inc\apps.h" />
 		<Unit filename="inc\arithmatic.h" />
 		<Unit filename="inc\charset.h" />
 		<Unit filename="inc\lut.h" />
@@ -191,6 +192,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src\ansi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\apps.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src\arithmatic.c">

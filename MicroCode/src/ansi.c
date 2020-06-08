@@ -174,11 +174,30 @@ void window(int8_t x1, int8_t y1, int8_t x2, int8_t y2, char title[], int8_t sty
 }
 
 void printFix(int32_t i) {
- // Prints a signed 16.16 fixed point number
- if ((i & 0x80000000) != 0) { // Handle negative numbers
- printf("-");
- i = ~i + 1;
- }
- printf("%ld.%04ld", i >> 16, 10000 * (uint32_t)(i & 0xFFFF) >> 16);
- // Print a maximum of 4 decimal digits to avoid overflow
- }
+    // Prints a signed 16.16 fixed point number
+    if ((i & 0x80000000) != 0) { // Handle negative numbers
+        printf("-");
+        i = ~i + 1;
+        }
+        printf("%ld.%04ld", i >> 16, 10000 * (uint32_t)(i & 0xFFFF) >> 16);
+        // Print a maximum of 4 decimal digits to avoid overflow
+}
+
+void walls(int8_t x1, int8_t y1, int8_t x2, int8_t y2){
+    int8_t width = x2 - x1 - 1;
+    int8_t height = y2 - y1 - 1;
+    gotoxy(x1,y1);
+    printAnsi(CORNER_TL_S,1);
+    printAnsi(BAR_H_S,width);
+    printAnsi(CORNER_TR_S,1);
+    for(int i = 1; i <= height; i++){
+        gotoxy(x1, y1 + i);
+        printAnsi(BAR_V_S,1);
+        right(width);
+        printAnsi(BAR_V_S,1);
+    }
+    gotoxy(x1,y2);
+    printAnsi(CORNER_BL_S,1);
+    printAnsi(BAR_H_S,width);
+    printAnsi(CORNER_BR_S,1);
+}

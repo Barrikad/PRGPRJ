@@ -196,7 +196,7 @@
 	"stm32f30x_conf.h"
 	<stdio.h>
 
-1591619882 source:c:\users\simon\documents\4. sem\prgprj\microcode\src\ansi.c
+1591625385 source:c:\users\simon\documents\4. sem\prgprj\microcode\src\ansi.c
 	<stdint.h>
 	<stdio.h>
 	<string.h>
@@ -207,14 +207,15 @@
 
 1591610551 source:c:\users\simon\documents\4. sem\prgprj\microcode\src\charset.c
 
-1591623740 source:c:\users\simon\documents\4. sem\prgprj\microcode\src\main.c
+1591628082 source:c:\users\simon\documents\4. sem\prgprj\microcode\src\main.c
 	"stm32f30x_conf.h"
 	"30010_io.h"
 	"ansi.h"
 	"arithmatic.h"
 	"project_utilities.h"
+	"apps.h"
 
-1591613625 c:\users\simon\documents\4. sem\prgprj\microcode\inc\ansi.h
+1591625089 c:\users\simon\documents\4. sem\prgprj\microcode\inc\ansi.h
 	<stdint.h>
 	<stdio.h>
 
@@ -242,4 +243,13 @@
 	<stdint.h>
 	<stdio.h>
 	"lut.h"
+
+1591628089 source:c:\users\simon\documents\4. sem\prgprj\microcode\src\apps.c
+	"apps.h"
+
+1591627550 c:\users\simon\documents\4. sem\prgprj\microcode\inc\apps.h
+	<stdint.h>
+	<stdio.h>
+	"arithmatic.h"
+	"ansi.h"
 
