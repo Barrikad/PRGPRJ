@@ -1,2 +1,23 @@
+# Embitz
+*.depend
+*.ebp
+*.elay
 bin/
 obj/
+
+
+# STM32CubeIDE
+.metadata
+Debug/
+Release/
+RemoteSystemsTempFiles/
+.settings/
+.project
+.cproject
+*.launch
+
+
+# Other, should maybe be the same across editors?
+startup_stm32f30x.S
+startup_stm32f302r8tx.s
+*.ld
