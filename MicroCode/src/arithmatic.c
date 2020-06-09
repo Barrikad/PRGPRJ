@@ -1,11 +1,7 @@
 #include "arithmatic.h"
 
-#define FIX14_SHIFT 14
-#define FIX14_MULT(a, b) ( (a)*(b) >> FIX14_SHIFT )
-#define FIX14_DIV(a, b) ( ((a) << FIX14_SHIFT) / b )
-
 int16_t sin512(int16_t degs){
-    return SIN[((degs % 512) + 512) % 512];
+    return SIN[degs & 511];
     //first % to get value within range
     //+ to make negatives positive
     //second % to reduce positives moved out of range with +
