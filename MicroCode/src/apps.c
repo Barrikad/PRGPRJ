@@ -10,10 +10,11 @@ void startBall(){
     ball_t ball = {6,6,1,2};
 
     int16_t counter = 0;
+    int8_t collisions = 0;
     while(1){
 
         if(counter == 0){
-            updateBall(&ball);
+            updateBall(&ball, &collisions);
         }
 
         counter++;
@@ -25,8 +26,10 @@ void drawWindow(){
     int8_t sTOP = (TOP + BOTTOM)/2 - 1;
     int8_t sBOTTOM = sTOP + 2;
     int8_t sLEFT = (LEFT + RIGHT)/2 - 4;
-    int8_t sRIGHT = sLEFT + 7;
+    int8_t sRIGHT = sLEFT + 9;
     walls(sLEFT,sTOP,sRIGHT,sBOTTOM);
+    gotoxy(sLEFT + 1, sTOP + 1);
+    printf("Hits: 0");
 }
 
 void moveBall(ball_t *b){
@@ -44,15 +47,21 @@ void undrawBall(ball_t *b){
     printf(" ");
 }
 
-void updateBall(ball_t *b){
+void updateBall(ball_t *b, int8_t * collisions){
     undrawBall(b);
     moveBall(b);
 
 
     int8_t collision = ballCollides(b);
     if(collision){
+    	(*collisions)++;
         bounceBall(b,collision);
         moveBall(b);
+        // Print updated collision amount
+        int8_t sTOP = (TOP + BOTTOM)/2 - 1;
+        int8_t sLEFT = (LEFT + RIGHT)/2 - 4;
+        gotoxy(sLEFT + 7, sTOP + 1);
+        printf("%d", *collisions);
     }
 
     drawBall(b);
