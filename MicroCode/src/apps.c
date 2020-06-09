@@ -7,14 +7,17 @@
 
 void startBall(){
     drawWindow();
-    ball_t ball = {6,6,2,2};
-    int8_t counter = 0;
-    /*while(1){
-        if(counter%32 == 0){
+    ball_t ball = {6,6,1,2};
+
+    int16_t counter = 0;
+    while(1){
+
+        if(counter == 0){
             updateBall(&ball);
         }
+
         counter++;
-    }*/
+    }
 }
 
 void drawWindow(){
@@ -44,5 +47,39 @@ void undrawBall(ball_t *b){
 void updateBall(ball_t *b){
     undrawBall(b);
     moveBall(b);
+
+
+    int8_t collision = ballCollides(b);
+    if(collision){
+        bounceBall(b,collision);
+        moveBall(b);
+    }
+
     drawBall(b);
+}
+
+int8_t ballCollides(ball_t *b){
+    int8_t collision = 0;
+    if((*b).x <= 0){
+        collision |= 1;
+    }
+    else if((*b).x >= RIGHT - LEFT){
+        collision |= 4;
+    }
+    if((*b).y <= 0){
+        collision |= 2;
+    }
+    else if((*b).y >= (BOTTOM - TOP)*2){
+        collision |= 8;
+    }
+    return collision;
+}
+
+void bounceBall(ball_t *b, int8_t collision){
+    if(collision & 5){
+        (*b).vx *= -1;
+    }
+    if(collision & 10){
+        (*b).vy *= -1;
+    }
 }

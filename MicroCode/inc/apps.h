@@ -16,5 +16,7 @@ void drawBall(ball_t *b);
 void undrawBall(ball_t *b);
 void updateBall(ball_t *b);
 int8_t ballCollides(ball_t *b);
+void bounceBall(ball_t *b, int8_t collision);
+
 
 #endif /* APPS_H_INCLUDED */
