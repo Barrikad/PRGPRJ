@@ -3,12 +3,15 @@
 #include "ansi.h"
 #include "arithmatic.h"
 #include "project_utilities.h"
-#include "ball.h"
+#include "hardwareIO.h"
 
 int main(void)
 {
     uart_init(115200);
     clrscr();
-    startBall();
-    while(1){}
+    initJoystick();
+    while(1){
+        printf("%i",readJoystick());
+        gotoxy(0,0);
+    }
 }
