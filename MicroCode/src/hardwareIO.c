@@ -55,12 +55,12 @@ void initJoystick(){
     setInput(1,'C');
 }
 
-uint8_t readJoystick(){
-    uint8_t up = getInput(4,'A');
-    uint8_t right = getInput(0,'C');
-    uint8_t down = getInput(0,'B');
-    uint8_t left = getInput(1,'C');
-    uint8_t in = getInput(5,'B');
-
-    return up + 2*down + 4*left + 8*right + 16*in;
+uint8_t readJoystick() {
+	uint8_t rtn = 0;
+	rtn |= getInput(4,'A') << 0; // Up
+	rtn |= getInput(0,'B') << 1; // Down
+	rtn |= getInput(1, 'C') << 2; // Left
+	rtn |= getInput(5, 'B') << 3; // Center
+	rtn |= getInput(0, 'C') << 4; // Right
+	return rtn;
 }

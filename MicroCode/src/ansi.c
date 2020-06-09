@@ -201,3 +201,23 @@ void walls(int8_t x1, int8_t y1, int8_t x2, int8_t y2){
     printAnsi(BAR_H_S,width);
     printAnsi(CORNER_BR_S,1);
 }
+
+void printJoystick(uint8_t joystick) {
+	// If, and not switch, since multiple directions can be active!
+	if (joystick & 0x01) {
+		printf("Up ");
+	}
+	if (joystick & 0x02) {
+		printf("Down ");
+	}
+	if (joystick & 0x04) {
+		printf("Left ");
+	}
+	if (joystick & 0x08) {
+		printf("Center ");
+	}
+	if (joystick & 0x10) {
+		printf("Right ");
+	}
+	printf("\n");
+}

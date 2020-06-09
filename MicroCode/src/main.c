@@ -10,8 +10,12 @@ int main(void)
     uart_init(115200);
     clrscr();
     initJoystick();
-    while(1){
-        printf("%i",readJoystick());
-        gotoxy(0,0);
+	uint8_t previousJoystick = 0;
+    while(1) {
+    	uint8_t currentJoystick = readJoystick();
+    	if (currentJoystick != previousJoystick) {
+    		printJoystick(currentJoystick);
+			previousJoystick = currentJoystick;
+    	}
     }
 }

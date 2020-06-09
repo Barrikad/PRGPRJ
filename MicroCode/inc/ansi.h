@@ -21,5 +21,6 @@ void window(int8_t x1, int8_t y1, int8_t x2, int8_t y2, int8_t title[], int8_t s
 void printAnsi(int8_t ch, int reps);
 void printFix(int32_t i);
 void walls(int8_t x1, int8_t y1, int8_t x2, int8_t y2);
+void printJoystick(uint8_t joystick);
 
 #endif /* ANSI_H_INCLUDED */
