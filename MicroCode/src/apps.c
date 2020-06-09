@@ -8,9 +8,13 @@
 void startBall(){
     drawWindow();
     ball_t ball = {6,6,2,2};
-    drawBall(&ball);
-    moveBall(&ball);
-    drawBall(&ball);
+    int8_t counter = 0;
+    /*while(1){
+        if(counter%32 == 0){
+            updateBall(&ball);
+        }
+        counter++;
+    }*/
 }
 
 void drawWindow(){
@@ -30,4 +34,15 @@ void moveBall(ball_t *b){
 void drawBall(ball_t *b){
     gotoxy((*b).x + LEFT,((*b).y / 2) + TOP);
     printf("o");
+}
+
+void undrawBall(ball_t *b){
+    gotoxy((*b).x + LEFT,((*b).y / 2) + TOP);
+    printf(" ");
+}
+
+void updateBall(ball_t *b){
+    undrawBall(b);
+    moveBall(b);
+    drawBall(b);
 }
