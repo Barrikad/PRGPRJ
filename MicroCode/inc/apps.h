@@ -14,7 +14,7 @@ void drawWindow();
 void moveBall(ball_t *b);
 void drawBall(ball_t *b);
 void undrawBall(ball_t *b);
-void updateBall(ball_t *b, int8_t * collisions);
+void updateBall(ball_t *b, uint16_t * collisions);
 int8_t ballCollides(ball_t *b);
 void bounceBall(ball_t *b, int8_t collision);
 

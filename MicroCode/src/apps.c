@@ -10,7 +10,7 @@ void startBall(){
     ball_t ball = {(6 << 14) , (6 << 14) , (1 << 14) + (5 << 13), (2 << 14) };
 
     int16_t counter = 0;
-    int16_t collisions = 0;
+    uint16_t collisions = 0;
     while(1){
 
         if(counter == 0){
@@ -47,7 +47,7 @@ void undrawBall(ball_t *b){
     printf(" ");
 }
 
-void updateBall(ball_t *b, int8_t * collisions){
+void updateBall(ball_t *b, uint16_t * collisions){
     undrawBall(b);
     moveBall(b);
 
@@ -61,7 +61,7 @@ void updateBall(ball_t *b, int8_t * collisions){
         int8_t sTOP = (TOP + BOTTOM)/2 - 1;
         int8_t sLEFT = (LEFT + RIGHT)/2 - 6;
         gotoxy(sLEFT + 7, sTOP + 1);
-        printf("%d", *collisions);
+        printf("%i", *collisions);
     }
 
     drawBall(b);
