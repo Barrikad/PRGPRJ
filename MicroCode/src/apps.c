@@ -77,9 +77,9 @@ int8_t ballCollides(ball_t *b){
 
 void bounceBall(ball_t *b, int8_t collision){
     if(collision & 5){
-        (*b).vx *= -1;
+        (*b).vx = FIX14_MULT((*b).vx, -1);
     }
     if(collision & 10){
-        (*b).vy *= -1;
+        (*b).vy = FIX14_MULT((*b).vy, -1);
     }
 }
