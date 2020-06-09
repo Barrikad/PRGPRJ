@@ -4,11 +4,20 @@
 #include "arithmatic.h"
 #include "project_utilities.h"
 #include "ball.h"
+#include "hardware_io.h"
 
 int main(void)
 {
     uart_init(115200);
     clrscr();
-    startBall();
-    while(1){}
+//    startBall();
+    setupHardwareIO();
+	uint8_t previousJoystick = 0;
+    while(1) {
+    	uint8_t currentJoystick = readJoystick();
+    	if (currentJoystick != previousJoystick) {
+    		printJoystick(currentJoystick);
+			previousJoystick = currentJoystick;
+    	}
+    }
 }
