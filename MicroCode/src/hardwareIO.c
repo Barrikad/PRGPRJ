@@ -30,7 +30,7 @@ uint32_t getRCCGPIO(char port){
     }
 }
 
-void setInput(int8_t pin, char port){
+void initInput(int8_t pin, char port){
     GPIO_TypeDef *gpio = getGPIO(port);
 
     RCC->AHBENR |= getRCCGPIO(port);
@@ -42,17 +42,42 @@ void setInput(int8_t pin, char port){
     gpio->PUPDR |= (0x00000002 << (2 * pin));
 }
 
+void initOutput(int8_t pin, char port){
+    GPIO_TypeDef *gpio = getGPIO(port);
+
+    RCC->AHBENR |= getRCCGPIO(port);
+
+    gpio->OSPEEDR &= ~(0x00000003 << (pin * 2));
+    gpio->OSPEEDR |= (0x00000002 << (pin * 2));
+
+    gpio->OTYPER &= ~(0x0001 << (pin));
+    gpio->OTYPER |= (0x0001 << (pin));
+
+    gpio->MODER &= ~(0x00000003 << (pin * 2));
+    gpio->MODER |= (0x00000001 << (pin * 2));
+}
+
 uint8_t getInput(int8_t pin, char port){
     GPIO_TypeDef *gpio = getGPIO(port);
     return (gpio->IDR & (0x0001 << pin)) >> pin;
 }
 
+void setOutput(int8_t pin, char port, int8_t value){
+    GPIO_TypeDef *gpio = getGPIO(port);
+    if(value){
+        gpio->ODR |= (1 << pin);
+    }
+    else{
+        gpio->ODR &= ~(1 << pin);
+    }
+}
+
 void initJoystick(){
-    setInput(4,'A');
-    setInput(0,'B');
-    setInput(5,'B');
-    setInput(0,'C');
-    setInput(1,'C');
+    initInput(4,'A');
+    initInput(0,'B');
+    initInput(5,'B');
+    initInput(0,'C');
+    initInput(1,'C');
 }
 
 uint8_t readJoystick() {

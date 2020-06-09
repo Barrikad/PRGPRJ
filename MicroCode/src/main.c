@@ -9,13 +9,16 @@ int main(void)
 {
     uart_init(115200);
     clrscr();
+    initOutput(4,'B');
     initJoystick();
-	uint8_t previousJoystick = 0;
+
     while(1) {
-    	uint8_t currentJoystick = readJoystick();
-    	if (currentJoystick != previousJoystick) {
-    		printJoystick(currentJoystick);
-			previousJoystick = currentJoystick;
-    	}
+        uint8_t js = readJoystick();
+        if(js & 1){
+            setOutput(4,'B',1);
+        }
+        if(js & 2){
+            setOutput(4,'B',0);
+        }
     }
 }
