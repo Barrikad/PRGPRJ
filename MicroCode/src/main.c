@@ -7,7 +7,7 @@
 
 int main(void)
 {
-    uart_init(128000);
+    uart_init(115200);
     clrscr();
     startBall();
     while(1){}
