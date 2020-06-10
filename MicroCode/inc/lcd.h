@@ -7,9 +7,10 @@
 
 #define LCD_BUFFER_SIZE 512
 
-void lcd_init(); // Re-export from 30010_io.h
-void lcd_clear(uint8_t buffer[LCD_BUFFER_SIZE]);
-void lcd_write_string(uint8_t buffer[LCD_BUFFER_SIZE], char * string);
-void lcd_update(uint8_t buffer[LCD_BUFFER_SIZE], char * string, uint32_t tick);
+void lcdInit();
+void lcdFlush();
+void lcdClear();
+void lcdWriteString(char str[], uint8_t line, uint8_t slice);
+void lcdUpdate();
 
 #endif /* LCD_H_ */

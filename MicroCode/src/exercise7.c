@@ -7,18 +7,21 @@ void setLcdUpdateFlag() {
 }
 
 void exercise7() {
-	uint8_t buffer[LCD_BUFFER_SIZE];
 	uint32_t tick = 0;
-	lcd_init();
-	lcd_clear(buffer);
+	lcdInit();
+	lcdClear();
 	// 100Hz timer
     initTimer2(0, 640000 - 1, setLcdUpdateFlag);
     enableTimer2();
 
+    lcdWriteString("hello world", 0, 1);
+	lcdFlush();
+
 	while(1) {
 		if (lcdShouldUpdate) {
 			lcdShouldUpdate = 0;
-			lcd_update(buffer, "Test 123", tick);
+			lcdUpdate();
+			lcdFlush();
 			tick++;
 		}
 	}
