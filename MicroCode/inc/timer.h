@@ -5,9 +5,7 @@
 #include "stm32f30x.h"
 
 void initTimer2(uint16_t prescaler, uint16_t reloadValue, void (*fun_ptr)());
-
 void initTimer3(uint16_t prescaler, uint16_t reloadValue, void (*fun_ptr)());
-
 void initTimer4(uint16_t prescaler, uint16_t reloadValue, void (*fun_ptr)());
 
 void enableTimer2();
