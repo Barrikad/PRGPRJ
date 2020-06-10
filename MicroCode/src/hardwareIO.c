@@ -79,6 +79,12 @@ void initJoystick() {
     initInput(1, 'C'); // Right
 }
 
+void initLeds() {
+	initOutput(4, 'B'); // Red
+	initOutput(7, 'A'); // Green
+	initOutput(9, 'C'); // Blue
+}
+
 uint8_t readJoystick() {
 	uint8_t rtn = 0;
 	rtn |= getInput(4,'A') << 0; // Up
@@ -88,3 +94,13 @@ uint8_t readJoystick() {
 	rtn |= getInput(0, 'C') << 4; // Right
 	return rtn;
 }
+
+// Set the leds, based on the given color
+// The first bit sets a red LED, the second bit a green LED and the third bit a blue LED.
+void setLeds(uint8_t color) {
+	// The values are inverted, since the LEDs are pull-down
+	setOutput(4, 'B', !(color & 0x01)); // Red
+	setOutput(7, 'A', !(color & 0x02)); // Green
+	setOutput(9, 'C', !(color & 0x04)); // Blue
+}
+
