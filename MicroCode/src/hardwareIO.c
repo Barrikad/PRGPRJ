@@ -1,5 +1,6 @@
 #include "hardwareIO.h"
 
+
 GPIO_TypeDef* getGPIO(char port){
     switch(port){
         case 'A':
@@ -63,6 +64,7 @@ void initOutput(int8_t pin, char port){
 
 uint8_t getInput(int8_t pin, char port){
     GPIO_TypeDef *gpio = getGPIO(port);
+
     return (gpio->IDR & (0x0001 << pin)) >> pin;
 }
 
@@ -90,6 +92,7 @@ void initLeds() {
 	initOutput(7, 'C'); // Green
 	initOutput(9, 'A'); // Blue
 }
+
 
 uint8_t readJoystick() {
 	uint8_t rtn = 0;
