@@ -115,7 +115,7 @@ void setLeds(uint8_t color) {
 void ledToJoystick(){
     uint8_t jsPosition = readJoystick();
     if(jsPosition & 1){ //up
-        if(jsPosition & 8){ //center
+        if(jsPosition & 16){ //center
             setLeds(1 + 2);
         }
         else{
@@ -126,15 +126,15 @@ void ledToJoystick(){
         setLeds(1 + 2 + 4);
     }
     else if(jsPosition & 4){ //left
-        if(jsPosition & 8){ //center
+        if(jsPosition & 16){ //center
             setLeds(1 + 4);
         }
         else{
             setLeds(2);
         }
     }
-    else if(jsPosition & 16){ //right
-        if(jsPosition & 8){ //center
+    else if(jsPosition & 8){ //right
+        if(jsPosition & 16){ //center
             setLeds(2 + 4);
         }
         else{
