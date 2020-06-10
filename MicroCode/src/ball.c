@@ -70,6 +70,12 @@ void updateBall(ball_t *b, uint16_t * collisions){
     	(*collisions)++;
         bounceBall(b,collision);
         moveBall(b);
+        int8_t doubleCollision = ballCollides(b);
+        if(doubleCollision) {
+            (*collisions)++;
+            bounceBall(b,doubleCollision);
+            moveBall(b);
+        }
         int8_t sTOP = (TOP + BOTTOM)/2 - 1;
         int8_t sLEFT = (LEFT + RIGHT)/2 - 6;
         gotoxy(sLEFT + 7, sTOP + 1);
