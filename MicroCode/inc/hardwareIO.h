@@ -5,20 +5,20 @@
 #include "stm32f30x.h"
 
 void initInput(int8_t pin, char port);
-
 void initOutput(int8_t pin, char port);
 
 uint8_t getInput(int8_t pin, char port);
-
-void setOutput(int8_t pin, char port, int8_t value);
+void setOutput(int8_t pin, char port, uint8_t on);
 
 void initJoystick();
+void initLeds();
 
+void setLeds(uint8_t color);
 uint8_t readJoystick();
 
-void initLed();
+void initLeds();
 
-void setLed(uint8_t color);
+void setLeds(uint8_t color);
 
 void ledToJoystick();
 

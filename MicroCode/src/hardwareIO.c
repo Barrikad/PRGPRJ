@@ -41,25 +41,24 @@ void initInput(int8_t pin, char port){
     RCC->AHBENR |= getRCCGPIO(port);
 
     gpio->MODER &= ~(0x00000003 << (2 * pin));
-    gpio->MODER |= (0x00000000 << (2 * pin));
-
-    gpio->PUPDR &= ~(0x00000003 << (2 * pin));
-    gpio->PUPDR |= (0x00000002 << (2 * pin));
+    gpio->MODER |=  (0x00000000 << (2 * pin));
+	gpio->PUPDR &= ~(0x00000003 << (2 * pin)); // Clear push/pull register
+	gpio->PUPDR |=  (0x00000002 << (2 * pin)); // Set push/pull register to pull-down
 }
 
 void initOutput(int8_t pin, char port){
     GPIO_TypeDef *gpio = getGPIO(port);
 
+    // Ensure GPIO is enabled
     RCC->AHBENR |= getRCCGPIO(port);
 
-    gpio->OSPEEDR &= ~(0x00000003 << (pin * 2));
-    gpio->OSPEEDR |= (0x00000002 << (pin * 2));
-
-    gpio->OTYPER &= ~(0x0001 << (pin));
-    gpio->OTYPER |= (0x0001 << (pin));
-
-    gpio->MODER &= ~(0x00000003 << (pin * 2));
-    gpio->MODER |= (0x00000001 << (pin * 2));
+    // Configure pin as output
+    gpio->OSPEEDR &= ~(0x00000003 << (2 * pin)); // Clear speed register
+    gpio->OSPEEDR |=  (0x00000002 << (2 * pin)); // Set speed register (0x01 - 10 MHz, 0x02 - 2 MHz, 0x03 - 50 MHz)
+    gpio->OTYPER  &= ~(0x0001 << pin);           // Clear output type register
+    gpio->OTYPER  |=  (0x0001 << pin);           // Set output type register (0x00 - Push pull, 0x01 - Open drain)
+    gpio->MODER   &= ~(0x00000003 << (2 * pin)); // Clear mode register
+    gpio->MODER   |=  (0x00000001 << (2 * pin)); // Set mode register to output
 }
 
 uint8_t getInput(int8_t pin, char port){
@@ -67,22 +66,29 @@ uint8_t getInput(int8_t pin, char port){
     return (gpio->IDR & (0x0001 << pin)) >> pin;
 }
 
-void setOutput(int8_t pin, char port, int8_t on){
+// Set the value on the given GPIO / pin
+void setOutput(int8_t pin, char port, uint8_t on){
     GPIO_TypeDef *gpio = getGPIO(port);
     if(on){
-        gpio->ODR &= ~(1 << pin);
+        gpio->ODR |= (1 << pin);
     }
     else{
-        gpio->ODR |= (1 << pin);
+        gpio->ODR &= ~(1 << pin);
     }
 }
 
-void initJoystick(){
-    initInput(4,'A'); //up
-    initInput(0,'B'); //down
-    initInput(5,'B'); //center
-    initInput(0,'C'); //right
-    initInput(1,'C'); //left
+void initJoystick() {
+    initInput(4, 'A'); // Up
+    initInput(0, 'B'); // Down
+    initInput(5, 'B'); // Left
+    initInput(0, 'C'); // Center
+    initInput(1, 'C'); // Right
+}
+
+void initLeds() {
+	initOutput(4, 'B'); // Red
+	initOutput(7, 'C'); // Green
+	initOutput(9, 'A'); // Blue
 }
 
 uint8_t readJoystick() {
@@ -95,63 +101,46 @@ uint8_t readJoystick() {
 	return rtn;
 }
 
-void initLed() {
-    initOutput(4,'B'); //red
-    initOutput(7,'C'); //green
-    initOutput(9,'A'); //blue
-}
 
-void setLed(uint8_t color){
-    if(color & 1){
-        setOutput(9,'A',1);
-    }
-    else{
-        setOutput(9,'A',0);
-    }
-    if(color & 2){
-        setOutput(7,'C',1);
-    }
-    else{
-        setOutput(7,'C',0);
-    }
-    if(color & 4){
-        setOutput(4,'B',1);
-    }
-    else{
-        setOutput(4,'B',0);
-    }
+// Set the leds, based on the given color
+// The first bit sets a red LED, the second bit a green LED and the third bit a blue LED.
+void setLeds(uint8_t color) {
+	// The values are inverted, since the LEDs are pull-down
+	setOutput(4, 'B', !(color & 0x01)); // Red
+	setOutput(7, 'C', !(color & 0x02)); // Green
+	setOutput(9, 'A', !(color & 0x04)); // Blue
 }
 
 void ledToJoystick(){
     uint8_t jsPosition = readJoystick();
     if(jsPosition & 1){ //up
         if(jsPosition & 8){ //center
-            setLed(1 + 2);
+            setLeds(1 + 2);
         }
         else{
-            setLed(1);
+            setLeds(1);
         }
     }
     else if(jsPosition & 2){ //down
-        setLed(1 + 2 + 4);
+        setLeds(1 + 2 + 4);
     }
     else if(jsPosition & 4){ //left
         if(jsPosition & 8){ //center
-            setLed(1 + 4);
+            setLeds(1 + 4);
         }
         else{
-            setLed(2);
+            setLeds(2);
         }
     }
     else if(jsPosition & 16){ //right
         if(jsPosition & 8){ //center
-            setLed(2 + 4);
+            setLeds(2 + 4);
         }
         else{
-            setLed(4);
+            setLeds(4);
         }
     }
     else{
-        setLed(0);
+        setLeds(0);
     }
 }

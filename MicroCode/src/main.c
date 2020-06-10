@@ -10,7 +10,7 @@ int main(void)
     uart_init(115200);
     clrscr();
     initJoystick();
-    initLed();
+    initLeds();
 
     while(1) {
         ledToJoystick();
