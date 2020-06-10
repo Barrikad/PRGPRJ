@@ -16,4 +16,10 @@ void initJoystick();
 
 uint8_t readJoystick();
 
+void initLed();
+
+void setLed(uint8_t color);
+
+void ledToJoystick();
+
 #endif /* HARDWAREIO_H_INCLUDED */

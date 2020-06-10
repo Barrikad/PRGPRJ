@@ -12,7 +12,10 @@ GPIO_TypeDef* getGPIO(char port){
             return GPIOD;
         case 'E':
             return GPIOE;
+        default:
+            return NULL;
     }
+
 }
 
 uint32_t getRCCGPIO(char port){
@@ -27,6 +30,8 @@ uint32_t getRCCGPIO(char port){
             return RCC_AHBPeriph_GPIOD;
         case 'E':
             return RCC_AHBPeriph_GPIOE;
+        default:
+            return 0;
     }
 }
 
@@ -62,22 +67,22 @@ uint8_t getInput(int8_t pin, char port){
     return (gpio->IDR & (0x0001 << pin)) >> pin;
 }
 
-void setOutput(int8_t pin, char port, int8_t value){
+void setOutput(int8_t pin, char port, int8_t on){
     GPIO_TypeDef *gpio = getGPIO(port);
-    if(value){
-        gpio->ODR |= (1 << pin);
+    if(on){
+        gpio->ODR &= ~(1 << pin);
     }
     else{
-        gpio->ODR &= ~(1 << pin);
+        gpio->ODR |= (1 << pin);
     }
 }
 
 void initJoystick(){
-    initInput(4,'A');
-    initInput(0,'B');
-    initInput(5,'B');
-    initInput(0,'C');
-    initInput(1,'C');
+    initInput(4,'A'); //up
+    initInput(0,'B'); //down
+    initInput(5,'B'); //center
+    initInput(0,'C'); //right
+    initInput(1,'C'); //left
 }
 
 uint8_t readJoystick() {
@@ -88,4 +93,65 @@ uint8_t readJoystick() {
 	rtn |= getInput(5, 'B') << 3; // Center
 	rtn |= getInput(0, 'C') << 4; // Right
 	return rtn;
+}
+
+void initLed() {
+    initOutput(4,'B'); //red
+    initOutput(7,'C'); //green
+    initOutput(9,'A'); //blue
+}
+
+void setLed(uint8_t color){
+    if(color & 1){
+        setOutput(9,'A',1);
+    }
+    else{
+        setOutput(9,'A',0);
+    }
+    if(color & 2){
+        setOutput(7,'C',1);
+    }
+    else{
+        setOutput(7,'C',0);
+    }
+    if(color & 4){
+        setOutput(4,'B',1);
+    }
+    else{
+        setOutput(4,'B',0);
+    }
+}
+
+void ledToJoystick(){
+    uint8_t jsPosition = readJoystick();
+    if(jsPosition & 1){ //up
+        if(jsPosition & 8){ //center
+            setLed(1 + 2);
+        }
+        else{
+            setLed(1);
+        }
+    }
+    else if(jsPosition & 2){ //down
+        setLed(1 + 2 + 4);
+    }
+    else if(jsPosition & 4){ //left
+        if(jsPosition & 8){ //center
+            setLed(1 + 4);
+        }
+        else{
+            setLed(2);
+        }
+    }
+    else if(jsPosition & 16){ //right
+        if(jsPosition & 8){ //center
+            setLed(2 + 4);
+        }
+        else{
+            setLed(4);
+        }
+    }
+    else{
+        setLed(0);
+    }
 }
