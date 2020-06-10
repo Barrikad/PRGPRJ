@@ -1,5 +1,4 @@
 #include <stdint.h>
-#include <stdio.h>
 
 #ifndef ANSI_H_INCLUDED
 #define ANSI_H_INCLUDED
@@ -18,7 +17,7 @@ void down(int8_t x);
 void right(int8_t x);
 void left(int8_t x);
 void window(int8_t x1, int8_t y1, int8_t x2, int8_t y2, char title[], int8_t style);
-void printAnsi(int8_t ch, int reps);
+void printAnsi(int8_t ch, int16_t reps);
 void printFix(int32_t i);
 void walls(int8_t x1, int8_t y1, int8_t x2, int8_t y2);
 void printJoystick(uint8_t joystick);

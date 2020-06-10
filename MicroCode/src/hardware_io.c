@@ -1,5 +1,7 @@
-#include "hardwareIO.h"
-
+#include "stm32f30x_conf.h" // STM32 config
+#include "30010_io.h"
+#include "stm32f30x.h"
+#include "hardware_io.h"
 
 GPIO_TypeDef* getGPIO(char port){
     switch(port){

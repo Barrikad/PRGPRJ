@@ -1,9 +1,7 @@
 #include <stdint.h>
-#include <stdio.h>
-#include "arithmatic.h"
-#include "ansi.h"
-#ifndef APPS_H_INCLUDED
-#define APPS_H_INCLUDED
+
+#ifndef BALL_H_INCLUDED
+#define BALL_H_INCLUDED
 
 typedef struct {
     int32_t x,y,vx,vy;
@@ -18,5 +16,4 @@ void updateBall(ball_t *b, uint16_t * collisions);
 int8_t ballCollides(ball_t *b);
 void bounceBall(ball_t *b, int8_t collision);
 
-
-#endif /* APPS_H_INCLUDED */
+#endif /* BALL_H_INCLUDED */

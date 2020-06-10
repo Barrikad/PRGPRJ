@@ -1,5 +1,9 @@
 #include "lcd.h"
+#include "30010_io.h"
+#include "charset.h"
+#include <string.h>
 
+#define LCD_BUFFER_SIZE 512
 #define LCD_WIDTH 128
 #define LCD_HEIGHT 32
 
@@ -50,7 +54,9 @@ void lcdWriteString(char * string, uint8_t line, uint8_t slice) {
 	// Loop over each character in the string
 	for (i = 0; string[i]; i++) {
 		lcdWriteChar(string[i], line*LCD_WIDTH + slice + i * 6, 0);
+		lcdWriteChar(string[i], line*LCD_WIDTH + slice + i * 6, 10);
 	}
+	lcdWriteChar('J', line*LCD_WIDTH + slice + i * 6 + 3, 14);
 }
 
 void lcdUpdate() {

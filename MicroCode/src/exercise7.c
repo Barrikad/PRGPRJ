@@ -1,4 +1,6 @@
 #include "exercise7.h"
+#include "lcd.h"
+#include "timer.h"
 
 volatile uint8_t lcdShouldUpdate = 0;
 

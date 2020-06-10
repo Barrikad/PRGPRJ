@@ -1,4 +1,8 @@
+#include <stdio.h>
+#include "arithmatic.h"
+#include "ansi.h"
 #include "ball.h"
+
 #define LEFT 1
 #define TOP 1
 #define RIGHT 41

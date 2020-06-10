@@ -1,11 +1,7 @@
-#include "30010_io.h"
-#include "charset.h"
-#include <string.h>
+#include <stdint.h>
 
 #ifndef LCD_H_
 #define LCD_H_
-
-#define LCD_BUFFER_SIZE 512
 
 void lcdInit();
 void lcdFlush();

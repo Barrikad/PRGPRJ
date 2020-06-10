@@ -4,8 +4,8 @@
 #include "ansi.h"
 #include "arithmatic.h"
 #include "project_utilities.h"
-#include "hardwareIO.h"
-#include "terminalInput.h"
+#include "hardware_io.h"
+#include "terminal_input.h"
 #include "exercise7.h"
 
 

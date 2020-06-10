@@ -1,4 +1,18 @@
+#include "stm32f30x_conf.h"
+#include "30010_io.h"
+#include "ansi.h"
+#include "hardware_io.h"
+#include "timer.h"
 #include "exercise6.h"
+
+typedef struct {
+    int8_t hours;
+    int8_t minutes;
+    int8_t seconds;
+    int8_t centiseconds;
+} duration_t;
+
+volatile duration_t currentDuration;
 
 void printDuration(volatile duration_t * duration, uint8_t printCentiseconds) {
 	if (duration == NULL) {
@@ -39,7 +53,8 @@ void incrementDuration() {
 void exercise6() {
     clrscr();
     initJoystick();
-    initTimer2(PRESCALER_SW, RELOAD_SW, incrementDuration);
+    // 100Hz timer
+    initTimer2(0, 640000 - 1, incrementDuration);
 
     uint8_t timerEnabled = 0;
 	uint8_t previousJoystick = 0;

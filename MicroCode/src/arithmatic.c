@@ -1,3 +1,4 @@
+#include "lut.h"
 #include "arithmatic.h"
 
 int16_t sin512(int16_t degs){

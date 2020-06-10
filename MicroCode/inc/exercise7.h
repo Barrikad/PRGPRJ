@@ -1,6 +1,3 @@
-#include "lcd.h"
-#include "timer.h"
-
 #ifndef EXERCISE7_H_
 #define EXERCISE7_H_
 

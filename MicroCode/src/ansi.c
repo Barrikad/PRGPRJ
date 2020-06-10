@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <string.h>
+#include "project_utilities.h"
+#include "ansi.h"
+
 #define ESC 0x1B
 
 #define CORNER_TL_S 208 + 10
@@ -25,12 +30,6 @@
 #define CROSS_A_D 192 + 14 //full CROSS (A for All)
 
 #define space 32
-
-
-#include <stdint.h>
-#include <stdio.h>
-#include <string.h>
-#include "project_utilities.h"
 
 void fgcolor(uint8_t foreground) {
 /*  Value      foreground     Value     foreground
