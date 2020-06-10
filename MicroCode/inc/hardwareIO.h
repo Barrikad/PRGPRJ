@@ -5,12 +5,10 @@
 #include "stm32f30x.h"
 
 void initInput(int8_t pin, char port);
-
 void initOutput(int8_t pin, char port);
 
 uint8_t getInput(int8_t pin, char port);
-
-void setOutput(int8_t pin, char port, int8_t value);
+void setOutput(int8_t pin, char port, uint8_t value);
 
 void initJoystick();
 

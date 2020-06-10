@@ -36,25 +36,24 @@ void initInput(int8_t pin, char port){
     RCC->AHBENR |= getRCCGPIO(port);
 
     gpio->MODER &= ~(0x00000003 << (2 * pin));
-    gpio->MODER |= (0x00000000 << (2 * pin));
-
-    gpio->PUPDR &= ~(0x00000003 << (2 * pin));
-    gpio->PUPDR |= (0x00000002 << (2 * pin));
+    gpio->MODER |=  (0x00000000 << (2 * pin));
+	gpio->PUPDR &= ~(0x00000003 << (2 * pin)); // Clear push/pull register
+	gpio->PUPDR |=  (0x00000002 << (2 * pin)); // Set push/pull register to pull-down
 }
 
 void initOutput(int8_t pin, char port){
     GPIO_TypeDef *gpio = getGPIO(port);
 
+    // Ensure GPIO is enabled
     RCC->AHBENR |= getRCCGPIO(port);
 
-    gpio->OSPEEDR &= ~(0x00000003 << (pin * 2));
-    gpio->OSPEEDR |= (0x00000002 << (pin * 2));
-
-    gpio->OTYPER &= ~(0x0001 << (pin));
-    gpio->OTYPER |= (0x0001 << (pin));
-
-    gpio->MODER &= ~(0x00000003 << (pin * 2));
-    gpio->MODER |= (0x00000001 << (pin * 2));
+    // Configure pin as output
+    gpio->OSPEEDR &= ~(0x00000003 << (2 * pin)); // Clear speed register
+    gpio->OSPEEDR |=  (0x00000002 << (2 * pin)); // Set speed register (0x01 - 10 MHz, 0x02 - 2 MHz, 0x03 - 50 MHz)
+    gpio->OTYPER  &= ~(0x0001 << pin);           // Clear output type register
+    gpio->OTYPER  |=  (0x0001 << pin);           // Set output type register (0x00 - Push pull, 0x01 - Open drain)
+    gpio->MODER   &= ~(0x00000003 << (2 * pin)); // Clear mode register
+    gpio->MODER   |=  (0x00000001 << (2 * pin)); // Set mode register to output
 }
 
 uint8_t getInput(int8_t pin, char port){
@@ -62,22 +61,22 @@ uint8_t getInput(int8_t pin, char port){
     return (gpio->IDR & (0x0001 << pin)) >> pin;
 }
 
-void setOutput(int8_t pin, char port, int8_t value){
+// Set the value on the given GPIO / pin
+void setOutput(int8_t pin, char port, uint8_t value){
     GPIO_TypeDef *gpio = getGPIO(port);
-    if(value){
-        gpio->ODR |= (1 << pin);
-    }
-    else{
-        gpio->ODR &= ~(1 << pin);
+    if (value) {
+        gpio->ODR |= (0x0001 << pin); // Set pin
+    } else {
+        gpio->ODR &= ~(0x0001 << pin); // Clear pin
     }
 }
 
-void initJoystick(){
-    initInput(4,'A');
-    initInput(0,'B');
-    initInput(5,'B');
-    initInput(0,'C');
-    initInput(1,'C');
+void initJoystick() {
+    initInput(4, 'A'); // Up
+    initInput(0, 'B'); // Down
+    initInput(5, 'B'); // Left
+    initInput(0, 'C'); // Center
+    initInput(1, 'C'); // Right
 }
 
 uint8_t readJoystick() {
