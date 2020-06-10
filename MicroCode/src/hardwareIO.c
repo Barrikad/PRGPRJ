@@ -82,9 +82,10 @@ void setOutput(int8_t pin, char port, uint8_t on){
 void initJoystick() {
     initInput(4, 'A'); // Up
     initInput(0, 'B'); // Down
-    initInput(5, 'B'); // Left
-    initInput(0, 'C'); // Center
-    initInput(1, 'C'); // Right
+    initInput(1, 'C'); // Left
+    initInput(0, 'C'); // Right
+    initInput(5, 'B'); // Center
+
 }
 
 void initLeds() {
@@ -99,8 +100,8 @@ uint8_t readJoystick() {
 	rtn |= getInput(4,'A') << 0; // Up
 	rtn |= getInput(0,'B') << 1; // Down
 	rtn |= getInput(1, 'C') << 2; // Left
-	rtn |= getInput(5, 'B') << 3; // Center
-	rtn |= getInput(0, 'C') << 4; // Right
+	rtn |= getInput(0, 'C') << 3; // Right
+    rtn |= getInput(5, 'B') << 4; // Center
 	return rtn;
 }
 
@@ -117,7 +118,7 @@ void setLeds(uint8_t color) {
 void ledToJoystick(){
     uint8_t jsPosition = readJoystick();
     if(jsPosition & 1){ //up
-        if(jsPosition & 8){ //center
+        if(jsPosition & 16){ //center
             setLeds(1 + 2);
         }
         else{
@@ -128,15 +129,15 @@ void ledToJoystick(){
         setLeds(1 + 2 + 4);
     }
     else if(jsPosition & 4){ //left
-        if(jsPosition & 8){ //center
+        if(jsPosition & 16){ //center
             setLeds(1 + 4);
         }
         else{
             setLeds(2);
         }
     }
-    else if(jsPosition & 16){ //right
-        if(jsPosition & 8){ //center
+    else if(jsPosition & 8){ //right
+        if(jsPosition & 16){ //center
             setLeds(2 + 4);
         }
         else{
