@@ -1,5 +1,4 @@
-#include "30010_io.h"
-#include <string.h>
+#include "lcd.h"
 
 #ifndef EXERCISE7_H_
 #define EXERCISE7_H_
