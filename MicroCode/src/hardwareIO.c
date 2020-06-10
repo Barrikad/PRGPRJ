@@ -80,9 +80,10 @@ void setOutput(int8_t pin, char port, uint8_t on){
 void initJoystick() {
     initInput(4, 'A'); // Up
     initInput(0, 'B'); // Down
-    initInput(5, 'B'); // Left
-    initInput(0, 'C'); // Center
-    initInput(1, 'C'); // Right
+    initInput(1, 'C'); // Left
+    initInput(5, 'B'); // Center
+    initInput(0, 'C'); // Right
+
 }
 
 void initLeds() {
