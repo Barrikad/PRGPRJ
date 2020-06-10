@@ -7,8 +7,8 @@
 #ifndef EXERCISE6_H_
 #define EXERCISE6_H_
 
-#define PRESCALER_SW 63999
-#define RELOAD_SW 9
+#define PRESCALER_SW 0
+#define RELOAD_SW 640000 - 1
 
 void exercise6();
 
