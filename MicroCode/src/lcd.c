@@ -19,6 +19,15 @@ void lcdFlush() {
 	lcd_push_buffer(buffer);
 }
 
+void lcdWriteHorizontalLine(uint8_t line, int8_t x, int8_t y) {
+	// TODO: This
+}
+
+void lcdWriteVerticalLine(uint8_t line, int8_t x, int8_t y) {
+	// TODO: Make `y` work in this.
+	buffer[x + (y / 8) * LCD_WIDTH] = line;
+}
+
 // Write a character into the buffer at the specified location.
 // Letting parts of the character go outside the screen is allowed.
 // TODO: Make `y` work in this.
@@ -32,7 +41,7 @@ void lcdWriteChar(char chr, int8_t x, int8_t y) {
 		if (x + i < 0 || x + i >= LCD_WIDTH) {
 			continue;
 		}
-		buffer[x + i] = charData[i];
+		lcdWriteVerticalLine(charData[i], x + i, y);
 	}
 }
 
