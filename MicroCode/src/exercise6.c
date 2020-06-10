@@ -22,15 +22,15 @@ void clearDurations() {
 void incrementDuration() {
     // Increment the duration by one hundredth of a second every time the interrupt runs
 	currentDuration.centiseconds++;
-	if (currentDuration.centiseconds > 100) {
+	if (currentDuration.centiseconds > 99) {
 		currentDuration.centiseconds = 0;
 		currentDuration.seconds++;
 	}
-	if (currentDuration.seconds > 60) {
+	if (currentDuration.seconds > 59) {
 		currentDuration.seconds = 0;
 		currentDuration.minutes++;
 	}
-	if (currentDuration.minutes > 60) {
+	if (currentDuration.minutes > 59) {
 		currentDuration.minutes = 0;
 		currentDuration.hours++;
 	}
