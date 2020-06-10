@@ -4,15 +4,10 @@
 #include "arithmatic.h"
 #include "project_utilities.h"
 #include "hardwareIO.h"
+#include "exercise6.h"
 
 int main(void)
 {
     uart_init(115200);
-    clrscr();
-    initJoystick();
-    initLeds();
-
-    while(1) {
-        ledToJoystick();
-    }
+    exercise6();
 }
