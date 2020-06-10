@@ -6,14 +6,22 @@
 #include "project_utilities.h"
 #include "hardwareIO.h"
 #include "terminalInput.h"
+#include "timer.h"
+#include "display.h"
 
 
 int main(void)
 {
     uart_init(115200);
-    char str[10];
-    readCharsInto(9,str);
-    printf("%s",str);
 
-    while(1){}
+    lcd_init();
+    initDisplay();
+    initTimer2(63999,9,setFlag);
+    enableTimer2();
+
+    lcdWriteString("hello world", 0, 1);
+
+    while(1){
+        lcdUpdate();
+    }
 }
