@@ -3,107 +3,75 @@
 #include "stm32f30x.h"
 #include "hardware_io.h"
 
-GPIO_TypeDef* getGPIO(char port){
-    switch(port){
-        case 'A':
-            return GPIOA;
-        case 'B':
-            return GPIOB;
-        case 'C':
-            return GPIOC;
-        case 'D':
-            return GPIOD;
-        case 'E':
-            return GPIOE;
-        default:
-            return NULL;
-    }
+const gpio_pin_t JOYSTICK_UP     = { GPIOA, 4, RCC_AHBPeriph_GPIOA };
+const gpio_pin_t JOYSTICK_DOWN   = { GPIOB, 0, RCC_AHBPeriph_GPIOB };
+const gpio_pin_t JOYSTICK_LEFT   = { GPIOC, 1, RCC_AHBPeriph_GPIOC };
+const gpio_pin_t JOYSTICK_RIGHT  = { GPIOC, 0, RCC_AHBPeriph_GPIOC };
+const gpio_pin_t JOYSTICK_MIDDLE = { GPIOB, 5, RCC_AHBPeriph_GPIOB };
 
+const gpio_pin_t LED_RED   = { GPIOB, 4, RCC_AHBPeriph_GPIOB };
+const gpio_pin_t LED_GREEN = { GPIOC, 7, RCC_AHBPeriph_GPIOC };
+const gpio_pin_t LED_BLUE  = { GPIOA, 9, RCC_AHBPeriph_GPIOA };
+
+void initInput(const gpio_pin_t gpio_pin){
+    RCC->AHBENR |= gpio_pin.rcc;
+
+    gpio_pin.gpio->MODER &= ~(0x00000003 << (2 * gpio_pin.pin)); // Clear mode register
+    gpio_pin.gpio->MODER |=  (0x00000000 << (2 * gpio_pin.pin)); // Set mode register to input
+    gpio_pin.gpio->PUPDR &= ~(0x00000003 << (2 * gpio_pin.pin)); // Clear push/pull register
+    gpio_pin.gpio->PUPDR |=  (0x00000002 << (2 * gpio_pin.pin)); // Set push/pull register to pull-down
 }
 
-uint32_t getRCCGPIO(char port){
-    switch(port){
-        case 'A':
-            return RCC_AHBPeriph_GPIOA;
-        case 'B':
-            return RCC_AHBPeriph_GPIOB;
-        case 'C':
-            return RCC_AHBPeriph_GPIOC;
-        case 'D':
-            return RCC_AHBPeriph_GPIOD;
-        case 'E':
-            return RCC_AHBPeriph_GPIOE;
-        default:
-            return 0;
-    }
-}
-
-void initInput(int8_t pin, char port){
-    GPIO_TypeDef *gpio = getGPIO(port);
-
-    RCC->AHBENR |= getRCCGPIO(port);
-
-    gpio->MODER &= ~(0x00000003 << (2 * pin));
-    gpio->MODER |=  (0x00000000 << (2 * pin));
-	gpio->PUPDR &= ~(0x00000003 << (2 * pin)); // Clear push/pull register
-	gpio->PUPDR |=  (0x00000002 << (2 * pin)); // Set push/pull register to pull-down
-}
-
-void initOutput(int8_t pin, char port){
-    GPIO_TypeDef *gpio = getGPIO(port);
-
+void initOutput(const gpio_pin_t gpio_pin){
     // Ensure GPIO is enabled
-    RCC->AHBENR |= getRCCGPIO(port);
+    RCC->AHBENR |= gpio_pin.rcc;
 
     // Configure pin as output
-    gpio->OSPEEDR &= ~(0x00000003 << (2 * pin)); // Clear speed register
-    gpio->OSPEEDR |=  (0x00000002 << (2 * pin)); // Set speed register (0x01 - 10 MHz, 0x02 - 2 MHz, 0x03 - 50 MHz)
-    gpio->OTYPER  &= ~(0x0001 << pin);           // Clear output type register
-    gpio->OTYPER  |=  (0x0001 << pin);           // Set output type register (0x00 - Push pull, 0x01 - Open drain)
-    gpio->MODER   &= ~(0x00000003 << (2 * pin)); // Clear mode register
-    gpio->MODER   |=  (0x00000001 << (2 * pin)); // Set mode register to output
+    gpio_pin.gpio->OSPEEDR &= ~(0x00000003 << (2 * gpio_pin.pin)); // Clear speed register
+    gpio_pin.gpio->OSPEEDR |=  (0x00000002 << (2 * gpio_pin.pin)); // Set speed register (0x01 - 10 MHz, 0x02 - 2 MHz, 0x03 - 50 MHz)
+    gpio_pin.gpio->OTYPER  &= ~(0x0001 << gpio_pin.pin);           // Clear output type register
+    gpio_pin.gpio->OTYPER  |=  (0x0001 << gpio_pin.pin);           // Set output type register (0x00 - Push pull, 0x01 - Open drain)
+    gpio_pin.gpio->MODER   &= ~(0x00000003 << (2 * gpio_pin.pin)); // Clear mode register
+    gpio_pin.gpio->MODER   |=  (0x00000001 << (2 * gpio_pin.pin)); // Set mode register to output
 }
 
-uint8_t getInput(int8_t pin, char port){
-    GPIO_TypeDef *gpio = getGPIO(port);
-
-    return (gpio->IDR & (0x0001 << pin)) >> pin;
+uint8_t getInput(const gpio_pin_t gpio_pin){
+    return (gpio_pin.gpio->IDR & (0x0001 << gpio_pin.pin)) >> gpio_pin.pin;
 }
 
 // Set the value on the given GPIO / pin
-void setOutput(int8_t pin, char port, uint8_t on){
-    GPIO_TypeDef *gpio = getGPIO(port);
+void setOutput(const gpio_pin_t gpio_pin, uint8_t on){
     if(on){
-        gpio->ODR |= (1 << pin);
+    	gpio_pin.gpio->ODR |= (1 << gpio_pin.pin);
     }
     else{
-        gpio->ODR &= ~(1 << pin);
+    	gpio_pin.gpio->ODR &= ~(1 << gpio_pin.pin);
     }
 }
 
 void initJoystick() {
-    initInput(4, 'A'); // Up
-    initInput(0, 'B'); // Down
-    initInput(1, 'C'); // Left
-    initInput(0, 'C'); // Right
-    initInput(5, 'B'); // Center
+    initInput(JOYSTICK_UP);
+    initInput(JOYSTICK_DOWN);
+    initInput(JOYSTICK_LEFT);
+    initInput(JOYSTICK_RIGHT);
+    initInput(JOYSTICK_MIDDLE);
 
 }
 
 void initLeds() {
-	initOutput(4, 'B'); // Red
-	initOutput(7, 'C'); // Green
-	initOutput(9, 'A'); // Blue
+	initOutput(LED_RED);
+	initOutput(LED_GREEN);
+	initOutput(LED_BLUE);
 }
 
 
 uint8_t readJoystick() {
 	uint8_t rtn = 0;
-	rtn |= getInput(4,'A') << 0; // Up
-	rtn |= getInput(0,'B') << 1; // Down
-	rtn |= getInput(1, 'C') << 2; // Left
-	rtn |= getInput(0, 'C') << 3; // Right
-    rtn |= getInput(5, 'B') << 4; // Center
+	rtn |= getInput(JOYSTICK_UP)     << 0;
+	rtn |= getInput(JOYSTICK_DOWN)   << 1;
+	rtn |= getInput(JOYSTICK_LEFT)   << 2;
+	rtn |= getInput(JOYSTICK_RIGHT)  << 3;
+    rtn |= getInput(JOYSTICK_MIDDLE) << 4;
 	return rtn;
 }
 
@@ -112,9 +80,9 @@ uint8_t readJoystick() {
 // The first bit sets a red LED, the second bit a green LED and the third bit a blue LED.
 void setLeds(uint8_t color) {
 	// The values are inverted, since the LEDs are pull-down
-	setOutput(4, 'B', !(color & 0x01)); // Red
-	setOutput(7, 'C', !(color & 0x02)); // Green
-	setOutput(9, 'A', !(color & 0x04)); // Blue
+	setOutput(LED_RED, !(color & 0x01));
+	setOutput(LED_GREEN, !(color & 0x02));
+	setOutput(LED_BLUE, !(color & 0x04));
 }
 
 void ledToJoystick(){

@@ -1,13 +1,30 @@
+#include "stm32f30x.h"
 #include <stdint.h>
 
 #ifndef HARDWAREIO_H_INCLUDED
 #define HARDWAREIO_H_INCLUDED
 
-void initInput(int8_t pin, char port);
-void initOutput(int8_t pin, char port);
+typedef struct {
+	GPIO_TypeDef* gpio;
+	int8_t pin;
+	uint32_t rcc;
+} gpio_pin_t;
 
-uint8_t getInput(int8_t pin, char port);
-void setOutput(int8_t pin, char port, uint8_t on);
+extern const gpio_pin_t JOYSTICK_UP;
+extern const gpio_pin_t JOYSTICK_DOWN;
+extern const gpio_pin_t JOYSTICK_LEFT;
+extern const gpio_pin_t JOYSTICK_RIGHT;
+extern const gpio_pin_t JOYSTICK_MIDDLE;
+
+extern const gpio_pin_t LED_RED;
+extern const gpio_pin_t LED_GREEN;
+extern const gpio_pin_t LED_BLUE;
+
+void initInput(const gpio_pin_t gpio_pin);
+void initOutput(const gpio_pin_t gpio_pin);
+
+uint8_t getInput(const gpio_pin_t gpio_pin);
+void setOutput(const gpio_pin_t gpio_pin, uint8_t on);
 
 void initJoystick();
 void initLeds();
