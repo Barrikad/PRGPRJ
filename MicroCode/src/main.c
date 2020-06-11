@@ -6,11 +6,15 @@
 #include "project_utilities.h"
 #include "hardware_io.h"
 #include "terminal_input.h"
-#include "exercise7.h"
+#include "exercise8.h"
 
 
 int main(void)
 {
     uart_init(115200);
-    exercise7();
+    initADC();
+    uint16_t x = readADC(1);
+    uint16_t y = readADC(2);
+    printf("\n%04i;%04i",x,y);
+    while(1){}
 }
