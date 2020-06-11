@@ -12,9 +12,6 @@
 int main(void)
 {
     uart_init(115200);
-    initADC();
-    uint16_t x = readADC(1);
-    uint16_t y = readADC(2);
-    printf("\n%04i;%04i",x,y);
+    exercise8();
     while(1){}
 }

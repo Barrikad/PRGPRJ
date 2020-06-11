@@ -38,3 +38,10 @@ uint16_t readADC(uint8_t channel){
     while(ADC_GetFlagStatus(ADC1,ADC_FLAG_EOC) == 0); //wait for read
     return ADC_GetConversionValue(ADC1); //return read
 }
+
+void exercise8() {
+    initADC();
+    uint16_t x = readADC(1);
+    uint16_t y = readADC(2);
+    printf("\n%04i;%04i",x,y);
+}
