@@ -11,7 +11,7 @@ const gpio_pin_t JOYSTICK_RIGHT  = { GPIOC, 0, RCC_AHBPeriph_GPIOC };
 const gpio_pin_t JOYSTICK_MIDDLE = { GPIOB, 5, RCC_AHBPeriph_GPIOB };
 
 //Initialize a pin to binary input
-void initButton(const gpio_pin_t gpio_pin){
+static void initButton(const gpio_pin_t gpio_pin){
     RCC->AHBENR |= gpio_pin.rcc;
 
     gpio_pin.gpio->MODER &= ~(0x00000003 << (2 * gpio_pin.pin)); // Clear mode register
@@ -21,7 +21,7 @@ void initButton(const gpio_pin_t gpio_pin){
 }
 
 //Returns 1 if pin is HIGH, and 0 if LOW
-uint8_t buttonIsPressed(const gpio_pin_t gpio_pin){
+static uint8_t buttonIsPressed(const gpio_pin_t gpio_pin){
     //Checks the value of the given pin, and reduces the result to 0 or 1
     return (gpio_pin.gpio->IDR & (0x0001 << gpio_pin.pin)) >> gpio_pin.pin;
 }

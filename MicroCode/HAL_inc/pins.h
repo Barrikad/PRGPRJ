@@ -7,6 +7,4 @@ typedef struct {
 	uint32_t rcc;
 } gpio_pin_t;
 
-
-
 #endif /* PINS_H_INCLUDED */
