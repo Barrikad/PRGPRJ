@@ -12,13 +12,13 @@ void lcdInit();
 // Clear the internal LCD buffer.
 void lcdClear();
 
-// Write a single pixel to the buffer at the specified location.
+// Write a single pixel to the buffer at the location.
 void lcdWritePixel(uint8_t x, uint8_t y);
 
-// Clear a single pixel in the buffer at the specified location.
+// Clear a single pixel in the buffer at the location.
 void lcdClearPixel(uint8_t x, uint8_t y);
 
-// Write a character into the buffer at the specified location.
+// Write a character into the buffer at the location.
 // TODO: Move this to API?
 void lcdWriteChar(char chr, uint8_t x, uint8_t y);
 
