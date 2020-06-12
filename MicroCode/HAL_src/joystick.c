@@ -1,12 +1,7 @@
 #include <stdint.h>
 #include "30010_io.h"
 #include "stm32f30x.h"
-
-typedef struct {
-	GPIO_TypeDef* gpio;
-	int8_t pin;
-	uint32_t rcc;
-} gpio_pin_t;
+#include "joystick.h"
 
 //Pins, ports, and rcc for the different joystick positions
 const gpio_pin_t JOYSTICK_UP     = { GPIOA, 4, RCC_AHBPeriph_GPIOA };
