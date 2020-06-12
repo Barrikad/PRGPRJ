@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include "ansi.h"
 
 //Escape character
 #define ESC 0x1B

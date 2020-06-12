@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 #ifndef ANSI_H_INCLUDED
 #define ANSI_H_INCLUDED
 

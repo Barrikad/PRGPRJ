@@ -51,14 +51,13 @@ void incrementDuration() {
 }
 
 void exercise6() {
+    uint8_t timerEnabled = 0;
+	uint8_t previousJoystick = 0;
+	uint8_t previousSeconds = 0;
     clrscr();
     initJoystick();
     // 100Hz timer
     initTimer2(0, 640000 - 1, incrementDuration);
-
-    uint8_t timerEnabled = 0;
-	uint8_t previousJoystick = 0;
-	uint8_t previousSeconds = 0;
 
 	window(0, 0, 32, 5, "Stop watch", 0);
 	gotoxy(2, 3);
