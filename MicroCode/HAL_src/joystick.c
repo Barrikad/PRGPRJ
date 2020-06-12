@@ -22,6 +22,7 @@ void initButton(const gpio_pin_t gpio_pin){
 
 //Returns 1 if pin is HIGH, and 0 if LOW
 uint8_t buttonIsPressed(const gpio_pin_t gpio_pin){
+    //Checks the value of the given pin, and reduces the result to 0 or 1
     return (gpio_pin.gpio->IDR & (0x0001 << gpio_pin.pin)) >> gpio_pin.pin;
 }
 
@@ -35,12 +36,6 @@ void initJoystick(){
 }
 
 //Returns a byte reflecting joystick position. Bit values explained in header
-uint8_t readJoystick() {
-	uint8_t rtn = 0;
-	rtn |= buttonIsPressed(JOYSTICK_UP)     << 0; //bit1
-	rtn |= buttonIsPressed(JOYSTICK_DOWN)   << 1; //bit2
-	rtn |= buttonIsPressed(JOYSTICK_LEFT)   << 2; //bit3
-	rtn |= buttonIsPressed(JOYSTICK_RIGHT)  << 3; //bit4
-    rtn |= buttonIsPressed(JOYSTICK_MIDDLE) << 4; //bit5
-	return rtn;
+uint8_t readJoystick(const gpio_pin_t gpio_pin) {
+	return buttonIsPressed(gpio_pin);
 }
