@@ -2,14 +2,7 @@
 #include "30010_io.h"
 #include "stm32f30x.h"
 #include "led.h"
-#include "pin.h"
-
-
-
-
-const gpio_pin_t LED_RED   = { GPIOB, 4, RCC_AHBPeriph_GPIOB };
-const gpio_pin_t LED_GREEN = { GPIOC, 7, RCC_AHBPeriph_GPIOC };
-const gpio_pin_t LED_BLUE  = { GPIOA, 9, RCC_AHBPeriph_GPIOA };
+#include "pins.h"
 
 
 void initLed(const gpio_pin_t gpio_pin){
