@@ -13,5 +13,14 @@ int main(void)
 {
     uart_init(115200);
     exercise8();
-    while(1){}
+    while(1){
+        if(flag){
+            if(playerCollidesBullet) {
+                    ...
+            }
+            if (playerCollidesPowerup) {
+
+            }
+        }
+    }
 }
