@@ -6,11 +6,6 @@
 #define FIX14_MULT(a, b) ( (a)*(b) >> FIX14_SHIFT )
 #define FIX14_DIV(a, b) ( ((a) << FIX14_SHIFT) / b )
 
-// Vector/point structure
-typedef struct {
-    int32_t x, y;
-} vector_t;
-
 // Degrees expressed with 512 degrees in a circle
 typedef uint8_t deg512_t;
 
@@ -19,6 +14,12 @@ typedef int32_t fix14_t;
 
 // Fixed point number with 16 decimal places
 typedef int32_t fix16_t;
+
+// Vector/point structure
+typedef struct {
+    fix14_t x, y;
+} vector_t;
+
 
 // Functions for converting a number, x, between 14 and 16 decimal places
 fix16_t expand(fix14_t x);

@@ -1,0 +1,41 @@
+1. timer increase by level clear
+2. player collides with powerup - changes movement behaviour
+3. looses life if hit by bullet. 0 lives -> game over. displayed on lcd
+4. increase point when enemy killed. displayed on lcd
+5. menu
+6. help screen choice from menu
+7. boss key gives hackertyper
+8. not single button keyboard, not inbuildt joystick.
+9. Enemy several weapon types - spray and shotgun
+10. 2d-movement with rotation, instead of 1d
+11. signals through led
+12. buzzer/music/soundeffects
+##########################
+13. minigame on microcontroller (lcd)
+14. minigame, fake 3d, avoid hitting obstacles when flying forwards
+
+APP
+playSound module (f.ex playerdead -> (sound module).deathSound())
+renderLevel
+- renderEntities
+- ...
+renderMenu
+
+API
+timerSpeedClock module (use the three timers for more than three event handlers)
+movement module
+fix-point-math module
+ansi
+display module (gamestate -> graphics commands -> HAL)
+api lcd module ----||----
+sound module (gamestate -> sound commands -> HAL)
+ai / path tracing module
+collision module / hitbox
+
+HAL
+buzzer module
+led module
+lcd module
+uart module
+joystick module
+timer module
