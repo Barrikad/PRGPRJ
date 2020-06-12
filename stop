@@ -1,0 +1,459 @@
+[33mcommit ab33db71bd2f98bbf407e8e507a48d87a29f827d[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Fri Jun 12 13:14:23 2020 +0200
+
+    joystick in main project
+
+[33mcommit d085a4d2a08711c33b185c903c63233c6bdad6cf[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Fri Jun 12 12:56:27 2020 +0200
+
+    Move diagrams and other docs to their own folder
+
+[33mcommit 9612dc83665e94efb421b815b639b17d00c650cb[m
+Merge: abfe935 e574f89
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Fri Jun 12 11:59:34 2020 +0200
+
+    Merge branch 'master' of https://github.com/Barrikad/PRGPRJ
+
+[33mcommit abfe93531b4a122379f6abe8aa58c4c7686ccefd[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Fri Jun 12 11:59:29 2020 +0200
+
+    exercise fix
+
+[33mcommit e574f89336df6b4b1adf840d298324f5d4e7971d[m
+Author: GustavLeth <s173975@student.dtu.dk>
+Date:   Fri Jun 12 11:45:29 2020 +0200
+
+    stuff
+
+[33mcommit e99cca55b4f783037971ebfaafd16b2797f35b4d[m
+Merge: 96f357e 1aa3731
+Author: GustavLeth <s173975@student.dtu.dk>
+Date:   Fri Jun 12 10:38:01 2020 +0200
+
+    Merge branch 'master' of https://github.com/Barrikad/PRGPRJ
+
+[33mcommit 1aa3731df321af0f8c437570a8d23c8a7f5cdd3c[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Fri Jun 12 09:13:50 2020 +0200
+
+    Add missing includes in ansi.c
+
+[33mcommit 96f357eb6587190999c77d0bf13061b94dfa810e[m
+Merge: 17640e2 2f353ec
+Author: GustavLeth <s173975@student.dtu.dk>
+Date:   Fri Jun 12 09:06:57 2020 +0200
+
+    Merge branch 'master' of https://github.com/Barrikad/PRGPRJ
+
+[33mcommit 2f353ecd88bb398123e0d575305c7f49b4f938b6[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Fri Jun 12 08:03:09 2020 +0200
+
+    switched file structure to project work. exercise structure can be found in seperate branch
+
+[33mcommit afece0c954e6965d5efa858056f85db6070c4a1e[m[33m ([m[1;31morigin/exercises[m[33m, [m[1;32mexercises[m[33m)[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Fri Jun 12 06:13:24 2020 +0200
+
+    .
+
+[33mcommit 17640e21c1a495f606519047f6e30061c3743b1c[m
+Author: GustavLeth <s173975@student.dtu.dk>
+Date:   Thu Jun 11 15:54:35 2020 +0200
+
+    Added flowchart for ball
+
+[33mcommit 8e63d6e737f63d616ba7f2e30e398b5a491dd113[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Thu Jun 11 15:45:53 2020 +0200
+
+    Use a typedef to keep track of GPIO and pins
+
+[33mcommit 79e580197a71e17bc25690cd303bdcb209a47dff[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Thu Jun 11 15:27:02 2020 +0200
+
+    Move ADC stuff in main to exercise8()
+
+[33mcommit 4aa52559ad7a0319dc611306c956f9bbb4a0dd97[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Thu Jun 11 15:06:34 2020 +0200
+
+    exercise 8 finished
+
+[33mcommit 6bb2539f16eb3727547477b925449019e2fd753a[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Wed Jun 10 18:06:36 2020 +0200
+
+    Lowercase filenames, and fix header includes
+
+[33mcommit c4be0a94d3c9a07774007fc43a03d13f08b3da87[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Wed Jun 10 17:09:40 2020 +0200
+
+    Initial work on better lcd drawing
+
+[33mcommit 2c44d252239a5f7f3d98fb23b754524358e34be8[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Wed Jun 10 16:56:56 2020 +0200
+
+    Add lcdWriteChar and helper defines
+
+[33mcommit ff0199fbdab91a19b363765a05f2aba9ff685912[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Wed Jun 10 16:52:30 2020 +0200
+
+    Fix merge, and implement lcdFlush
+
+[33mcommit 5bfdc0438d424edfff432f051afb4b0083d82a32[m
+Author: GustavLeth <s173975@student.dtu.dk>
+Date:   Wed Jun 10 16:35:24 2020 +0200
+
+    Changed update ball to detect doublebounce
+
+[33mcommit ed5336bbdffd026dd91eca4b575f887a57ea35ee[m
+Merge: b2f2a20 be7be0d
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Wed Jun 10 16:14:35 2020 +0200
+
+    merge
+
+[33mcommit b2f2a20fe6763f27863872c842f55de9dbe78e59[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Wed Jun 10 16:13:28 2020 +0200
+
+    scrolling text
+
+[33mcommit be7be0d4d79845c2fc36045a094525baecefeda9[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Wed Jun 10 16:07:58 2020 +0200
+
+    Refactor lcd buffer ownership, and add initial lcd_update
+
+[33mcommit a5aba3c080bfc1f4e00eadb030fe3c741dfa8e83[m
+Author: GustavLeth <s173975@student.dtu.dk>
+Date:   Wed Jun 10 16:04:47 2020 +0200
+
+    Dokumentaion for opgave 4, ball
+
+[33mcommit fdf7c0ced73cf78aa0659f9728176184b04f2912[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Wed Jun 10 15:48:12 2020 +0200
+
+    Add lcd files, and lcd_write_string function
+
+[33mcommit aedd1bfd851e81c56cd149e8bfcbaa4f210b6a60[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Wed Jun 10 15:25:25 2020 +0200
+
+    Complete Exercise 7.1
+
+[33mcommit 25c37d25e55f221ea7a1a129551803883f885a19[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Wed Jun 10 15:15:50 2020 +0200
+
+    Add initial files for exercise 7
+
+[33mcommit d0f214727b3af92f57fe0e3244f7bb6fca67873e[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Wed Jun 10 15:04:28 2020 +0200
+
+    Fix duration calculation and timer precision
+
+[33mcommit 433d19ff7ab9c42539456e511d5662c8f34c2038[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Mon Mar 21 14:09:47 2005 +0100
+
+    Add charset.h / charset.c from DTU Inside
+    
+    Author: Michael Thomsen, 2005-03-21
+
+[33mcommit d934357ebf5cb32dc7e2c8c213ad6b4a2eeaa79f[m
+Merge: 78ea91f 71d2478
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Wed Jun 10 15:00:02 2020 +0200
+
+    Merge branch 'master' of https://github.com/Barrikad/PRGPRJ
+
+[33mcommit 78ea91fb29e2d4418f0cb414bc7618a6802747bd[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Wed Jun 10 14:59:57 2020 +0200
+
+    terminal input
+
+[33mcommit 71d2478a641a5ef1ff106289f02a41dc65b5ee08[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Wed Jun 10 14:48:08 2020 +0200
+
+    Move corner chars to ansi.c
+
+[33mcommit 0bce0987ae3d5e3cb6d250c1f3c9fba9f113e742[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Wed Jun 10 14:36:01 2020 +0200
+
+    Re-add timer comments
+
+[33mcommit 90cbc0ffe83d48c6314e94f5573d3e9425f1399a[m
+Merge: 3744407 e2fd94d
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Wed Jun 10 14:25:08 2020 +0200
+
+    stopwatch merge
+
+[33mcommit 3744407476daec96ecf59b40583ec0bb3c87299f[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Wed Jun 10 13:41:02 2020 +0200
+
+    timer works
+
+[33mcommit e2fd94d181a97982843a079972f351c9e5bb39e8[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Wed Jun 10 13:33:03 2020 +0200
+
+    Add files for exercise 6
+
+[33mcommit e1dfde061b517741c2578de19948cf5848207e1d[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Wed Jun 10 13:28:45 2020 +0200
+
+    Add basic code for controlling timer 2
+
+[33mcommit ab71070d4caf49d07789cda3dac6065a00a38869[m
+Author: GustavLeth <s173975@student.dtu.dk>
+Date:   Wed Jun 10 11:08:40 2020 +0200
+
+    ledToJoystick now has the right directions
+
+[33mcommit 854c6e1ef98dca087797a80c1c3c3ad8d0fc1dd6[m
+Author: GustavLeth <s173975@student.dtu.dk>
+Date:   Wed Jun 10 10:57:25 2020 +0200
+
+    Fixed error in output
+
+[33mcommit dc93e3f0eeefc50f3bd565ba1e20b312583c3194[m
+Author: GustavLeth <s173975@student.dtu.dk>
+Date:   Wed Jun 10 10:53:49 2020 +0200
+
+    Fixed comments in code.
+
+[33mcommit 8e947570a8096ca36ff622c701187e018f3dfb9c[m
+Merge: 9bd610c a789c50
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Wed Jun 10 10:19:15 2020 +0200
+
+    LED merge
+
+[33mcommit 9bd610cb87b224beadf45f9ede7cf4a6bbb18504[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Wed Jun 10 10:10:35 2020 +0200
+
+    led from joystick works
+
+[33mcommit a789c50397b765ad324e5c9b86983767c523d40c[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Wed Jun 10 10:03:52 2020 +0200
+
+    Add support for multiple LEDs, and re-add detecting joystick changes
+
+[33mcommit 1b4d5deb5b3cab22f706965b4ff7580345d610db[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Wed Jun 10 10:02:41 2020 +0200
+
+    Small cleanup
+
+[33mcommit 20f70255ef7aa2a337a206c55eceb9d44cceb011[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Tue Jun 9 16:16:43 2020 +0200
+
+    introduced led
+
+[33mcommit afce8754ac51b3d97b1a0dca527d0d2526ed5e3a[m
+Merge: 2672d79 340ff39
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Tue Jun 9 15:33:20 2020 +0200
+
+    hardware merge
+
+[33mcommit 2672d7907a4e2f942191955f2e6e56ab36111eca[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Tue Jun 9 15:26:31 2020 +0200
+
+    joystick
+
+[33mcommit 340ff39c64204792be4514734b5cebdb5166fcdd[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Tue Jun 9 14:55:49 2020 +0200
+
+    Add general hardware input, and use it to read from the joystick
+
+[33mcommit ec3d0f313a9d81e43244cb27f63c56eeda318240[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Tue Jun 9 14:04:01 2020 +0200
+
+    Fix renaming
+
+[33mcommit 95ad25088893f725564a04c8ba546eaf882fc595[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Tue Jun 9 13:42:48 2020 +0200
+
+    renaming
+
+[33mcommit 40e1379a13680596db739dd26d30f1bc3d83779d[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Tue Jun 9 13:36:26 2020 +0200
+
+    changes to hit counter
+
+[33mcommit 1670a35689c2f368a02c6b5bdd9b70e824b636d8[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Tue Jun 9 12:55:49 2020 +0200
+
+    introduced fix coords, overwriting bug needs to be fixed
+
+[33mcommit bfe50a17f5db1759be4d3946621627dc36b048fa[m
+Merge: cd4f272 298510e
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Tue Jun 9 12:31:38 2020 +0200
+
+    Merge branch 'master' of https://github.com/Barrikad/PRGPRJ
+
+[33mcommit cd4f2725f18df47726173abbdae30e8f6494720e[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Tue Jun 9 12:31:32 2020 +0200
+
+    started work on fix coords
+
+[33mcommit 298510e8dae80cf62a7c700783ecc02a3ef941ca[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Tue Jun 9 12:22:51 2020 +0200
+
+    Change baud rate to the standard 115200
+
+[33mcommit 4f525f63d803c39d0206b1a2f0855f5e9808d9a3[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Tue Jun 9 12:22:04 2020 +0200
+
+    Add collision tracking
+
+[33mcommit c1cbd8d28cd99bbff6c5a51ffd415773d7d859fa[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Tue Jun 9 12:03:54 2020 +0200
+
+    ball bounces, need to make coords fix
+
+[33mcommit 09841f97277944a005857611519a5d62ac7c7cf6[m
+Merge: 9623d13 1154863
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Tue Jun 9 11:09:42 2020 +0200
+
+    Merge branch 'master' of https://github.com/Barrikad/PRGPRJ
+
+[33mcommit 9623d13ff9a5f6e62537d573b3da4e5a45d5c55a[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Tue Jun 9 11:09:33 2020 +0200
+
+    remove test
+
+[33mcommit 11548636e74e95bd5e90f863740cc7a67a2c2435[m
+Merge: e2cb7e9 af37d9f
+Author: GustavLeth <s173975@student.dtu.dk>
+Date:   Tue Jun 9 11:08:28 2020 +0200
+
+    merge
+
+[33mcommit e2cb7e97e766115d9f726737e7f6f333af150f61[m
+Author: GustavLeth <s173975@student.dtu.dk>
+Date:   Tue Jun 9 11:06:35 2020 +0200
+
+    creating conflict part 2
+
+[33mcommit af37d9fa14d62ee4537b29c90ca8917a82e35870[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Tue Jun 9 11:05:20 2020 +0200
+
+    creating conflict part 1
+
+[33mcommit 7c105348b6b0d5b9c5b39b510eb552df46633ec7[m
+Merge: d9f4911 2285914
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Tue Jun 9 11:04:39 2020 +0200
+
+    Merge branch 'master' of https://github.com/Barrikad/PRGPRJ
+
+[33mcommit d9f49116984ce07f8564dcd7f5ead5bf11c3153e[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Tue Jun 9 11:04:32 2020 +0200
+
+    work on ball functions
+
+[33mcommit 2285914ce12b3d25e6663096ecbf433e48d31c92[m
+Author: GustavLeth <s173975@student.dtu.dk>
+Date:   Tue Jun 9 11:01:39 2020 +0200
+
+    test
+
+[33mcommit b0eedb7f2a907732c9c7159904f6f73f170c66c8[m
+Merge: 72eff97 d9c60a3
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Mon Jun 8 15:57:31 2020 +0200
+
+    merge
+
+[33mcommit 72eff974e8a9bd2f69beee5f9c5375822e42efd8[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Mon Jun 8 15:56:42 2020 +0200
+
+    work on ball
+
+[33mcommit d9c60a3347a3cb80a8936b966a0402b5be597d27[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Mon Jun 8 15:03:36 2020 +0200
+
+    Add a few more gitignores
+
+[33mcommit 111e4f139865854d6a9583c505d658c2f2a721ca[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Mon Jun 8 14:45:25 2020 +0200
+
+    vectors, exercise 3
+
+[33mcommit 636316b5c8feed6f0f3e12279400471f6efc28ba[m
+Merge: 8833568 345adcf
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Mon Jun 8 14:13:23 2020 +0200
+
+    merge
+
+[33mcommit 88335681c17883b69b13cd3033d07b077361940d[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Mon Jun 8 14:08:23 2020 +0200
+
+    sincos, exercise 3
+
+[33mcommit 345adcf660d77717e9e2917bc1c605ab5f910e4a[m
+Author: Mads Marquart <madsmtm@gmail.com>
+Date:   Mon Jun 8 11:52:50 2020 +0200
+
+    Add gitignore, and exclude build items from git
+
+[33mcommit 0b90c579e25b582e74a3a341a44bd644d8e14eea[m[33m ([m[1;31morigin/exercise1and2[m[33m, [m[1;32mexercise1and2[m[33m)[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Mon Jun 8 11:32:40 2020 +0200
+
+    exercise file
+
+[33mcommit 5675f1af6081c144eb85bd3efb263cc4d2c9ba55[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Mon Jun 8 11:25:25 2020 +0200
+
+    excersise 2, code fix
+
+[33mcommit a1c3e88c0da872030abba7c718665f6e252e5b7d[m
+Author: Barrikad <s184459@student.dtu.dk>
+Date:   Sat Jun 6 11:58:47 2020 +0200
+
+    first commit
