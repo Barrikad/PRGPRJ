@@ -2,12 +2,33 @@
 #include "lut.h"
 #include "fix_point_math.h"
 
-//shift position of decimal
+//shift position of the radix point to the left by two
 fix16_t expand(fix14_t x){
-    return x << 2;
+    //if the number is positive this is trivial
+    if(x > 0){
+        return x << 2;
+    }
+    //if the number is negative it must be converted to positive and then back
+    else{
+        x *= -1;
+        x = x << 2;
+        x *= -1;
+        return x;
+    }
 }
+//shift position of the radix point to the right by two
 fix14_t reduce(fix16_t x){
-    return x >> 2;
+    //if the number is positive this is trivial
+    if(x > 0){
+        return x >> 2;
+    }
+    //if the number is negative it must be converted to positive and then back
+    else{
+        x *= -1;
+        x = x >> 2;
+        x *= -1;
+        return x;
+    }
 }
 
 // Calculates sine of an angle, with 512 degrees in a circle
@@ -20,7 +41,7 @@ int16_t sine(mytype degs){
 // Calculates cosine of an angle, with 512 degrees in a circle
 int16_t cosine(int16_t degs){
     //we use the property that cos(x) = sin(x+90) (in ordinary degrees)
-    return sin512(degs + 128); //512*90/360 = 128
+    return sin512(degs + 128); //  512*90/360 = 128
 }
 
 // Rotates the vector at the pointer the given number of degrees, with 512 degs in a circle
