@@ -15,14 +15,14 @@ typedef struct {
 typedef uint8_t deg512_t;
 
 // Fixed point number with 14 decimal places
-typedef uint32_t fix14_t;
+typedef int32_t fix14_t;
 
 // Fixed point number with 16 decimal places
-typedef uint32_t fix16_t;
+typedef int32_t fix16_t;
 
 // Functions for converting a number, x, between 14 and 16 decimal places
-fix16_t extend(fix14_t x);
-fix14_t reduce(fix)
+fix16_t expand(fix14_t x);
+fix14_t reduce(fix16_t x);
 
 // Sinus and cosine of an angle
 fix14_t sin512(deg512_t degs);

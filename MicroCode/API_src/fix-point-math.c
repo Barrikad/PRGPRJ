@@ -2,6 +2,14 @@
 #include "lut.h"
 #include "fix_point_math.h"
 
+//shift position of decimal
+fix16_t expand(fix14_t x){
+    return x << 2;
+}
+fix14_t reduce(fix16_t x){
+    return x >> 2;
+}
+
 // Calculates sine of an angle, with 512 degrees in a circle
 int16_t sine(mytype degs){
     //"x & (y - 1)" is the same as "x mod y", if y is a power of two
