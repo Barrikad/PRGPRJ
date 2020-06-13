@@ -1,10 +1,12 @@
-#include <stdint>
+/*
+#include <stdint.h>
 #include "30010_io.h"
 #include "stm32f30x.h"
 #include "player.h"
 #include "enemy.h"
 #include "bullet.h"
 #include "fix_point_math.h"
+*/
 
 
 /*  Collision checks:
@@ -14,7 +16,9 @@
 */
 
 // This needs to be somewhere else, but is here for now
+/*
 vector_t powerupPosition;
+*/
 
 /*
 void removeItem(itemType){
@@ -22,6 +26,7 @@ void removeItem(itemType){
 }
 */
 
+/*
 void playerHitbox(player_t player){
     player.position;
 }
@@ -100,3 +105,4 @@ void processCollisions() {
     enemyCollision();
     bulletCollision();
 }
+*/
