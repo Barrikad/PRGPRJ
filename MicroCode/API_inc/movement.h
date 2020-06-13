@@ -1,10 +1,17 @@
 #ifndef MOVEMENT_H_INCLUDED
 #define MOVEMENT_H_INCLUDED
+//Standard size for all encoded actions is uint16
 
-typedef uint8_t mover_t;
-const mover_t PLAYER_MOVER = 1;
+//Translates the joystick position into encoded movement actions
+//The following table describes the meaning of the separate bits being on (an example)
+//  bit# | action
+//    1  | shoot
+//    2  | rotate left
+//    3  | rotate right
+//    ....
+uint16_t movementFromJoystick();
 
-//this gets the direction of a mover is moving.
-direction_t moversDirection(mover_t mover);
+//Translates the joystick position into encoded selection actions for the menu
+uint16_t selectionFromJoystick();
 
 #endif /* MOVEMENT_H_INCLUDED */

@@ -10,6 +10,6 @@ void setPlayerVelocity(player_t *player, vector_t velocity){
     (*player).velocity = velocity;
 }
 
-void reducePlayerLives(player_t *player, uint8_t damage){
+void damagePlayer(player_t *player, uint8_t damage){
     (*player).lives -= damage;
 }
