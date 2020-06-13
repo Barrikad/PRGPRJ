@@ -15,10 +15,16 @@ int main(void)
 
     initLeds();
 
+    /*
+    setLed(LED_RED);
+    setLed(LED_BLUE);
+    setLed(LED_GREEN);
+    */
 
     clearLed(LED_RED);
     clearLed(LED_BLUE);
     clearLed(LED_GREEN);
+
 
     while(1){
 
