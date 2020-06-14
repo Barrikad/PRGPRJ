@@ -1,5 +1,6 @@
 #ifndef GAME_ENTITIES_H_INCLUDED
 #define GAME_ENTITIES_H_INCLUDED
+#include collision.h"
 
 void addPlayer(player_t *player);
 void addEnemy(enemy_t *enemy);
