@@ -10,7 +10,7 @@ typedef uint8_t effects_t;
 typedef struct{
     vector_t position;
     vector_t velocity;
-    fix14_t rotation;
+    deg512_t rotation;
     uint8_t lives;
     uint8_t points;
     effects_t effects;
