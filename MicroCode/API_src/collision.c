@@ -1,125 +1,40 @@
-/*
 #include <stdint.h>
 #include "30010_io.h"
 #include "stm32f30x.h"
-//NOTE: We should never include headers from APP in API
-#include "player.h"
-#include "enemy.h"
-#include "bullet.h"
 #include "fix_point_math.h"
-#include "entity_representation"
+#include "entity_representation.h"
 
-#define PLAYER_RADIUS 1
-*/
 
-//NOTE: walls, player and powerup is to specific for the API.
-//this should be a general collision processing engine, which
-//we send entities to from APP
-/*  Collision checks:
-    Player -> wall, bullet, enemy, power-up, door (next lvl)
-    Enemy -> wall, bullet, player
-    Bullet -> player, wall, enemy
-*/
+// Private function
+// Checks if the hitboxes are overlapping in one dimension.
+static uint8_t hitboxesAreOverlapping(fix14_t distance, fix14_t radius1, fix14_t radius2){
+    return distance - radius1 - radius2 < 0;
+    // By knowing that all hitboxes are rectangles, it is possible to check
+    // if the hitboxes are overlapping by looking at the distance between the
+    // positions of the object, and size of the hitbox.
+}
 
-// This needs to be somewhere else, but is here for now
-/*
-vector_t powerupPosition;
-*/
-
-/*
-uint8_t[] removeItem(itemType){
-    //Some function to remove bullet/enemy/power-up when they are hit
-} {2,4,3,5}
-*/
-
-/*
+// Checks if two entities collide
+// Parameters       entity1
+//                  entity2
 uint8_t entitiesCollide(placement_t entity1, placement_t entity2){
-    if collides return 1
-    return 0
-}
-*/
+    fix14_t difference_x = entity1.position.x - entity2.position.x;
+    fix14_t difference_y = entity1.position.y - entity2.position.y;
 
-/*
-void playerHitbox(player_t player){
-    player.position;
-    player.pos.x = 3
-    player.pos.y = 4
-
-}
-
-void bulletHitbox(bullet_t bullet){
-    bullet.position;
-}
-
-void enemyHitbox(enemy_t enemy){
-    enemy.position;
-}
-
-void powerupHitbox(){
-    powerupPosition;
-}
-
-void wallHitbox(){
-    // Need some lvl creation coordinate to find out where the wall is.
-}
-
-void doorHitbox(){
-    // Need some lvl creation coordinate to find out where the door is.
-}
-
-void playerCollision(){
-    if (playerHitbox() == bulletHitbox()){
-        setLed(LED_RED);
-        *player.lives -= 1;
-        //removeItem(Bullet);
+    if(difference_x < 0){
+        difference_x = -difference_x;
     }
-    else if (playerHitbox() == enemyHitbox()){ // If the player run the enemy down, the enemy dies.
-        *player.points += enemy.points
-        //removeItem(enemy);
+
+    if(difference_y < 0){
+        difference_y = -difference_y;
     }
-    if (playerHitbox() == powerupHitbox()){
-        *player.effect = 1;
-        //removeItem(powerup);
-    }
-    if (playerHitbox() == wallHitbox()){
-        // *player.position = *player.position -1;  //Earlier player position
-    }
-    if(playerHitbox() == doorHitbox()) {
-        *player.points += 1000 //A reward for clearing lvl (Just an idea, doesn't need to be like this.)
-        // Initiate new level design
-    }
+
+    uint8_t overlapX = hitboxesAreOverlapping(differnce_x,entity1.radiusHV.x, entity2.radiusHV.x);
+    uint8_t overlapY = hitboxesAreOverlapping(diffence_y, entity1.radiusHV.y, entity2.radiusHV.y);
+
+    return overlapX && overlapY;
+
+    // Function takes two entities and sees if there is an overlap between the hitboxes of the enitities.
+    // If there is an overlap the function returns 1, otherwise it returns 0.
 }
 
-void enemyCollision() {
-    if (enemyHitbox() == wallHitbox()){
-    // *enemy.position = *enemy.position  - 1; //Earlier enemy position
-    }
-}
-
-void bulletCollision() {
-    if (bulletHitbox() == wallHitbox()) {
-        bounceBullet();
-    }
-    if (bulletHitbox() == enemyHitbox()) {
-        *player.points += enemy.points;
-        // itemRemove(bullet);
-        // itemRemove(enemy);
-    }
-}
-
-void bounceBullet(bullet_t *bullet){
-    if (wallHitbox().x - bullet.position.x == 0) { //checks if the bullet hit wall in x direction
-        *bullet.velocity.x -= *bullet.velocity.x;
-    }
-    else if (wallHitbox().y - bullet.position.y == 0){ //checks if the bullet hit wall in y direction
-        *bullet.velocity.y -= *bullet.velocity.y;
-    }
-    *bullet.position = *bullet.position - 1; //Earlier bullet position, don't know how to get it
-}
-
-void processCollisions() {
-    playerCollision();
-    enemyCollision();
-    bulletCollision();
-}
-*/

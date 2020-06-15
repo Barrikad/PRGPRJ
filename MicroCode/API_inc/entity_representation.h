@@ -3,7 +3,7 @@
 
 typedef struct{
     vector_t position;
-    vector_t hitBox;
+    vector_t radiusHV; // horizontal and vertical radius of entity.
     deg512 rotation;
 }placement_t;
 
