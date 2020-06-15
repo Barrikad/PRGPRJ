@@ -1,11 +1,14 @@
-#include <stdint.h>
 #include "lut.h"
 #include "fix_point_math.h"
+
+//Note on all math functions:
+//shift operation is according to documentation not defined for negative numbers,
+//so operations requiring it must be switched to positive and then back to negative
 
 //shift position of the radix point to the left by two
 fix16_t expand(fix14_t x){
     //if the number is positive this is trivial
-    if(x > 0){
+    if(x >= 0){
         return x << 2;
     }
     //if the number is negative it must be converted to positive and then back
@@ -19,7 +22,7 @@ fix16_t expand(fix14_t x){
 //shift position of the radix point to the right by two
 fix14_t reduce(fix16_t x){
     //if the number is positive this is trivial
-    if(x > 0){
+    if(x >= 0){
         return x >> 2;
     }
     //if the number is negative it must be converted to positive and then back
@@ -42,6 +45,40 @@ fix14_t sine(deg512_t degs){
 fix14_t cosine(deg512_t degs){
     //we use the property that cos(x) = sin(x+90) (in ordinary degrees)
     return sin512(degs + 128); //  512*90/360 = 128
+}
+
+//private function to round a guaranteed positive number
+static int16_t roundPositive(fix14_t x){
+    //remove all decimals except the most significant
+    x = x >> 13;
+    //round up if most significant decimal is 1
+    x += x & 1;
+    //remove most significant decimal
+    return x >> 1;
+}
+
+int16_t roundFix(fix14_t x){
+    if(x >= 0){
+        return roundPositive(x);
+    }
+    else{
+        //if number is negative, switch to positive, round, then switch back
+        x *= -1;
+        x = roundPositive(x);
+        return -1*x;
+    }
+}
+
+int16_t floorFix(fix14_t x){
+    if(x >= 0){
+        return x >> 14;
+    }
+    else{
+        //if number is negative, switch to positive, floor, then switch back
+        x *= -1;
+        x = x >> 14;
+        return -1*x;
+    }
 }
 
 // Rotates the vector at the pointer the given number of degrees, with 512 degs in a circle

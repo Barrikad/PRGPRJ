@@ -39,3 +39,7 @@ lcd module
 uart module
 joystick module
 timer module
+
+
+NOTES-----------------
+intense music during main game - lofi during minigame

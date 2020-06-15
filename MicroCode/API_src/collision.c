@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include "30010_io.h"
 #include "stm32f30x.h"
+//NOTE: We should never include headers from APP in API
 #include "player.h"
 #include "enemy.h"
 #include "bullet.h"
@@ -11,7 +12,9 @@
 #define PLAYER_RADIUS 1
 */
 
-
+//NOTE: walls, player and powerup is to specific for the API.
+//this should be a general collision processing engine, which
+//we send entities to from APP
 /*  Collision checks:
     Player -> wall, bullet, enemy, power-up, door (next lvl)
     Enemy -> wall, bullet, player

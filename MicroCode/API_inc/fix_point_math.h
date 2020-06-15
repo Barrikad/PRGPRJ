@@ -1,5 +1,6 @@
 #ifndef FIX_POINT_MATH_H_INCLUDED
 #define FIX_POINT_MATH_H_INCLUDED
+#include <stdint.h>
 
 //Defines operations for multiplication and division with fix point numbers
 #define FIX14_SHIFT 14
@@ -28,6 +29,9 @@ fix14_t reduce(fix16_t x);
 // Sinus and cosine of an angle
 fix14_t sin512(deg512_t degs);
 fix14_t cos512(deg512_t degs);
+
+int16_t roundFix(fix14_t x);
+int16_t floorFix(fix14_t x);
 
 // Rotates the given vector the given number of degrees
 //    Side effects : the vector at the pointer location is changed
