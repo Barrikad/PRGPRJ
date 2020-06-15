@@ -13,7 +13,9 @@ void addPlayer(player_t *player){
 }
 
 void movePlayers(){
-
+    for(int i = 0; i < playersSize; i++){
+        movePlayer(players[i]);
+    }
 }
 
 uint8_t numberOfPlayers(){

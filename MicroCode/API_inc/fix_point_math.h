@@ -21,7 +21,6 @@ typedef struct {
     fix14_t x, y;
 } vector_t;
 
-
 // Functions for converting a number, x, between 14 and 16 decimal places
 fix16_t expand(fix14_t x);
 fix14_t reduce(fix16_t x);

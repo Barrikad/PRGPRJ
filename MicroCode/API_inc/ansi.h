@@ -42,4 +42,7 @@ void cursorRight(int8_t x);
 //go left x columns
 void cursorLeft(int8_t x);
 
+void printFix(int32_t i);
+
+
 #endif /* ANSI_H_INCLUDED */

@@ -44,7 +44,7 @@ fix14_t sine(deg512_t degs){
 // Calculates cosine of an angle, with 512 degrees in a circle
 fix14_t cosine(deg512_t degs){
     //we use the property that cos(x) = sin(x+90) (in ordinary degrees)
-    return sin512(degs + 128); //  512*90/360 = 128
+    return sine(degs + 128); //  512*90/360 = 128
 }
 
 //private function to round a guaranteed positive number
@@ -88,8 +88,8 @@ void rotateVector(vector_t *v, deg512_t degs){
     int32_t y = (*v).y;
 
     // Get the sin and cos of the angle
-    int32_t cosT = cos512(degs);
-    int32_t sinT = sin512(degs);
+    int32_t cosT = cosine(degs);
+    int32_t sinT = sine(degs);
 
     // Use the formula for rotating a vector
     (*v).x = FIX14_MULT(x,cosT) - FIX14_MULT(y,sinT);

@@ -13,58 +13,33 @@
 #include "lcd.h"
 #include "menu.h"
 #include "level.h"
+#include "boss_mode.h"
+#include "draw_game.h"
+#include "movement.h"
+#include "actions.h"
 
-typedef enum uint8_t {
+typedef enum {
     game      = 0,
     mainMenu  = 1,
     helpMenu  = 2,
     scoreMenu = 3,
     miniGame  = 4,
     // TODO: Should this be here, or should it be special, triggered by a high priority interrupt, just to show our determination? YES!
-    bossKey   = 5
+    bossMode  = 5
 } gamestate_t;
 
-// You can put test stuff in this function for now
-void testInit() {
-    initLeds();
-    setLed(LED_RED);
-    clearLed(LED_BLUE);
-    setLed(LED_GREEN);
-
-    lcdInit();
-    lcdClear();
-    lcdWriteChar('T', 0, 0);
-    lcdWriteChar('e', 6, 0);
-    lcdWriteChar('s', 12, 0);
-    lcdWriteChar('t', 18, 0);
-    lcdWriteChar(' ', 24, 0);
-    lcdWriteChar('!', 24, 7);
-    lcdWriteChar('!', 30, 15);
-    lcdWriteChar('!', 36, 23);
-    lcdWriteChar('!', 42, 31);
-    lcdFlush();
-}
-
-// You can put test stuff in this function for now
-void test() {
-    printf("test");
-}
-
-int main(void) {
+void mainGame() {
     // Note: In the final game, we want to start the state in mainMenu
     // Or even make a fancy intro-screen?
     gamestate_t currentGamestate = game;
     level_t currentLevel = firstLevel;
 
     uart_init(115200);
-
-    // Init other stuff
-    testInit();
+    // TODO: Initialize other stuff
 
     while(1) {
         if (currentGamestate == game) {
             // TODO: This
-            test();
             // TODO: Add shouldShowBossKey
             renderLevel();
             processInputLevel();
@@ -78,6 +53,9 @@ int main(void) {
             //     currentLevel = secondLevel;
             //     enterLevel(currentLevel);
             // }
+            if (isBossKeyPressed()) {
+                currentGamestate = bossMode;
+            }
         } else if (currentGamestate == mainMenu) {
             renderMainMenu();
             // Change current menu
@@ -110,21 +88,62 @@ int main(void) {
             }
         } else if (currentGamestate == miniGame) {
             // TODO
+        } else if (currentGamestate == bossMode) {
+            renderBossMode();
+            if (processInputBossMode()) {
+                // Return to game
+                currentGamestate = game;
+            }
         }
     }
 }
 
-/* test drawing
-uart_init(115200);
+int main(void) {
+    // Run the actual game
+    // mainGame();
+
+    // Test stuff below
+
+    uart_init(115200);
+
+    initLeds();
+    setLed(LED_RED);
+    clearLed(LED_BLUE);
+    setLed(LED_GREEN);
+
+    lcdInit();
+    lcdClear();
+    lcdWriteChar('T', 0, 0);
+    lcdWriteChar('e', 6, 0);
+    lcdWriteChar('s', 12, 0);
+    lcdWriteChar('t', 18, 0);
+    lcdWriteChar(' ', 24, 0);
+    lcdWriteChar('!', 24, 7);
+    lcdWriteChar('!', 30, 15);
+    lcdWriteChar('!', 36, 23);
+    lcdWriteChar('!', 42, 31);
+    lcdFlush();
 
     deg512_t rot = 0;
     vector_t pos = {4,4};
     vector_t hb = {1,1};
     placement_t plc= {pos,hb,rot};
-    vector_t vel = {0,0};
+    vector_t vel = {1,1};
     player_t player = {plc,vel,0,0,0};
 
     addPlayer(&player);
+    initJoystickForGame();
+    addPlayerWithInput(&player,movementFromJoystick);
 
-    drawGame();
-*/
+    printf("test");
+
+    while (1) {
+        for(uint16_t i = 1; i > 0; i++){}
+        processPlayerActionsInGame();
+        movePlayers();
+        clrscr();
+        cursorToXY(40,0);
+        printf("%i",player.placement.rotation);
+        drawGame();
+    }
+}

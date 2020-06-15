@@ -1,7 +1,7 @@
 #include "graphics.h"
 
-//0-up, 1-right, 2-down, 3-left
-const char PLAYER[] = {193,195,194,180};
+//0-right, 1-down, 2-left, 3-up
+const char PLAYER[] = {195,194,180,193};
 const char BULLET[] = {250,250,250,250};
 
 void drawSpriteTiles(const char tiles[], uint8_t height, uint8_t width){
@@ -29,6 +29,7 @@ void drawSprite11(const char sprite[], placement_t placement){
     //reduce angle so that 0 <= rotation < 512
     //multiply by four to choose sprite
     //divide by 512 to get 0 <= rotationOffset < 4
-    uint8_t rotationOffset = (4 * (placement.rotation & 511))/512;
+    uint8_t rotationOffset = roundFix(((4 * (placement.rotation & 511)) << 14)/512);
+    rotationOffset %= 4;
     drawSpriteTiles(sprite + rotationOffset,1,1);
 }

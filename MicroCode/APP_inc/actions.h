@@ -16,11 +16,11 @@
 
 
 //register a player to be affected by an input function, f.x. joystick
-void addPlayerWithInput(player_t* player, (uint16_t)(*inputFun)());
+void addPlayerWithInput(player_t* player, uint16_t (*inputFun)());
 
 //register an enemy to be affected by an input function.
 //This function might have to be aware of the enemy to calculate a decision
-void addEnemyWithInput(enemy_t* enemy, (uint16_t)(*inputFun)(enemy_t enemy));
+void addEnemyWithInput(enemy_t* enemy, uint16_t (*inputFun)(enemy_t enemy));
 
 //get input from all player input devices and realize the mapped actions
 void processPlayerActionsInGame();

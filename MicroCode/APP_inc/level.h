@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-typedef enum uint8_t {
+typedef enum {
     firstLevel = 0,
     secondLevel = 1,
 } level_t;
