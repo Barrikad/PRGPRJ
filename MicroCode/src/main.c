@@ -20,7 +20,7 @@ typedef enum uint8_t {
     helpMenu  = 2,
     scoreMenu = 3,
     miniGame  = 4,
-    // TODO: Should this be here, or should it be special, triggered by a high priority interrupt, just to show our determination?
+    // TODO: Should this be here, or should it be special, triggered by a high priority interrupt, just to show our determination? YES!
     bossKey   = 5
 } gamestate_t;
 

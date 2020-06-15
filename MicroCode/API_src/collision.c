@@ -29,8 +29,8 @@ uint8_t entitiesCollide(placement_t entity1, placement_t entity2){
         difference_y = -difference_y;
     }
 
-    uint8_t overlapX = hitboxesAreOverlapping(differnce_x,entity1.radiusHV.x, entity2.radiusHV.x);
-    uint8_t overlapY = hitboxesAreOverlapping(diffence_y, entity1.radiusHV.y, entity2.radiusHV.y);
+    uint8_t overlapX = hitboxesAreOverlapping(difference_x,entity1.radiusHV.x, entity2.radiusHV.x);
+    uint8_t overlapY = hitboxesAreOverlapping(difference_y, entity1.radiusHV.y, entity2.radiusHV.y);
 
     return overlapX && overlapY;
 
