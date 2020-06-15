@@ -28,6 +28,6 @@ void setPlayerVelocity(player_t *player, vector_t velocity);
 //  Side effects: players total lives is reduced
 void damagePlayer(player_t *player, uint8_t damage);
 
-void fireBullet(player_t *player);
+void fireBulletPlayer(player_t *player);
 
 #endif /* PLAYER_H_INCLUDED */

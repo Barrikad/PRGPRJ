@@ -6,14 +6,13 @@ typedef struct {
     const char * options;
     int8_t layer;
 
-} menu_t
+} menu_t;
 
 
 void setMenuOptions(menu_t menu) {
-    *menu.options = {"New Game", "Help", "Highscore", "Credits"};
+    //*menu.options = {"New Game", "Help", "Highscore", "Credits"};
 }
 
-void currentOptions
 
 
 

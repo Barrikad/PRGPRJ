@@ -15,6 +15,6 @@ void setEnemyVelocity(enemy_t *enemy, vector_t velocity);
 
 void damageEnemy(enemy_t *enemy, uint8_t damage);
 
-void fireBullet(enemy_t *enemy);
+void fireBulletEnemy(enemy_t *enemy);
 
 #endif /* ENEMY_H_INCLUDED */

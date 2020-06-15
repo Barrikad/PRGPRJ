@@ -10,9 +10,9 @@ typedef struct{
 }bullet_t;
 
 
-moveBullets(bullet_t *bullet);
+void moveBullet(bullet_t *bullet);
 
-setBulletVelocity(bullet_t *bullet, vector_t velocity);
+void setBulletVelocity(bullet_t *bullet, vector_t velocity);
 
 
 

@@ -97,19 +97,19 @@ void clrscr() {
 void clreol() {
     printf("%c[K", ESC);
 }
-void gotoxy(int8_t x, int8_t y) {
+void cursorToXY(int8_t x, int8_t y) {
     printf("%c[%d;%dH", ESC, y + 1, x + 1);
 }
-void up(int8_t x) {
+void cursorUp(int8_t x) {
     printf("%c[%dA", ESC, x);
 }
-void down(int8_t x) {
+void cursorDown(int8_t x) {
     printf("%c[%dB", ESC, x);
 }
-void right(int8_t x) {
+void cursorRight(int8_t x) {
     printf("%c[%dC", ESC, x);
 }
-void left(int8_t x) {
+void cursorLeft(int8_t x) {
     printf("%c[%dD", ESC, x);
 }
 void underline(int8_t on) {

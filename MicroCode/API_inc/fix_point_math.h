@@ -8,7 +8,7 @@
 #define FIX14_DIV(a, b) ( ((a) << FIX14_SHIFT) / b )
 
 // Degrees expressed with 512 degrees in a circle
-typedef uint8_t deg512_t;
+typedef int16_t deg512_t;
 
 // Fixed point number with 14 decimal places
 typedef int32_t fix14_t;

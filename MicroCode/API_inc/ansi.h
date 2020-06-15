@@ -19,7 +19,7 @@ void clrscr();
 void clreol();
 
 //go to position x,y. x is width, y is height. 0-indexed
-void gotoxy(int8_t x, int8_t y);
+void cursorToXY(int8_t x, int8_t y);
 
 //underline newly written text
 void underline(int8_t on);
@@ -31,15 +31,15 @@ void blink(int8_t on);
 void inverse(int8_t on);
 
 //go up x lines
-void up(int8_t x);
+void cursorUp(int8_t x);
 
 //go down x lines
-void down(int8_t x);
+void cursorDown(int8_t x);
 
 //go right x columns
-void right(int8_t x);
+void cursorRight(int8_t x);
 
 //go left x columns
-void left(int8_t x);
+void cursorLeft(int8_t x);
 
 #endif /* ANSI_H_INCLUDED */
