@@ -6,6 +6,9 @@
 #include "enemy.h"
 #include "bullet.h"
 #include "fix_point_math.h"
+#include "entity_representation"
+
+#define PLAYER_RADIUS 1
 */
 
 
@@ -21,14 +24,24 @@ vector_t powerupPosition;
 */
 
 /*
-void removeItem(itemType){
+uint8_t[] removeItem(itemType){
     //Some function to remove bullet/enemy/power-up when they are hit
+} {2,4,3,5}
+*/
+
+/*
+uint8_t entitiesCollide(placement_t entity1, placement_t entity2){
+    if collides return 1
+    return 0
 }
 */
 
 /*
 void playerHitbox(player_t player){
     player.position;
+    player.pos.x = 3
+    player.pos.y = 4
+
 }
 
 void bulletHitbox(bullet_t bullet){
@@ -53,6 +66,7 @@ void doorHitbox(){
 
 void playerCollision(){
     if (playerHitbox() == bulletHitbox()){
+        setLed(LED_RED);
         *player.lives -= 1;
         //removeItem(Bullet);
     }

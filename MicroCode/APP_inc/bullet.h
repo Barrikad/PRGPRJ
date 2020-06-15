@@ -1,10 +1,11 @@
 #ifndef BULLET_H_INCLUDED
 #define BULLET_H_INCLUDED
 #include "fix_point_math.h"
+#include "entity_representation.h"
 
 
 typedef struct{
-    vector_t position;
+    placement_t placement;
     vector_t velocity;
 }bullet_t;
 

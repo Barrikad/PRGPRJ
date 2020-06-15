@@ -1,4 +1,4 @@
-/*
+
 #include "lcd.h"
 
 
@@ -13,7 +13,8 @@ void setMenuOptions(menu_t menu) {
     *menu.options = {"New Game", "Help", "Highscore", "Credits"};
 }
 
-void
+void currentOptions
 
 
-*/
+
+

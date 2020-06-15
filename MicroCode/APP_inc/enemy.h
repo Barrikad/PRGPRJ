@@ -1,10 +1,10 @@
 #ifndef ENEMY_H_INCLUDED
 #define ENEMY_H_INCLUDED
+#include "entity_representation.h"
 
 typedef struct{
-    vector_t position;
+    placement_t placement;
     vector_t velocity;
-    fix14_t rotation;
     uint8_t lives;
     uint8_t points;
 } enemy_t;

@@ -2,15 +2,15 @@
 #define PLAYER_H_INCLUDED
 #include <stdint.h>
 #include "fix_point_math.h"
+#include "entity_representation.h"
 
 //type for registering that a player has powerups, debuffs etc.
 // bit1 on if powerup1 is on f.ex.
 typedef uint8_t effects_t;
 
 typedef struct{
-    vector_t position;
+    placement_t placement;
     vector_t velocity;
-    fix14_t rotation;
     uint8_t lives;
     uint8_t points;
     effects_t effects;
