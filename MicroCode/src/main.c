@@ -8,6 +8,7 @@
 #include "led.h"
 #include "lcd.h"
 #include "menu.h"
+#include "level.h"
 
 typedef enum uint8_t {
     game      = 0,
@@ -49,7 +50,7 @@ int main(void) {
     // Note: In the final game, we want to start the state in mainMenu
     // Or even make a fancy intro-screen?
     gamestate_t currentGamestate = game;
-    uint8_t currentLevel = 0;
+    level_t currentLevel = firstLevel;
 
     uart_init(115200);
 
@@ -60,6 +61,19 @@ int main(void) {
         if (currentGamestate == game) {
             // TODO: This
             test();
+            // TODO: Add shouldShowBossKey
+            renderLevel();
+            processInputLevel();
+            // processEnemy();
+            // moveEntities();
+            // detectCollisions(&player, &entities);
+            // if (player.health < 0) {
+            //     // Show highscore
+            //     currentGamestate = scoreMenu;
+            // } else if (enemyCount == 0) {
+            //     currentLevel = secondLevel;
+            //     enterLevel(currentLevel);
+            // }
         } else if (currentGamestate == mainMenu) {
             renderMainMenu();
             // Change current menu
@@ -67,8 +81,8 @@ int main(void) {
             case 1:
                 // Start game
                 currentGamestate = game;
-                currentLevel = 0;
-                // initLevel(currentLevel);
+                currentLevel = firstLevel;
+                enterLevel(currentLevel);
             case 2:
                 // Open help menu
                 currentGamestate = helpMenu;
@@ -90,6 +104,8 @@ int main(void) {
             if (processInputScoreMenu()) {
                 currentGamestate = mainMenu;
             }
+        } else if (currentGamestate == miniGame) {
+            // TODO
         }
     }
 }

@@ -16,25 +16,28 @@ void currentOptions
 
 
 void renderMainMenu() {
-
+    // TODO: This!
 }
 
 uint8_t processInputMainMenu() {
+    // TODO: This!
     return 0;
 }
 
 void renderHelpMenu() {
-
+    // TODO: This!
 }
 
 uint8_t processInputHelpMenu() {
+    // TODO: This!
     return 0;
 }
 
 void renderScoreMenu(uint8_t clearedLevels) {
-
+    // TODO: This!
 }
 
 uint8_t processInputScoreMenu() {
+    // TODO: This!
     return 0;
 }
