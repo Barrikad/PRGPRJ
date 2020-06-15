@@ -121,7 +121,6 @@ int main(void) {
     lcdFlush();
 
     uart_init(115200);
-    uart_init(115200);
 
     deg512_t rot = 0;
     vector_t pos = {4,4};
