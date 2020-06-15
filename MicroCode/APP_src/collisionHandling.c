@@ -5,8 +5,10 @@
 #include "player.h"
 #include "enemy.h"
 #include "bullet"
+#include "powerUp.h"
+#include "door.h"
 #include "collision.h"
-#include ""
+#include "led.h"
 
 
 
@@ -19,10 +21,7 @@
     Bullet -> player, wall, enemy
 */
 
-// This needs to be somewhere else, but is here for now
-/*
-vector_t powerupPosition;
-*/
+
 
 /*
 void removeItem(itemType){
@@ -30,36 +29,61 @@ void removeItem(itemType){
 }
 */
 
+void playerCollideBullet(player_t *player, bullet_t bullet) {
+    if (entitiesCollide(player.placement, bullet.placement) {
+        setLed(LED_RED); // Dette skal være på en timer
+        *player.lives -= 1;
+        //removeItem(bullet);
+        }
+}
+
+void playerCollideEnemy(player_t *player, enemy_t enemy) {
+    if (entitiesCollide(player.placement, enemy.placement) {
+        *player.points += enemy.points;
+        //removeItem(enemy);
+        }
+}
+
+void playerCollidePowerUp(player_t *player, powerUp_t powerUp){
+    if (entitiesCollide(player.placement, powerUp.placement) {
+        *player.effects = 1;
+        //removeItem(PowerUp);
+    }
+}
+
 /*
-void playerHitbox(player_t player){
-    player.position;
-    player.pos.x = 3
-    player.pos.y = 4
+void playerCollideWall(player_t *player, wall_t wall) {
+    if (entitiesCollide(player.placement, wall.placement) {
+        *player.position = *player.position -1;  //Earlier player position
+    }
+}
+*/
 
+void playerCollideDoor(player_t *player, door_t door){
+    if (entitiesCollide(player.placement, door.placement) {
+        *player.points += door.points;
 }
 
-void bulletHitbox(bullet_t bullet){
-    bullet.position;
+
+void enemyCollideBullet(enemy_t *enemy, bullet_t bullet) {
+    if (entitiesCollide(enemy.placement, bullet.placement)
+        player
 }
 
-void enemyHitbox(enemy_t enemy){
-    enemy.position;
-}
 
-void powerupHitbox(){
-    powerupPosition;
-}
 
-void wallHitbox(){
-    // Need some lvl creation coordinate to find out where the wall is.
-}
+void playerCollision(player_t player){
+    player_t** players = allPlayers();
+    uint8_t numOfPLayers = numberOfPlayers();
+    for(i < numOfPLayers){
+        for(i < numOf bullets){
+            if collides:
+                    dostuff
+        }
+    }
+    if (entitiesCollide(player.placement)
 
-void doorHitbox(){
-    // Need some lvl creation coordinate to find out where the door is.
-}
-
-void playerCollision(){
-    if (playerHitbox() == bulletHitbox()){
+            playerHitbox() == bulletHitbox()){
         setLed(LED_RED);
         *player.lives -= 1;
         //removeItem(Bullet);
@@ -73,7 +97,7 @@ void playerCollision(){
         //removeItem(powerup);
     }
     if (playerHitbox() == wallHitbox()){
-        // *player.position = *player.position -1;  //Earlier player position
+
     }
     if(playerHitbox() == doorHitbox()) {
         *player.points += 1000 //A reward for clearing lvl (Just an idea, doesn't need to be like this.)
@@ -113,4 +137,4 @@ void processCollisions() {
     enemyCollision();
     bulletCollision();
 }
-*/
+
