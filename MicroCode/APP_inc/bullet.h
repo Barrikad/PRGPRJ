@@ -9,10 +9,11 @@ typedef struct{
     vector_t velocity;
 }bullet_t;
 
+const vector_t BULLET_RADIUS;
+
 
 void moveBullet(bullet_t *bullet);
 
-void setBulletVelocity(bullet_t *bullet, vector_t velocity);
 
 
 

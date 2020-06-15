@@ -21,9 +21,8 @@ uint16_t numberOfEnemies();
 uint16_t numberOfBullets();
 
 player_t** allPlayers();
-player_t** allEnemies();
-player_t** allBullets();
+enemy_t** allEnemies();
+bullet_t** allBullets();
 
-void processCollisions();
 
 #endif /* GAME_ENTITIES_H_INCLUDED */

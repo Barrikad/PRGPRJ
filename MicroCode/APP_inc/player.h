@@ -20,14 +20,6 @@ typedef struct{
 //  Side effects: players position is changed
 void movePlayer(player_t *player);
 
-//sets players velocity to new vector
-//  Side effects: players velocity is changed
-void setPlayerVelocity(player_t *player, vector_t velocity);
-
-//reduce the players lives by a given amount
-//  Side effects: players total lives is reduced
-void damagePlayer(player_t *player, uint8_t damage);
-
-void fireBulletPlayer(player_t *player);
+void fireBulletFromPlayer(player_t player);
 
 #endif /* PLAYER_H_INCLUDED */

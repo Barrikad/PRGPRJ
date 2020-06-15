@@ -3,6 +3,10 @@
 
 #include <stdint.h>
 
+//make sure these are powers of two (for now at least)
+#define LEVEL_WIDTH 128
+#define LEVEL_HEIGHT 64
+
 typedef enum {
     firstLevel = 0,
     secondLevel = 1,

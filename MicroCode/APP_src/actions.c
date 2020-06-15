@@ -27,7 +27,7 @@ void processPlayerActionsInGame(){
 
         //player shoots
         if(input & 1){
-
+            fireBulletFromPlayer(*(playerWithInputs[i].player));
         }
 
 

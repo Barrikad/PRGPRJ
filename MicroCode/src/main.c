@@ -143,7 +143,13 @@ int main(void) {
         movePlayers();
         clrscr();
         cursorToXY(40,0);
-        printf("%i",player.placement.rotation);
+        printf("%i ",player.placement.rotation);
+        if(numberOfBullets() > 0){
+            bullet_t bullet = **allBullets();
+            printFix(bullet.placement.position.x);
+            printf(" ");
+            printFix(bullet.placement.position.y);
+        }
         drawGame();
     }
 }
