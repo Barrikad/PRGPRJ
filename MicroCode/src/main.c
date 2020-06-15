@@ -104,6 +104,8 @@ int main(void) {
 
     // Test stuff below
 
+    uart_init(115200);
+
     initLeds();
     setLed(LED_RED);
     clearLed(LED_BLUE);
@@ -121,8 +123,6 @@ int main(void) {
     lcdWriteChar('!', 36, 23);
     lcdWriteChar('!', 42, 31);
     lcdFlush();
-
-    uart_init(115200);
 
     deg512_t rot = 0;
     vector_t pos = {4,4};
