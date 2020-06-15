@@ -29,6 +29,7 @@ void drawSprite11(const char sprite[], placement_t placement){
     //reduce angle so that 0 <= rotation < 512
     //multiply by four to choose sprite
     //divide by 512 to get 0 <= rotationOffset < 4
-    uint8_t rotationOffset = (4 * (placement.rotation & 511))/512;
+    uint8_t rotationOffset = roundFix(((4 * (placement.rotation & 511)) << 14)/512);
+    rotationOffset %= 4;
     drawSpriteTiles(sprite + rotationOffset,1,1);
 }

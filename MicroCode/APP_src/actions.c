@@ -30,22 +30,24 @@ void processPlayerActionsInGame(){
 
         }
 
+
         //player rotates left
         if(input & 2){
-            (*(playerWithInputs[i].player)).placement.rotation -= 32;
+            (*(playerWithInputs[i].player)).placement.rotation -= 8;
+            (*(playerWithInputs[i].player)).placement.rotation &= 511;
+        }
+        //player rotates right
+        if(input & 4){
+            (*(playerWithInputs[i].player)).placement.rotation += 8;
             (*(playerWithInputs[i].player)).placement.rotation &= 511;
         }
 
-        //player rotates right
-        if(input & 4){
-            (*(playerWithInputs[i].player)).placement.rotation += 32;
-            (*(playerWithInputs[i].player)).placement.rotation &= 511;
-        }
 
         //rotate a vector of length 1 to the orientation of the player
         vector_t unitVector = {1 << 14,0};
         deg512_t pRot = (*(playerWithInputs[i].player)).placement.rotation;
         rotateVector(&unitVector,pRot);
+
 
         //player moves forward
         if(input & 8){

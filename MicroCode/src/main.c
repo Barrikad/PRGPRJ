@@ -15,6 +15,8 @@
 #include "level.h"
 #include "boss_mode.h"
 #include "draw_game.h"
+#include "movement.h"
+#include "actions.h"
 
 typedef enum {
     game      = 0,
@@ -126,15 +128,22 @@ int main(void) {
     vector_t pos = {4,4};
     vector_t hb = {1,1};
     placement_t plc= {pos,hb,rot};
-    vector_t vel = {0,0};
+    vector_t vel = {1,1};
     player_t player = {plc,vel,0,0,0};
 
     addPlayer(&player);
-
-    drawGame();
+    initJoystickForGame();
+    addPlayerWithInput(&player,movementFromJoystick);
 
     printf("test");
 
     while (1) {
+        for(uint16_t i = 1; i > 0; i++){}
+        processPlayerActionsInGame();
+        movePlayers();
+        clrscr();
+        cursorToXY(40,0);
+        printf("%i",player.placement.rotation);
+        drawGame();
     }
 }

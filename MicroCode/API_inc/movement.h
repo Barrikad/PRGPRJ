@@ -2,6 +2,8 @@
 #define MOVEMENT_H_INCLUDED
 //Standard size for all encoded actions is uint16
 
+void initJoystickForGame();
+
 //Translates the joystick position into encoded movement actions
 //The following table describes the meaning of the separate bits being on (an example)
 //  bit# | action
