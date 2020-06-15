@@ -30,6 +30,24 @@ void removeItem(itemType){
 }
 */
 
+static void incrementPlayerPoints(){
+    uint8_t ps = numberOfPlayers();
+    player_t** players = allPlayers();
+    for(int i = 0; i < ps; i++){
+        (*players[i]).points += enemy.points
+    }
+}
+
+void bounceBullet(bullet_t *bullet){
+    if (wallHitbox().x - bullet.position.x == 0) { //checks if the bullet hit wall in x direction
+        *bullet.velocity.x -= bullet.velocity.x;
+    }
+    else if (wallHitbox().y - bullet.position.y == 0){ //checks if the bullet hit wall in y direction
+        *bullet.velocity.y -= bullet.velocity.y;
+    }
+    *bullet.position = *bullet.position - 1; //Earlier bullet position, don't know how to get it
+}
+
 void playerCollideBullet(player_t *player, bullet_t bullet) {
     if (entitiesCollide(player.placement, bullet.placement) {
         setLed(LED_RED); // Dette skal være på en timer
@@ -45,6 +63,7 @@ void playerCollideEnemy(player_t *player, enemy_t enemy) {
         }
 }
 
+
 void playerCollidePowerUp(player_t *player, powerUp_t powerUp){
     if (entitiesCollide(player.placement, powerUp.placement) {
         *player.effects = 1;
@@ -55,7 +74,7 @@ void playerCollidePowerUp(player_t *player, powerUp_t powerUp){
 /*
 void playerCollideWall(player_t *player, wall_t wall) {
     if (entitiesCollide(player.placement, wall.placement) {
-        *player.position = *player.position -1;  //Earlier player position
+        *player.velocity = -player.velocity
     }
 }
 */
@@ -63,74 +82,49 @@ void playerCollideWall(player_t *player, wall_t wall) {
 void playerCollideDoor(player_t *player, door_t door){
     if (entitiesCollide(player.placement, door.placement) {
         *player.points += door.points;
+    }
 }
+
+
 
 
 void enemyCollideBullet(enemy_t *enemy, bullet_t bullet) {
-    if (entitiesCollide(enemy.placement, bullet.placement)
-        player
-}
-
-
-
-void playerCollision(player_t player){
-    player_t** players = allPlayers();
-    uint8_t numOfPLayers = numberOfPlayers();
-    for(i < numOfPLayers){
-        for(i < numOf bullets){
-            if collides:
-                    dostuff
-        }
-    }
-    if (entitiesCollide(player.placement)
-
-            playerHitbox() == bulletHitbox()){
-        setLed(LED_RED);
-        *player.lives -= 1;
-        //removeItem(Bullet);
-    }
-    else if (playerHitbox() == enemyHitbox()){ // If the player run the enemy down, the enemy dies.
-        *player.points += enemy.points
-        //removeItem(enemy);
-    }
-    if (playerHitbox() == powerupHitbox()){
-        *player.effect = 1;
-        //removeItem(powerup);
-    }
-    if (playerHitbox() == wallHitbox()){
-
-    }
-    if(playerHitbox() == doorHitbox()) {
-        *player.points += 1000 //A reward for clearing lvl (Just an idea, doesn't need to be like this.)
-        // Initiate new level design
+    if (entitiesCollide(enemy.placement, bullet.placement) {
+        incrementPlayerPoints();
     }
 }
 
-void enemyCollision() {
-    if (enemyHitbox() == wallHitbox()){
-    // *enemy.position = *enemy.position  - 1; //Earlier enemy position
+/*
+void enemyCollideWall(enemy_t *enemy, wall_t wall) {
+    if (entitiesCollide(enemy.placement, wall.placement) {
+        // *enemy.velocity = -enemy.velocity;
     }
+}
+
+
+void bulletCollideWall(bullet_t bullet, wall_t wall) {
+    if (entitiesCollide(bullet.placement, wall.placement)) {
+        bounceBullet();
+    }
+}
+
+*/
+
+void playerCollision() {
+    playerCollideBullet(player_t *player, bullet_t bullet);
+    playerCollideEnemy(player_t *player, enemy_t enemy);
+    playerCollidePowerUp(player_t *player, powerUp_t powerUp);
+    //playerCollideWall(player_t *player, wall_t wall);
+    playerCollideDoor(player_t *player, door_t door);
+}
+
+void enemyCollision(){
+    enemyCollideBullet(enemy_t *enemy, bullet_t bullet);
+    // enemyCollideWall(enemy_t *enemy, wall_t wall);
 }
 
 void bulletCollision() {
-    if (bulletHitbox() == wallHitbox()) {
-        bounceBullet();
-    }
-    if (bulletHitbox() == enemyHitbox()) {
-        *player.points += enemy.points;
-        // itemRemove(bullet);
-        // itemRemove(enemy);
-    }
-}
-
-void bounceBullet(bullet_t *bullet){
-    if (wallHitbox().x - bullet.position.x == 0) { //checks if the bullet hit wall in x direction
-        *bullet.velocity.x -= *bullet.velocity.x;
-    }
-    else if (wallHitbox().y - bullet.position.y == 0){ //checks if the bullet hit wall in y direction
-        *bullet.velocity.y -= *bullet.velocity.y;
-    }
-    *bullet.position = *bullet.position - 1; //Earlier bullet position, don't know how to get it
+    //bulletCollideWall(bullet_t bullet, wall_t wall);
 }
 
 void processCollisions() {
