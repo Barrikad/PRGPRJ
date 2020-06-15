@@ -14,6 +14,7 @@
 #include "menu.h"
 #include "level.h"
 #include "boss_mode.h"
+#include "draw_game.h"
 
 typedef enum {
     game      = 0,
@@ -25,47 +26,18 @@ typedef enum {
     bossMode  = 5
 } gamestate_t;
 
-// You can put test stuff in this function for now
-void testInit() {
-    initLeds();
-    setLed(LED_RED);
-    clearLed(LED_BLUE);
-    setLed(LED_GREEN);
-
-    lcdInit();
-    lcdClear();
-    lcdWriteChar('T', 0, 0);
-    lcdWriteChar('e', 6, 0);
-    lcdWriteChar('s', 12, 0);
-    lcdWriteChar('t', 18, 0);
-    lcdWriteChar(' ', 24, 0);
-    lcdWriteChar('!', 24, 7);
-    lcdWriteChar('!', 30, 15);
-    lcdWriteChar('!', 36, 23);
-    lcdWriteChar('!', 42, 31);
-    lcdFlush();
-}
-
-// You can put test stuff in this function for now
-void test() {
-    printf("test");
-}
-
-int main(void) {
+void mainGame() {
     // Note: In the final game, we want to start the state in mainMenu
     // Or even make a fancy intro-screen?
     gamestate_t currentGamestate = game;
     level_t currentLevel = firstLevel;
 
     uart_init(115200);
-
-    // Init other stuff
-    testInit();
+    // TODO: Initialize other stuff
 
     while(1) {
         if (currentGamestate == game) {
             // TODO: This
-            test();
             // TODO: Add shouldShowBossKey
             renderLevel();
             processInputLevel();
@@ -124,8 +96,32 @@ int main(void) {
     }
 }
 
-/* test drawing
-uart_init(115200);
+int main(void) {
+    // Run the actual game
+    // mainGame();
+
+    // Test stuff below
+
+    initLeds();
+    setLed(LED_RED);
+    clearLed(LED_BLUE);
+    setLed(LED_GREEN);
+
+    lcdInit();
+    lcdClear();
+    lcdWriteChar('T', 0, 0);
+    lcdWriteChar('e', 6, 0);
+    lcdWriteChar('s', 12, 0);
+    lcdWriteChar('t', 18, 0);
+    lcdWriteChar(' ', 24, 0);
+    lcdWriteChar('!', 24, 7);
+    lcdWriteChar('!', 30, 15);
+    lcdWriteChar('!', 36, 23);
+    lcdWriteChar('!', 42, 31);
+    lcdFlush();
+
+    uart_init(115200);
+    uart_init(115200);
 
     deg512_t rot = 0;
     vector_t pos = {4,4};
@@ -137,4 +133,9 @@ uart_init(115200);
     addPlayer(&player);
 
     drawGame();
-*/
+
+    printf("test");
+
+    while (1) {
+    }
+}
