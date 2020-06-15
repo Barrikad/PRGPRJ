@@ -15,7 +15,7 @@
 #include "level.h"
 #include "boss_mode.h"
 
-typedef enum uint8_t {
+typedef enum {
     game      = 0,
     mainMenu  = 1,
     helpMenu  = 2,
