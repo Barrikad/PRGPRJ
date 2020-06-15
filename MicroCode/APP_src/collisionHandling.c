@@ -1,12 +1,11 @@
-#include "<stdint.h>"
+#include <stdint.h>
 #include "30010_io.h"
 #include "stm32f30x.h"
 #include "fix_point_math.h"
 #include "player.h"
 #include "enemy.h"
-#include "bullet"
+#include "bullet.h"
 #include "collision.h"
-#include ""
 
 
 

@@ -1,7 +1,7 @@
 #include "graphics.h"
 
-//0-up, 1-right, 2-down, 3-left
-const char PLAYER[] = {193,195,194,180};
+//0-right, 1-down, 2-left, 3-up
+const char PLAYER[] = {195,194,180,193};
 const char BULLET[] = {250,250,250,250};
 
 void drawSpriteTiles(const char tiles[], uint8_t height, uint8_t width){

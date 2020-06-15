@@ -8,7 +8,8 @@
 //    1  | shoot
 //    2  | rotate left
 //    3  | rotate right
-//    ....
+//    4  | move forward
+//    5  | move backward
 uint16_t movementFromJoystick();
 
 //Translates the joystick position into encoded selection actions for the menu
