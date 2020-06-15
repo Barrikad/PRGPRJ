@@ -14,7 +14,7 @@ uint8_t processInputMainMenu();
 void renderHelpMenu();
 
 // Processes input from the user, possibly scrolling down the content?
-// Returns 0 if should stay in help menu, 1 if should return to main menu
+// Returns 0 if should stay in help menu, 1 if should return to main menu.
 uint8_t processInputHelpMenu();
 
 // Renders the score screen. This should (FOR NOW) determine by itself how often it wants to render!
@@ -22,7 +22,7 @@ uint8_t processInputHelpMenu();
 void renderScoreMenu(uint8_t clearedLevels);
 
 // Processes input from the user.
-// Returns 0 if should stay in score menu, 1 if should return to main menu
+// Returns 0 if should stay in score menu, 1 if should return to main menu.
 uint8_t processInputScoreMenu();
 
 #endif /* MENU_H_INCLUDED */

@@ -13,6 +13,7 @@
 #include "lcd.h"
 #include "menu.h"
 #include "level.h"
+#include "boss_mode.h"
 
 typedef enum uint8_t {
     game      = 0,
@@ -21,7 +22,7 @@ typedef enum uint8_t {
     scoreMenu = 3,
     miniGame  = 4,
     // TODO: Should this be here, or should it be special, triggered by a high priority interrupt, just to show our determination? YES!
-    bossKey   = 5
+    bossMode  = 5
 } gamestate_t;
 
 // You can put test stuff in this function for now
@@ -78,6 +79,9 @@ int main(void) {
             //     currentLevel = secondLevel;
             //     enterLevel(currentLevel);
             // }
+            if (isBossKeyPressed()) {
+                currentGamestate = bossMode;
+            }
         } else if (currentGamestate == mainMenu) {
             renderMainMenu();
             // Change current menu
@@ -110,6 +114,12 @@ int main(void) {
             }
         } else if (currentGamestate == miniGame) {
             // TODO
+        } else if (currentGamestate == bossMode) {
+            renderBossMode();
+            if (processInputBossMode()) {
+                // Return to game
+                currentGamestate = game;
+            }
         }
     }
 }
