@@ -2,20 +2,20 @@
 #include "bullet.h"
 #include "enemy.h"
 
-//current max of 4 players
+#define MAX_PLAYERS 4
 //array of players, and size of actually contained players
 static uint8_t playerCount = 0;
-static player_t players[4];
+static player_t players[MAX_PLAYERS];
 
-//max 512 bullets
+#define MAX_BULLETS 512
 //actual number of bullets in bulletCount
 static uint16_t bulletCount = 0;
-static bullet_t bullets[512];
+static bullet_t bullets[MAX_BULLETS];
 
-//max 64 enemies
+#define MAX_ENEMIES 64
 //actual number of enemies in enemyCount
 static uint8_t enemyCount = 0;
-static enemy_t enemies[64];
+static enemy_t enemies[MAX_ENEMIES];
 
 
 //--------------PLAYERS-----------
