@@ -34,13 +34,13 @@ player_t** allPlayers(){
 
 //------------BULLETS-------------
 void addBullet(bullet_t *bullet){
-    bullets[bulletsSize] = bullet;
+    *(bullets + bulletsSize) = bullet;
     bulletsSize++;
 }
 
 void moveBullets(){
     for(int i = 0; i < bulletsSize; i++){
-        moveBullet(bullets[i]);
+        moveBullet(*(bullets + i));
     }
 }
 

@@ -19,7 +19,7 @@
 //NOTE: walls, player and powerup is to specific for the API.
 //this should be a general collision processing engine, which
 //we send entities to from APP
-/*  Collision checks:
+  Collision checks:
     Player -> wall, bullet, enemy, power-up, door (next lvl)
     Enemy -> wall, bullet, player
     Bullet -> player, wall, enemy

@@ -141,15 +141,44 @@ int main(void) {
         for(uint16_t i = 1; i > 0; i++){}
         processPlayerActionsInGame();
         movePlayers();
+        moveBullets();
         clrscr();
         cursorToXY(40,0);
         printf("%i ",player.placement.rotation);
-        if(numberOfBullets() > 0){
-            bullet_t bullet = **allBullets();
-            printFix(bullet.placement.position.x);
-            printf(" ");
-            printFix(bullet.placement.position.y);
+
+        //MUST BE MOVED FAST AS POSSIBLE
+        if(shootflag){
+
+            //make the placement of the bullet the same as the players, but with bullet hitbox
+            vector_t position = player.placement.position;
+            vector_t radiusHV = BULLET_RADIUS;
+            deg512_t rotation = player.placement.rotation;
+            placement_t bulletPlacement = {position,radiusHV,rotation};
+
+
+            //set velocity to 1 in the direction the bullet is pointing
+            vector_t bulletVelocity = {1 << 14,0};
+            rotateVector(&bulletVelocity,player.placement.rotation);
+
+            //create bullet specified above
+            bullet_t bullet = {bulletPlacement,bulletVelocity};
+
+            //move the bullet out of the player
+            moveBullet(&bullet);
+
+            addBullet(&bullet);
+
+            shootflag = 0;
         }
+
+        if(numberOfBullets() > 0){
+            bullet_t b = *(*allBullets());
+            printFix(b.placement.position.x);
+            printf(" ");
+            printFix(b.placement.position.y);
+        }
+
+
         drawGame();
     }
 }
