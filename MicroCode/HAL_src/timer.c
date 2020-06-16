@@ -4,9 +4,9 @@
 #define CPU_FREQUENCY 64000000
 
 // Functions that will be called when the timers trigger.
-static volatile void (*timer2_interrupt_ptr)();
-static volatile void (*timer3_interrupt_ptr)();
-static volatile void (*timer4_interrupt_ptr)();
+static void (*timer2_interrupt_ptr)();
+static void (*timer3_interrupt_ptr)();
+static void (*timer4_interrupt_ptr)();
 
 static void _initTimer(TIM_TypeDef* tim, uint32_t rcc, uint32_t irq, uint16_t prescaleValue, uint32_t reloadValue) {
     // Send power to the timer
