@@ -3,6 +3,7 @@
 //0-right, 1-down, 2-left, 3-up
 const char PLAYER[] = {195,194,180,193};
 const char BULLET[] = {111,111,111,111};
+const char ENEMY[] = {204,203,185,202};
 
 void drawSpriteTiles(const char tiles[], uint8_t height, uint8_t width){
     for(int i = 0; i < height; i++){

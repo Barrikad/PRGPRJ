@@ -15,11 +15,11 @@ void drawGame(){
     //Number of PlayerS
     uint8_t nps = numberOfPlayers();
     //array of pointers to players
-    player_t** players = allPlayers();
+    player_t* players = allPlayers();
 
     for(int i = 0; i < nps; i++){
         //reference right pointer, then the player referenced by that pointer
-        drawPlayer(*(*(players + i)));
+        drawPlayer(*(players + i));
     }
 
 
@@ -27,11 +27,11 @@ void drawGame(){
     //Number of BulletS
     uint8_t nbs = numberOfBullets();
     //array of pointers to bullets
-    bullet_t** bullets = allBullets();
+    bullet_t* bullets = allBullets();
 
     for(int i = 0; i < nbs; i++){
         //reference right pointer, then the bullet referenced by that pointer
-        drawBullet(*(*(bullets + i)));
+        drawBullet(*(bullets + i));
     }
 }
 

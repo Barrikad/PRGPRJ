@@ -8,6 +8,7 @@
 //1x1 sprites - 4 rotations
 const char PLAYER[4];
 const char BULLET[4];
+const char ENEMY[4];
 //1x2 sprites
 //2x1 sprites
 //2x2 sprites

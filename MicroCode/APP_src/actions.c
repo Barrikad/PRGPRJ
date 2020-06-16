@@ -22,6 +22,7 @@ void addPlayerWithInput(player_t* player, uint16_t (*inputFun)()){
 
 //get input from all player input devices and realize the mapped actions
 void processPlayerActionsInGame(){
+    //TODO: refactor
     for(int i = 0; i < numberOfInputs; i++){
         uint16_t input = playerWithInputs[i].inputFun();
 

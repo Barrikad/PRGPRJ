@@ -6,9 +6,9 @@
 #include "bullet.h"
 
 //add entities to gamestate
-void addPlayer(player_t *player);
-void addEnemy(enemy_t *enemy);
-void addBullet(bullet_t *bullet);
+void addPlayer(player_t player);
+void addEnemy(enemy_t enemy);
+void addBullet(bullet_t bullet);
 
 //move game entities
 void movePlayers();
@@ -20,9 +20,9 @@ uint8_t numberOfPlayers();
 uint16_t numberOfEnemies();
 uint16_t numberOfBullets();
 
-player_t** allPlayers();
-enemy_t** allEnemies();
-bullet_t** allBullets();
+player_t* allPlayers();
+enemy_t* allEnemies();
+bullet_t* allBullets();
 
 
 #endif /* GAME_ENTITIES_H_INCLUDED */

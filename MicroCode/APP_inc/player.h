@@ -16,8 +16,6 @@ typedef struct{
     effects_t effects;
 }player_t;
 
-uint8_t shootflag;
-
 //adds velocity to player coordinates
 //  Side effects: players position is changed
 void movePlayer(player_t *player);
