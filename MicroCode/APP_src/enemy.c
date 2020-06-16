@@ -1,16 +1,18 @@
 #include <stdint.h>
 #include "enemy.h"
 #include "fix_point_math.h"
+#include "movement.h"
+#include "level.h"
 
 
 void moveEnemy(enemy_t *enemy){
-    (*enemy).placement.position.x;
+    moveEntity(&(*enemy).placement,(*enemy).velocity,horizontalBound(),verticalBound());
 }
 
-void damageEnemy(enemy_t *enemy, uint8_t damage){
-
+void fireBulletEnemy(enemy_t enemy){
+    fireBulletFromPlacement(enemy.placement);
 }
 
-void fireBulletEnemy(enemy_t *enemy){
+action_t generateEnemyInput(){
 
 }

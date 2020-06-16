@@ -1,5 +1,6 @@
 #include "player.h"
 #include "bullet.h"
+#include "enemy.h"
 
 //current max of 4 players
 //array of players, and size of actually contained players
@@ -10,6 +11,11 @@ static player_t players[4];
 //actual number of bullets in bulletCount
 static uint16_t bulletCount = 0;
 static bullet_t bullets[512];
+
+//max 64 enemies
+//actual number of enemies in enemyCount
+static uint8_t enemyCount = 0;
+static enemy_t enemies[64];
 
 
 //--------------PLAYERS-----------
@@ -28,6 +34,7 @@ uint8_t numberOfPlayers(){
     return playerCount;
 }
 
+//bad abstraction
 player_t* allPlayers(){
     return players;
 }
@@ -49,6 +56,30 @@ uint8_t numberOfBullets(){
     return bulletCount;
 }
 
+//bad abstraction
 bullet_t* allBullets(){
     return bullets;
 }
+
+
+//-----------ENEMIES----------------
+void addEnemy(enemy_t enemy){
+    enemies[enemyCount] = enemy;
+    enemyCount++;
+}
+
+void moveEnemies(){
+    for(int i = 0; i < enemyCount; i++){
+        moveEnemy(enemies + i);
+    }
+}
+
+uint8_t numberOfEnemies(){
+    return enemyCount;
+}
+
+//bad abstraction. should probably be removed
+enemy_t* allEnemies(){
+    return enemies;
+}
+

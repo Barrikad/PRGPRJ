@@ -20,6 +20,7 @@ typedef struct{
 //  Side effects: players position is changed
 void movePlayer(player_t *player);
 
+//fire bullet from players placement
 void fireBulletFromPlayer(player_t player);
 
 #endif /* PLAYER_H_INCLUDED */

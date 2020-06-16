@@ -1,11 +1,12 @@
 #include <stdint.h>
 #include "player.h"
 #include "fix_point_math.h"
+#include "movement.h"
 
 
 typedef struct{
     player_t* player;
-    uint16_t (*inputFun)();
+    action_t (*inputFun)();
 }playerWithInput_t;
 
 static uint8_t numberOfInputs = 0;
@@ -19,34 +20,41 @@ void addPlayerWithInput(player_t* player, uint16_t (*inputFun)()){
     numberOfInputs++;
 }
 
+//add an angle to rotation, with modulo
+static void rotateByAngle(deg512_t *rotation, deg512_t angle){
+    *rotation += angle;
+    *rotation &= 511;
+}
+
 
 //get input from all player input devices and realize the mapped actions
 void processPlayerActionsInGame(){
-    //TODO: refactor
+    action_t input;
+    deg512_t pRot;
+
+    //for players in inputmapping
     for(int i = 0; i < numberOfInputs; i++){
-        uint16_t input = playerWithInputs[i].inputFun();
+        //get player input
+        input = playerWithInputs[i].inputFun();
 
         //player shoots
         if(input & 1){
             fireBulletFromPlayer(*(playerWithInputs[i].player));
         }
 
-
         //player rotates left
         if(input & 2){
-            (*(playerWithInputs[i].player)).placement.rotation -= 8;
-            (*(playerWithInputs[i].player)).placement.rotation &= 511;
+            rotateByAngle(&(*(playerWithInputs[i].player)).placement.rotation,-8);
         }
         //player rotates right
         if(input & 4){
-            (*(playerWithInputs[i].player)).placement.rotation += 8;
-            (*(playerWithInputs[i].player)).placement.rotation &= 511;
+            rotateByAngle(&(*(playerWithInputs[i].player)).placement.rotation,8);
         }
 
 
         //rotate a vector of length 1 to the orientation of the player
         vector_t unitVector = {1 << 14,0};
-        deg512_t pRot = (*(playerWithInputs[i].player)).placement.rotation;
+        pRot = (*(playerWithInputs[i].player)).placement.rotation;
         rotateVector(&unitVector,pRot);
 
 

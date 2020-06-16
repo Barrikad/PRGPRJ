@@ -11,10 +11,10 @@ typedef struct{
     uint8_t points;
 } enemy_t;
 
+//move an enemy according to its velocity
 void moveEnemy(enemy_t *enemy);
 
-void damageEnemy(enemy_t *enemy, uint8_t damage);
-
-void fireBulletEnemy(enemy_t *enemy);
+//fire a bullet from an enemy
+void fireBulletEnemy(enemy_t enemy);
 
 #endif /* ENEMY_H_INCLUDED */

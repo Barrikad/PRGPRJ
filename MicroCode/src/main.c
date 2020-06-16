@@ -146,15 +146,6 @@ int main(void) {
         cursorToXY(40,0);
         printf("%i ",(*allPlayers()).placement.rotation);
 
-
-        if(numberOfBullets() > 0){
-            bullet_t b = *allBullets();
-            printFix(b.placement.position.x);
-            printf(" ");
-            printFix(b.placement.position.y);
-        }
-
-
         drawGame();
     }
 }
