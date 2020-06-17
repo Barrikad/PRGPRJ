@@ -24,8 +24,7 @@ void drawSprite11(const char sprite[], placement_t placement){
     uint16_t cornerLeft = floorFix(placement.position.x);
     uint16_t cornerTop = floorFix(placement.position.y);
 
-    //divide by two since our tiles are rectangular
-    cursorToXY(cornerLeft,cornerTop/2);
+    cursorToXY(cornerLeft,cornerTop);
 
     //reduce angle so that 0 <= rotation < 512
     //multiply by four to choose sprite
