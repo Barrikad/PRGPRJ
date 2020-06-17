@@ -143,22 +143,7 @@ int main(void) {
     cursorHide();
     while (1) {
         if(getFlag()){
-
-            processPlayerActionsInGame();
-            movePlayers();
-            moveBullets();
-            reduceWeaponCooldowns();
-
-            // TODO: Move this into main collision detection
-            playerCollideWall(allPlayers());
-
-            renderLevel(firstLevel);
-
-            cursorToXY(40,0);
-            printf("%i ",(*allPlayers()).placement.rotation);
-
-            drawGame();
-
+            processGameTick();
             unsetFlag();
         }
     }

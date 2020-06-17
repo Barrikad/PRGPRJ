@@ -2,6 +2,11 @@
 #include "player.h"
 #include "bullet.h"
 #include "enemy.h"
+#include "level.h"
+#include "ansi.h"
+#include "draw_game.h"
+#include "player_actions.h"
+#include <stdio.h>
 
 #define MAX_PLAYERS 4
 //array of players, and size of actually contained players
@@ -96,4 +101,22 @@ void reduceWeaponCooldowns(){
         if(enemies[i].weaponCooldown)
             enemies[i].weaponCooldown--;
     }
+}
+
+
+void processGameTick() {
+    processPlayerActionsInGame();
+    movePlayers();
+    moveBullets();
+    reduceWeaponCooldowns();
+
+    // TODO: Move this into main collision detection
+    playerCollideWall(&players[0]);
+
+    renderLevel(firstLevel);
+
+    cursorToXY(40, 0);
+    printf("%i ", players[0].placement.rotation);
+
+    drawGame(players, playerCount, bullets, bulletCount);
 }

@@ -10,10 +10,6 @@ void addPlayer(player_t player);
 void addEnemy(enemy_t enemy);
 void addBullet(bullet_t bullet);
 
-//move game entities
-void movePlayers();
-void moveBullets();
-
 //number of registered entities
 uint8_t numberOfPlayers();
 uint8_t numberOfEnemies();
