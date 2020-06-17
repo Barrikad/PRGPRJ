@@ -1,4 +1,4 @@
-#include "game_state.h"
+#include "game.h"
 #include "enemy.h"
 #include "player.h"
 

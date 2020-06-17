@@ -6,7 +6,7 @@
 #include "player.h"
 #include "entity_representation.h"
 #include "fix_point_math.h"
-#include "game_state.h"
+#include "game.h"
 #include "joystick.h"
 #include "ansi.h"
 #include "led.h"

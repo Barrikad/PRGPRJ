@@ -1,3 +1,4 @@
+#include "game.h"
 #include "player.h"
 #include "bullet.h"
 #include "enemy.h"

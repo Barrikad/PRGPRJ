@@ -1,6 +1,6 @@
 #include "bullet.h"
 #include "entity_representation.h"
-#include "game_state.h"
+#include "game.h"
 
 void moveBullet(bullet_t *bullet){
     //extract movement info from bullet and send to API

@@ -1,5 +1,5 @@
 #include "graphics.h"
-#include "game_state.h"
+#include "game.h"
 
 static void drawPlayer(player_t player){
     drawSprite11(PLAYER,player.placement);

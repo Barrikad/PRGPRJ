@@ -11,7 +11,7 @@
 #include "door.h"
 #include "collision.h"
 #include "led.h"
-#include "game_state.h"
+#include "game.h"
 #include "level.h"
 
 

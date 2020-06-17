@@ -16,8 +16,8 @@ void moveBullets();
 
 //number of registered entities
 uint8_t numberOfPlayers();
-uint16_t numberOfEnemies();
-uint16_t numberOfBullets();
+uint8_t numberOfEnemies();
+uint8_t numberOfBullets();
 
 //pointer to the head of the array of entities
 player_t* allPlayers();

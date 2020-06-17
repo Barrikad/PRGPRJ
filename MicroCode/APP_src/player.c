@@ -1,6 +1,6 @@
 #include "player.h"
 #include "bullet.h"
-#include "game_state.h"
+#include "game.h"
 
 
 void movePlayer(player_t *player){
