@@ -137,6 +137,8 @@ int main(void) {
 
     printf("test");
 
+    // TODO: Hide the cursor, so it doesn't show up when rendering
+    // cursorHide();
     while (1) {
         for(uint16_t i = 1; i > 0; i++){}
         processPlayerActionsInGame();

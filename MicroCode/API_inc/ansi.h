@@ -18,6 +18,12 @@ void clrscr();
 //clear from cursor to end of line
 void clreol();
 
+// Hide the cursor. Some terminals might not support this.
+void cursorHide();
+
+// Show the cursor again. Some terminals might not support this.
+void cursorShow();
+
 //go to position x,y. x is width, y is height. 0-indexed
 void cursorToXY(int8_t x, int8_t y);
 

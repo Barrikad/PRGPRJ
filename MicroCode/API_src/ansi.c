@@ -97,6 +97,12 @@ void clrscr() {
 void clreol() {
     printf("%c[K", ESC);
 }
+void cursorHide() {
+    printf("\x1b[?25l");
+}
+void cursorShow() {
+    printf("\x1b[?25h");
+}
 void cursorToXY(int8_t x, int8_t y) {
     printf("%c[%d;%dH", ESC, y + 1, x + 1);
 }
