@@ -6,10 +6,6 @@
 #include "bullet.h"
 
 
-void moveEnemy(enemy_t *enemy){
-    moveEntity(&(*enemy).placement,(*enemy).velocity,horizontalBound(),verticalBound());
-}
-
 void fireBulletEnemy(enemy_t* enemy){
     if(!(*enemy).weaponCooldown){
         fireBulletFromPlacement((*enemy).placement);

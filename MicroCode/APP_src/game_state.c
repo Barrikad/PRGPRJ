@@ -9,7 +9,7 @@ static player_t players[MAX_PLAYERS];
 
 #define MAX_BULLETS 8
 //actual number of bullets in bulletCount
-static uint16_t bulletCount = 0;
+static uint8_t bulletCount = 0;
 static bullet_t bullets[MAX_BULLETS];
 
 #define MAX_ENEMIES 16
@@ -20,8 +20,10 @@ static enemy_t enemies[MAX_ENEMIES];
 
 //--------------PLAYERS-----------
 void addPlayer(player_t player){
-    players[playerCount] = player;
-    playerCount++;
+    if(playerCount < MAX_PLAYERS){
+        players[playerCount] = player;
+        playerCount++;
+    }
 }
 
 void movePlayers(){
@@ -34,7 +36,7 @@ uint8_t numberOfPlayers(){
     return playerCount;
 }
 
-//bad abstraction
+//only ever use this pointer for reading!
 player_t* allPlayers(){
     return players;
 }
@@ -42,8 +44,10 @@ player_t* allPlayers(){
 
 //------------BULLETS-------------
 void addBullet(bullet_t bullet){
-    bullets[bulletCount] = bullet;
-    bulletCount++;
+    if(bulletCount < MAX_BULLETS){
+        bullets[bulletCount] = bullet;
+        bulletCount++;
+    }
 }
 
 void moveBullets(){
@@ -56,7 +60,7 @@ uint8_t numberOfBullets(){
     return bulletCount;
 }
 
-//bad abstraction
+//Only ever use this pointer for reading!
 bullet_t* allBullets(){
     return bullets;
 }
@@ -64,8 +68,10 @@ bullet_t* allBullets(){
 
 //-----------ENEMIES----------------
 void addEnemy(enemy_t enemy){
-    enemies[enemyCount] = enemy;
-    enemyCount++;
+    if(enemyCount < MAX_ENEMIES){
+        enemies[enemyCount] = enemy;
+        enemyCount++;
+    }
 }
 
 void moveEnemies(){
@@ -78,12 +84,9 @@ uint8_t numberOfEnemies(){
     return enemyCount;
 }
 
-//bad abstraction. should probably be removed
 enemy_t* allEnemies(){
     return enemies;
 }
-
-
 
 //--------------ALL-------------
 void reduceWeaponCooldowns(){

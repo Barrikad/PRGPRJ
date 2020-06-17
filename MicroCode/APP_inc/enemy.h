@@ -6,14 +6,10 @@
 
 typedef struct{
     placement_t placement;
-    vector_t velocity;
     uint8_t lives;
     uint8_t points;
     uint8_t weaponCooldown;
 } enemy_t;
-
-//move an enemy according to its velocity
-void moveEnemy(enemy_t *enemy);
 
 //fire a bullet from an enemy
 void fireBulletEnemy(enemy_t* enemy);
