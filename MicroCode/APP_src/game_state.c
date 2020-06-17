@@ -7,12 +7,12 @@
 static uint8_t playerCount = 0;
 static player_t players[MAX_PLAYERS];
 
-#define MAX_BULLETS 512
+#define MAX_BULLETS 8
 //actual number of bullets in bulletCount
 static uint16_t bulletCount = 0;
 static bullet_t bullets[MAX_BULLETS];
 
-#define MAX_ENEMIES 64
+#define MAX_ENEMIES 16
 //actual number of enemies in enemyCount
 static uint8_t enemyCount = 0;
 static enemy_t enemies[MAX_ENEMIES];
