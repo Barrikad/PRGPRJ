@@ -12,9 +12,6 @@ typedef struct{
     vector_t velocity;
 }bullet_t;
 
-//hitbox radius in both directions of the bullet. currently 0.5
-const vector_t BULLET_RADIUS;
-
 //move the bullet according to its velocity
 void moveBullet(bullet_t *bullet);
 

@@ -126,8 +126,7 @@ int main(void) {
     //create a player at top left corner
     deg512_t rot = 0;
     vector_t pos = {createFix(1), createFix(1)};
-    vector_t hb = {createFix(1), createFix(1)};
-    placement_t plc= {pos,hb,rot};
+    placement_t plc= {pos, createFix(1), createFix(1), rot};
     vector_t vel = {0, 0};
     player_t player = {plc, vel, 0, 0, 0, 0};
 

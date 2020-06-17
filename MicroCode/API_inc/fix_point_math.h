@@ -10,6 +10,9 @@
 // Degrees expressed with 512 degrees in a circle
 typedef int16_t deg512_t;
 
+// Fixed point number with 2 ... and 14 decimal places
+typedef int16_t fix2_14_t;
+
 // Fixed point number with 14 decimal places
 typedef int32_t fix14_t;
 

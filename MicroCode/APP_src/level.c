@@ -82,9 +82,9 @@ uint8_t entityCollidesWall(level_t level, const placement_t *placement) {
     char c;
     const char *data = getLevelData(level);
     fix14_t top    = (*placement).position.y;
-    fix14_t bottom = (*placement).position.y + (*placement).radiusHV.y;
+    fix14_t bottom = (*placement).position.y + (*placement).hitboxHeight;
     fix14_t left   = (*placement).position.x;
-    fix14_t right  = (*placement).position.x + (*placement).radiusHV.x;
+    fix14_t right  = (*placement).position.x + (*placement).hitboxWidth;
 
     // Detect outside of map.
     if (top < 0) {
