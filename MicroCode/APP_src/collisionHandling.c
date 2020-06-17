@@ -1,4 +1,4 @@
-/*
+
 #include <stdint.h>
 #include "30010_io.h"
 #include "stm32f30x.h"
@@ -15,7 +15,7 @@
 
 
 
-
+/*
 //NOTE: walls, player and powerup is to specific for the API.
 //this should be a general collision processing engine, which
 //we send entities to from APP
@@ -32,7 +32,7 @@ void removeItem(itemType){
     //Some function to remove bullet/enemy/power-up when they are hit
 }
 */
-/*
+
 static void incrementPlayerPoints(enemy_t *enemy){
     uint8_t ps = numberOfPlayers();
     player_t** players = allPlayers();
@@ -40,7 +40,7 @@ static void incrementPlayerPoints(enemy_t *enemy){
         (*players[i]).points += (*enemy).points;
     }
 }
-*/
+
 
 /*
 void bounceBullet(bullet_t *bullet){
@@ -54,30 +54,30 @@ void bounceBullet(bullet_t *bullet){
 }
 */
 
-/*
-void playerCollideBullet(player_t *player, bullet_t bullet) {
-    if (entitiesCollide((*player).placement, bullet.placement)) {
+
+void playerCollideBullet(player_t *player, bullet_t *bullet) {
+    if (entitiesCollide((*player).placement, (*bullet).placement)) {
         setLed(LED_RED); // Dette skal være på en timer
         (*player).lives -= 1;
         //removeItem(bullet);
         }
 }
 
-void playerCollideEnemy(player_t *player, enemy_t enemy) {
-    if (entitiesCollide((*player).placement, enemy.placement)) {
-        (*player).points += enemy.points;
+void playerCollideEnemy(player_t *player, enemy_t *enemy) {
+    if (entitiesCollide((*player).placement, (*enemy).placement)) {
+        (*player).points += (*enemy).points;
         //removeItem(enemy);
         }
 }
 
 
-void playerCollidePowerUp(player_t *player, powerUp_t powerUp){
-    if (entitiesCollide((*player).placement, powerUp.placement)) {
+void playerCollidePowerUp(player_t *player, powerUp_t *powerUp){
+    if (entitiesCollide((*player).placement, (*powerUp).placement)) {
         (*player).effects = 1;
         //removeItem(PowerUp);
     }
 }
-*/
+
 /*
 void playerCollideWall(player_t *player, wall_t wall) {
     if (entitiesCollide((*player).placement, wall.placement)) {
@@ -86,21 +86,21 @@ void playerCollideWall(player_t *player, wall_t wall) {
 }
 */
 
-/*
-void playerCollideDoor(player_t *player, door_t door){
-    if (entitiesCollide((*player).placement, door.placement)) {
-        (*player).points += door.points;
+
+void playerCollideDoor(player_t *player, door_t *door){
+    if (entitiesCollide((*player).placement, (*door).placement)) {
+        (*player).points += (*door).points;
     }
 }
 
 
-void enemyCollideBullet(enemy_t *enemy, bullet_t bullet) {
-    if (entitiesCollide((*enemy).placement, bullet.placement)) {
+void enemyCollideBullet(enemy_t *enemy, bullet_t *bullet) {
+    if (entitiesCollide((*enemy).placement, (*bullet).placement)) {
         incrementPlayerPoints(enemy);
     }
 }
 
-*/
+
 /*
 void enemyCollideWall(enemy_t *enemy, wall_t wall) {
     if (entitiesCollide((*enemy).placement, wall.placement)) {
@@ -117,36 +117,36 @@ void bulletCollideWall(bullet_t *bullet, wall_t wall) {
 
 */
 
-/*
-void playerCollision(player_t *player, bullet_t *bullet, enemy_t enemy, powerUp_t powerUp, door_t door) {
+
+void playerCollision(door_t *door, powerUp_t *powerUp) {
     uint8_t numPlayers = numberOfPlayers();
     player_t** players = allPlayers();
     uint16_t numBullets = numberOfBullets();
-    player_t**  bullets = allBullets();
+    bullet_t**  bullets = allBullets();
     uint16_t numEnemies = numberOfEnemies();
-    player_t** enemies = allEnemies();
+    enemy_t** enemies = allEnemies();
 
     for(int i = 0; i < numPlayers; i++){
         for (int j = 0; j < numBullets; j++) {
-            playerCollideBullet(*player[i], *bullet[i]);
+            playerCollideBullet(players[i], bullets[j]);
         }
         for (int k = 0; k < numEnemies; k++) {
-        playerCollideEnemy(*player[i], enemy[i]);
+        playerCollideEnemy(players[i], enemies[i]);
         }
-        playerCollidePowerUp(*player, powerUp);
+        playerCollidePowerUp(players[i], powerUp);
         //playerCollideWall(player_t *player, wall_t wall);
-        playerCollideDoor(*player, door);
+        playerCollideDoor(players[i], door);
     }
 }
 
 void enemyCollision(){
     uint16_t numBullets = numberOfBullets();
-    player_t**  bullets allBullets();
+    bullet_t** bullets = allBullets();
     uint16_t numEnemies = numberOfEnemies();
-    player_t** enemies = allEnemies();
+    enemy_t** enemies = allEnemies();
     for (int j = 0; j < numBullets; j++) {
         for (int k = 0; k < numEnemies; k++) {
-        enemyCollideBullet(enemy_t *enemy, bullet_t bullet);
+        enemyCollideBullet(enemies[k], bullets[j]);
         }
     // enemyCollideWall(enemy_t *enemy, wall_t wall);
     }
@@ -154,15 +154,15 @@ void enemyCollision(){
 
 void bulletCollision() {
     uint16_t numBullets = numberOfBullets();
-    player_t**  bullets allBullets();
+    bullet_t**  bullets = allBullets();
     for (int j = 0; j < numBullets; j++) {
         //bulletCollideWall(bullet_t bullet, wall_t wall);
     }
 }
 
-void processCollisions() {
-    playerCollision();
+void processCollisions(door_t *door, powerUp_t *powerUp) {
+    playerCollision(door, powerUp);
     enemyCollision();
     bulletCollision();
 }
-*/
+
