@@ -5,6 +5,9 @@
 
 #define BULLET_SPEED 1
 
+//cooldown should be power of 2
+#define WEAPON_COOLDOWN 32
+
 typedef struct{
     placement_t placement;
     vector_t velocity;

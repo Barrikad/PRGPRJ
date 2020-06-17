@@ -13,6 +13,7 @@ typedef struct{
     vector_t velocity;
     uint8_t lives;
     uint8_t points;
+    uint8_t weaponCooldown;
     effects_t effects;
 }player_t;
 
@@ -21,6 +22,6 @@ typedef struct{
 void movePlayer(player_t *player);
 
 //fire bullet from players placement
-void fireBulletFromPlayer(player_t player);
+void fireBulletFromPlayer(player_t* player);
 
 #endif /* PLAYER_H_INCLUDED */

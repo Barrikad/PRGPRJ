@@ -143,14 +143,14 @@ int main(void) {
 
     printf("test");
 
-    // TODO: Hide the cursor, so it doesn't show up when rendering
-    // cursorHide();
+    cursorHide();
     while (1) {
         if(getFlag()){
 
             processPlayerActionsInGame();
             movePlayers();
             moveBullets();
+            reduceWeaponCooldowns();
 
             clrscr();
 

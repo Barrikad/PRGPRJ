@@ -25,5 +25,7 @@ player_t* allPlayers();
 enemy_t* allEnemies();
 bullet_t* allBullets();
 
+//decrement cooldown of all weapons
+void reduceWeaponCooldowns();
 
 #endif /* GAME_ENTITIES_H_INCLUDED */

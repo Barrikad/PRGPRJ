@@ -39,7 +39,7 @@ void processPlayerActionsInGame(){
 
         //player shoots
         if(input & 1){
-            fireBulletFromPlayer(*(playerWithInputs[i].player));
+            fireBulletFromPlayer(playerWithInputs[i].player);
         }
 
         //player rotates left

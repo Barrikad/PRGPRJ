@@ -83,3 +83,19 @@ enemy_t* allEnemies(){
     return enemies;
 }
 
+
+
+//--------------ALL-------------
+void reduceWeaponCooldowns(){
+    //players
+    for(int i = 0; i < playerCount; i++){
+        if(players[i].weaponCooldown)
+            players[i].weaponCooldown--;
+    }
+
+    //enemies
+    for(int i = 0; i < enemyCount; i++){
+        if(enemies[i].weaponCooldown)
+            enemies[i].weaponCooldown--;
+    }
+}
