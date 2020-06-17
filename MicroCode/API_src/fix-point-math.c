@@ -81,6 +81,14 @@ int16_t floorFix(fix14_t x){
     }
 }
 
+fix14_t createFix(int16_t x) {
+    return x << FIX14_SHIFT;
+}
+
+fix14_t roundFixToFix(fix14_t x) {
+    return x << FIX14_SHIFT;
+}
+
 // Rotates the vector at the pointer the given number of degrees, with 512 degs in a circle
 void rotateVector(vector_t *v, deg512_t degs){
     // Temp variables

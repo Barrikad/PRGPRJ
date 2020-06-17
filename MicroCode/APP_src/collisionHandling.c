@@ -12,6 +12,7 @@
 #include "collision.h"
 #include "led.h"
 #include "game_state.h"
+#include "level.h"
 
 
 
@@ -57,7 +58,7 @@ void bounceBullet(bullet_t *bullet){
 
 void playerCollideBullet(player_t *player, bullet_t *bullet) {
     if (entitiesCollide((*player).placement, (*bullet).placement)) {
-        setLed(LED_RED); // Dette skal være på en timer
+        setLed(LED_RED); // This should be on a timer
         (*player).lives -= 1;
         //removeItem(bullet);
         }
@@ -78,15 +79,16 @@ void playerCollidePowerUp(player_t *player, powerUp_t *powerUp){
     }
 }
 
-/*
-void playerCollideWall(player_t *player, wall_t wall) {
-    if (entitiesCollide((*player).placement, wall.placement)) {
-        (*player).velocity = -player.velocity
-        move
-        vel= 0
+
+void playerCollideWall(player_t *player) {
+    if (entityCollidesWall(firstLevel, &(*player).placement)) {
+        // Don't care about setting the velocity, since that's controlled elsewhere!
+        // TODO: Let the player "snap" into place
+        (*player).placement.position.x -= (*player).velocity.x;
+        (*player).placement.position.y -= (*player).velocity.y;
     }
 }
-*/
+
 
 
 void playerCollideDoor(player_t *player, door_t *door){

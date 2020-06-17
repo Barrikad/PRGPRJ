@@ -32,6 +32,13 @@ fix14_t cos512(deg512_t degs);
 int16_t roundFix(fix14_t x);
 int16_t floorFix(fix14_t x);
 
+// Create a 18.4 fixed point number from the given whole number.
+fix14_t createFix(int16_t x);
+
+// Round a fixed point number.
+// TODO: Rename this!
+fix14_t roundFixToFix(fix14_t x);
+
 // Rotates the given vector the given number of degrees
 //    Side effects : the vector at the pointer location is changed
 void rotateVector(vector_t *v, deg512_t degs);

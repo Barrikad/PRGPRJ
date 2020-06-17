@@ -125,11 +125,11 @@ int main(void) {
 
     //create a player at top left corner
     deg512_t rot = 0;
-    vector_t pos = {4,4};
-    vector_t hb = {1,1};
+    vector_t pos = {createFix(1), createFix(1)};
+    vector_t hb = {createFix(1), createFix(1)};
     placement_t plc= {pos,hb,rot};
-    vector_t vel = {1,1};
-    player_t player = {plc,vel,0,0,0};
+    vector_t vel = {0, 0};
+    player_t player = {plc, vel, 0, 0, 0, 0};
 
     //add player to gamestate and input
     addPlayer(player);
@@ -149,6 +149,9 @@ int main(void) {
             movePlayers();
             moveBullets();
             reduceWeaponCooldowns();
+
+            // TODO: Move this into main collision detection
+            playerCollideWall(allPlayers());
 
             cursorToXY(40,0);
             printf("%i ",(*allPlayers()).placement.rotation);
