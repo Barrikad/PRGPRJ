@@ -1,11 +1,10 @@
 #include "player.h"
 #include "bullet.h"
-#include "level.h"
 #include "game_state.h"
 
 
 void movePlayer(player_t *player){
-    moveEntity(&(*player).placement,(*player).velocity,horizontalBound(),verticalBound());
+    moveEntity(&(*player).placement,(*player).velocity);
 }
 
 

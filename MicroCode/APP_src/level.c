@@ -37,17 +37,6 @@ static const char * levelData2 =
     "#            #"
     "##############";
 
-vector_t verticalBound(){
-    //from offset to offset + width, converted to fix14
-    vector_t v = {0, LEVEL_HEIGHT << 14};
-    return v;
-}
-
-vector_t horizontalBound(){
-    vector_t v = {0, LEVEL_WIDTH << 14};
-    return v;
-}
-
 static void drawLevel(const char * data) {
     uint8_t i, j;
     char c;

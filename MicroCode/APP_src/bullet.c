@@ -1,4 +1,3 @@
-#include "level.h"
 #include "bullet.h"
 #include "entity_representation.h"
 #include "game_state.h"
@@ -8,7 +7,7 @@ const vector_t BULLET_RADIUS = {1 << 13, 1 << 13};
 
 void moveBullet(bullet_t *bullet){
     //extract movement info from bullet and send to API
-    moveEntity(&((*bullet).placement),(*bullet).velocity,horizontalBound(),verticalBound());
+    moveEntity(&((*bullet).placement),(*bullet).velocity);
 }
 
 void fireBulletFromPlacement(placement_t placement){

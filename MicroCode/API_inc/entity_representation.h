@@ -13,6 +13,6 @@ typedef struct{
 //change the placement of an entity, based upon a velocity, within height and width bounds
 //  boundH - horizontal min and max, where x is min and y max
 //  boundV - vertical min and max, where x is min and y max
-void moveEntity(placement_t* placement, vector_t velocity, vector_t boundH, vector_t boundV);
+void moveEntity(placement_t* placement, vector_t velocity);
 
 #endif /* ENTITY_REPRESENTATION_H_INCLUDED */
