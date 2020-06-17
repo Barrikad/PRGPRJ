@@ -152,10 +152,11 @@ int main(void) {
             // TODO: Move this into main collision detection
             playerCollideWall(allPlayers());
 
+            renderLevel(firstLevel);
+
             cursorToXY(40,0);
             printf("%i ",(*allPlayers()).placement.rotation);
 
-            renderLevel(firstLevel);
             drawGame();
 
             unsetFlag();
