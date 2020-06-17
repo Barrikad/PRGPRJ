@@ -12,7 +12,6 @@ void addBullet(bullet_t bullet);
 
 //move game entities
 void movePlayers();
-void moveEnemies();
 void moveBullets();
 
 //number of registered entities

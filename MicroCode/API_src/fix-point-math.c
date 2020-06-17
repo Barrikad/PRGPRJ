@@ -1,4 +1,4 @@
-#include "lut.h"
+#include "sin_lut.h"
 #include "fix_point_math.h"
 
 //Note on all math functions:

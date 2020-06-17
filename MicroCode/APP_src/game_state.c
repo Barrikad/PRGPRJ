@@ -74,12 +74,6 @@ void addEnemy(enemy_t enemy){
     }
 }
 
-void moveEnemies(){
-    for(int i = 0; i < enemyCount; i++){
-        moveEnemy(enemies + i);
-    }
-}
-
 uint8_t numberOfEnemies(){
     return enemyCount;
 }
