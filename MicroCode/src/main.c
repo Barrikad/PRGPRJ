@@ -42,8 +42,6 @@ void mainGame() {
         if (currentGamestate == game) {
             // TODO: This
             // TODO: Add shouldShowBossKey
-            renderLevel();
-            processInputLevel();
             // processEnemy();
             // moveEntities();
             // detectCollisions(&player, &entities);
@@ -152,11 +150,10 @@ int main(void) {
             moveBullets();
             reduceWeaponCooldowns();
 
-            clrscr();
-
             cursorToXY(40,0);
             printf("%i ",(*allPlayers()).placement.rotation);
 
+            renderLevel(firstLevel);
             drawGame();
 
             unsetFlag();
