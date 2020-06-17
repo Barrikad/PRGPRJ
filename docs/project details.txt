@@ -43,3 +43,12 @@ timer module
 
 NOTES-----------------
 intense music during main game - lofi during minigame
+
+
+velocity fix1
+position fix5 (int16_t)
+...
+
+remove radius from structs
+
+frame flag in steps, do certain operations for certain flag values

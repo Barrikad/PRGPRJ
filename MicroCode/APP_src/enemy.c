@@ -3,6 +3,7 @@
 #include "fix_point_math.h"
 #include "movement.h"
 #include "level.h"
+#include "bullet.h"
 
 
 void moveEnemy(enemy_t *enemy){
@@ -11,8 +12,4 @@ void moveEnemy(enemy_t *enemy){
 
 void fireBulletEnemy(enemy_t enemy){
     fireBulletFromPlacement(enemy.placement);
-}
-
-action_t generateEnemyInput(){
-
 }

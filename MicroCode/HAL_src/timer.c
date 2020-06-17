@@ -38,7 +38,7 @@ static void _initTimer(TIM_TypeDef* tim, uint32_t rcc, uint32_t irq, uint16_t pr
 
 static void _initTimerWithFrequency(TIM_TypeDef* tim, uint32_t rcc, uint32_t irq, uint16_t frequency) {
     uint16_t prescaleValue = 0;
-    uint32_t reloadValue = (uint32_t) frequency * CPU_FREQUENCY / ((uint32_t) prescaleValue + 1) - 1;
+    uint32_t reloadValue = CPU_FREQUENCY / (((uint32_t) frequency) * ((uint32_t) prescaleValue + 1)) - 1;
     _initTimer(tim, rcc, irq, prescaleValue, reloadValue);
 }
 

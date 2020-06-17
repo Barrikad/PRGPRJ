@@ -16,7 +16,8 @@
 #include "boss_mode.h"
 #include "draw_game.h"
 #include "movement.h"
-#include "actions.h"
+#include "player_actions.h"
+#include "frame_timer.h"
 
 typedef enum {
     game      = 0,
@@ -124,6 +125,7 @@ int main(void) {
     lcdWriteChar('!', 42, 31);
     lcdFlush();
 
+    //create a player at top left corner
     deg512_t rot = 0;
     vector_t pos = {4,4};
     vector_t hb = {1,1};
@@ -131,23 +133,33 @@ int main(void) {
     vector_t vel = {1,1};
     player_t player = {plc,vel,0,0,0};
 
+    //add player to gamestate and input
     addPlayer(player);
     initJoystickForGame();
     addPlayerWithInput(allPlayers(),movementFromJoystick);
+
+    //initialize timer
+    initFrameTimer();
 
     printf("test");
 
     // TODO: Hide the cursor, so it doesn't show up when rendering
     // cursorHide();
     while (1) {
-        for(uint16_t i = 1; i > 0; i++){}
-        processPlayerActionsInGame();
-        movePlayers();
-        moveBullets();
-        clrscr();
-        cursorToXY(40,0);
-        printf("%i ",(*allPlayers()).placement.rotation);
+        if(getFlag()){
 
-        drawGame();
+            processPlayerActionsInGame();
+            movePlayers();
+            moveBullets();
+
+            clrscr();
+
+            cursorToXY(40,0);
+            printf("%i ",(*allPlayers()).placement.rotation);
+
+            drawGame();
+
+            unsetFlag();
+        }
     }
 }

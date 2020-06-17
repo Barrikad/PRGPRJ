@@ -35,9 +35,9 @@ void removeItem(itemType){
 
 static void incrementPlayerPoints(enemy_t *enemy){
     uint8_t ps = numberOfPlayers();
-    player_t** players = allPlayers();
+    player_t* players = allPlayers();
     for(int i = 0; i < ps; i++){
-        (*players[i]).points += (*enemy).points;
+        players[i].points += (*enemy).points;
     }
 }
 
@@ -82,6 +82,8 @@ void playerCollidePowerUp(player_t *player, powerUp_t *powerUp){
 void playerCollideWall(player_t *player, wall_t wall) {
     if (entitiesCollide((*player).placement, wall.placement)) {
         (*player).velocity = -player.velocity
+        move
+        vel= 0
     }
 }
 */
@@ -120,33 +122,33 @@ void bulletCollideWall(bullet_t *bullet, wall_t wall) {
 
 void playerCollision(door_t *door, powerUp_t *powerUp) {
     uint8_t numPlayers = numberOfPlayers();
-    player_t** players = allPlayers();
+    player_t* players = allPlayers();
     uint16_t numBullets = numberOfBullets();
-    bullet_t**  bullets = allBullets();
+    bullet_t*  bullets = allBullets();
     uint16_t numEnemies = numberOfEnemies();
-    enemy_t** enemies = allEnemies();
+    enemy_t* enemies = allEnemies();
 
     for(int i = 0; i < numPlayers; i++){
         for (int j = 0; j < numBullets; j++) {
-            playerCollideBullet(players[i], bullets[j]);
+            playerCollideBullet(&players[i], &bullets[j]);
         }
         for (int k = 0; k < numEnemies; k++) {
-        playerCollideEnemy(players[i], enemies[i]);
+        playerCollideEnemy(&players[i], &enemies[i]);
         }
-        playerCollidePowerUp(players[i], powerUp);
+        playerCollidePowerUp(&players[i], powerUp);
         //playerCollideWall(player_t *player, wall_t wall);
-        playerCollideDoor(players[i], door);
+        playerCollideDoor(&players[i], door);
     }
 }
 
 void enemyCollision(){
     uint16_t numBullets = numberOfBullets();
-    bullet_t** bullets = allBullets();
+    bullet_t* bullets = allBullets();
     uint16_t numEnemies = numberOfEnemies();
-    enemy_t** enemies = allEnemies();
+    enemy_t* enemies = allEnemies();
     for (int j = 0; j < numBullets; j++) {
         for (int k = 0; k < numEnemies; k++) {
-        enemyCollideBullet(enemies[k], bullets[j]);
+        enemyCollideBullet(&enemies[k], &bullets[j]);
         }
     // enemyCollideWall(enemy_t *enemy, wall_t wall);
     }
@@ -154,7 +156,7 @@ void enemyCollision(){
 
 void bulletCollision() {
     uint16_t numBullets = numberOfBullets();
-    bullet_t**  bullets = allBullets();
+    bullet_t*  bullets = allBullets();
     for (int j = 0; j < numBullets; j++) {
         //bulletCollideWall(bullet_t bullet, wall_t wall);
     }
