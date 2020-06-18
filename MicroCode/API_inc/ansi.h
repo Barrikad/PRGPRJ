@@ -12,6 +12,8 @@ void bgcolor(uint8_t background);
 //change both background and foreground color
 void color(uint8_t foreground, uint8_t background);
 
+void resetcolor();
+
 //clear screen. Not reliable for nonstandard terminal size
 void clrscr();
 

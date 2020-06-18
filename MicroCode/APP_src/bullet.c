@@ -59,5 +59,6 @@ uint8_t bulletCollideWallAndShouldDelete(level_t level, bullet_t *bullet) {
         // bounceBullet();
         return 1;
     }
+    return 0;
 }
 

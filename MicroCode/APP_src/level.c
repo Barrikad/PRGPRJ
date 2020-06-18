@@ -77,6 +77,7 @@ static const char * getLevelData(level_t level) {
 
 void renderLevel(level_t level) {
     clrscr();
+    resetcolor();
     cursorToXY(0, 0);
     drawLevel(getLevelData(level));
 }
