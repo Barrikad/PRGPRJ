@@ -16,9 +16,19 @@ const char ENEMY[4];
 //draws sprite at position with hardware components
 //should translation from game coordinates to screen coordinates be done here or in APP?
 //position is position of middle of sprite?
-void drawSprite11(const char sprite[],placement_t placement);
+void drawSprite11(const char sprite[], const placement_t *placement);
 
-//will maybe need separate, more efficient, functions for terrain
+// Draw the given player.
+void undrawPlayer(const placement_t *placement);
+
+// Draw the given player.
+void drawPlayer(const placement_t *placement);
+
+// Draw the given bullet.
+void undrawBullet(const placement_t *placement);
+
+// Draw the given player.
+void drawBullet(const placement_t *placement);
 
 
 #endif /* GRAPHICS_H_INCLUDED */

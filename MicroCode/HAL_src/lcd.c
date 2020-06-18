@@ -50,6 +50,18 @@ void lcdWriteChar(char chr, uint8_t x, uint8_t y) {
     }
 }
 
+void lcdAntiWriteChar(char chr, uint8_t x, uint8_t y) {
+    int8_t i;
+    const char * charData;
+    assert(chr >= 0x20 && chr < 0x80);
+
+    charData = character_data[chr - 0x20];
+    for (i = 0; i < 5; i++) {
+        lcdWriteVerticalLine(~charData[i], x + i, y);
+    }
+    lcdWriteVerticalLine(0xFF, x + 5, y);
+}
+
 void lcdFlush() {
     lcd_push_buffer(buffer);
 }

@@ -6,7 +6,8 @@
 //a structure defining position, orientation and occupied space
 typedef struct{
     vector_t position;
-    vector_t radiusHV; // horizontal and vertical radius of entity.
+    fix2_14_t hitboxWidth;
+    fix2_14_t hitboxHeight;
     deg512_t rotation;
 }placement_t;
 

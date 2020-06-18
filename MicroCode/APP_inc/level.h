@@ -2,6 +2,7 @@
 #define LEVEL_H_INCLUDED
 
 #include <stdint.h>
+#include "entity_representation.h"
 
 typedef enum {
     firstLevel = 0,
@@ -11,5 +12,19 @@ typedef enum {
 // Initialize / enter the given level.
 // TODO: This should change SOME timer, maybe the Enemy-AI timer?
 void renderLevel(level_t level);
+
+// Detect whether a player touches a door.
+// TODO: Change return type so caller know which level to enter?
+// uint8_t playerTouchesDoor(const placement_t *placement);
+
+// Detect whether an entity collides with a wall.
+// Returns a value based on where the collision happens:
+// - 1 if the collision is with the top side of a wall.
+// - 2 if the collision is with the right side of a wall.
+// - 4 if the collision is with the bottom side of a wall.
+// - 8 if the collision is with the left side of a wall.
+// TODO: Maybe allow returning 3 if collides with both top side and right side?
+// This does no attempt to move the entity back or bounce it.
+uint8_t entityCollidesWall(level_t level, const placement_t *placement);
 
 #endif /* LEVEL_H_INCLUDED */

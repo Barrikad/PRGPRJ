@@ -6,7 +6,7 @@
 #include "player.h"
 #include "entity_representation.h"
 #include "fix_point_math.h"
-#include "game_state.h"
+#include "game.h"
 #include "joystick.h"
 #include "ansi.h"
 #include "led.h"
@@ -14,9 +14,7 @@
 #include "menu.h"
 #include "level.h"
 #include "boss_mode.h"
-#include "draw_game.h"
 #include "movement.h"
-#include "player_actions.h"
 #include "frame_timer.h"
 
 typedef enum {
@@ -123,18 +121,9 @@ int main(void) {
     lcdWriteChar('!', 42, 31);
     lcdFlush();
 
-    //create a player at top left corner
-    deg512_t rot = 0;
-    vector_t pos = {4,4};
-    vector_t hb = {1,1};
-    placement_t plc= {pos,hb,rot};
-    vector_t vel = {1,1};
-    player_t player = {plc,vel,0,0,0};
-
-    //add player to gamestate and input
-    addPlayer(player);
     initJoystickForGame();
-    addPlayerWithInput(allPlayers(),movementFromJoystick);
+
+    initLevel(firstLevel);
 
     //initialize timer
     initFrameTimer();
@@ -144,18 +133,7 @@ int main(void) {
     cursorHide();
     while (1) {
         if(getFlag()){
-
-            processPlayerActionsInGame();
-            movePlayers();
-            moveBullets();
-            reduceWeaponCooldowns();
-
-            cursorToXY(40,0);
-            printf("%i ",(*allPlayers()).placement.rotation);
-
-            renderLevel(firstLevel);
-            drawGame();
-
+            processGameTick();
             unsetFlag();
         }
     }

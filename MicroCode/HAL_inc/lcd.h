@@ -22,6 +22,9 @@ void lcdClearPixel(uint8_t x, uint8_t y);
 // TODO: Move this to API?
 void lcdWriteChar(char chr, uint8_t x, uint8_t y);
 
+// Writes every pixel but the character into the buffer location.
+void lcdAntiWriteChar(char chr, uint8_t x, uint8_t y);
+
 // Flush the internal buffer to the LCD.
 void lcdFlush();
 
