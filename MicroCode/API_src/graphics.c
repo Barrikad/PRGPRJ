@@ -1,61 +1,82 @@
 #include "graphics.h"
 
-//0-right, 1-down, 2-left, 3-up
-const char PLAYER[] = {195,194,180,193};
-const char BULLET[] = {111,111,111,111};
-const char ENEMY[] = {204,203,185,202};
+#define DIRECTIONS 4
 
-void drawSpriteTiles(const char tiles[], uint8_t height, uint8_t width){
-    for(int i = 0; i < height; i++){
-        //print all horizontal tiles
-        for(int j = 0; j < width; j++){
-            printf("\%c",tiles[i + j]);
+// TODO: Use UTF-8 Unicode
+// Sprite for a tank
+const char TANK[DIRECTIONS][TILE_WIDTH * TILE_HEIGHT + 1] = {
+    // Right
+    "--- "
+    " H->"
+    "--- ",
+    // Down
+    "|  |"
+    "|HH|"
+    " \\/ ",
+    // Left
+    " ---"
+    "<-H "
+    " ---",
+    // Up
+    " /\\ "
+    "|HH|"
+    "|  |"};
+const char TANK_CLEAR[TILE_WIDTH * TILE_HEIGHT + 1] =
+    "    "
+    "    "
+    "    ";
+
+// The bullet sprite
+const char BULLET = 'o';
+
+static void drawSpriteTiles(const char sprite[TILE_WIDTH * TILE_HEIGHT]) {
+    uint8_t i, j;
+    for (i = 0; i < TILE_HEIGHT; i++) {
+        // Print all horizontal tiles
+        for (j = 0; j < TILE_WIDTH; j++) {
+            printf("%c", sprite[i * TILE_WIDTH + j]);
         }
 
-        //go down and to original x-position
+        // Go down and to original x-position
         cursorDown(1);
-        cursorLeft(width);
+        cursorLeft(TILE_WIDTH);
     }
 }
 
-static void undrawSprite11(const vector_t *position) {
-    // Position of top left corner
-    uint16_t cornerLeft = floorFix((*position).x);
-    uint16_t cornerTop = floorFix((*position).y);
-
-    cursorToXY(cornerLeft, cornerTop);
-
-    printf(" ");
+// Go to the position from where we can start drawing
+static void goToPosition(const vector_t *position) {
+    uint8_t x = roundFix((*position).x * TILE_WIDTH);
+    uint8_t y = roundFix((*position).y * TILE_HEIGHT);
+    cursorToXY(x, y);
 }
 
-//draw 1x1 sprite
-void drawSprite11(const char sprite[], const placement_t *placement) {
-    //position of top left corner
-    uint16_t cornerLeft = floorFix((*placement).position.x);
-    uint16_t cornerTop = floorFix((*placement).position.y);
+void undrawTank(const placement_t *placement) {
+    goToPosition(&(*placement).position);
+    drawSpriteTiles(TANK_CLEAR);
+}
 
-    cursorToXY(cornerLeft,cornerTop);
-
+void drawTank(const placement_t *placement, uint8_t color) {
+    goToPosition(&(*placement).position);
     //reduce angle so that 0 <= rotation < 512
     //multiply by four to choose sprite
     //divide by 512 to get 0 <= rotationOffset < 4
-    uint8_t rotationOffset = roundFix(((4 * ((*placement).rotation & 511)) << 14)/512);
-    rotationOffset %= 4;
-    drawSpriteTiles(sprite + rotationOffset,1,1);
-}
-
-void undrawPlayer(const placement_t *placement) {
-    undrawSprite11(&(*placement).position);
-}
-
-void drawPlayer(const placement_t *placement) {
-    drawSprite11(PLAYER, placement);
+    uint8_t rotationOffset = roundFix(((DIRECTIONS * ((*placement).rotation & 511)) << 14)/512);
+    rotationOffset %= DIRECTIONS;
+    fgcolor(color);
+    drawSpriteTiles(TANK[rotationOffset]);
+    resetcolor();
 }
 
 void undrawBullet(const placement_t *placement) {
-    undrawSprite11(&(*placement).position);
+    goToPosition(&(*placement).position);
+    printf(" ");
 }
 
-void drawBullet(const placement_t *placement) {
-    drawSprite11(BULLET, placement);
+void drawBullet(const placement_t *placement, uint8_t color) {
+    goToPosition(&(*placement).position);
+    // TODO: Draw bullet with different character depending on where it is.
+    // For example draw as "." if it's in the bottom of a character and as "\" if its in the top.
+    fgcolor(color);
+    printf("%c", BULLET);
+    resetcolor();
 }

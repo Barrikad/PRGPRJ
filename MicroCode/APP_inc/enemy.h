@@ -15,7 +15,7 @@ typedef struct{
 } enemy_t;
 
 //fire a bullet from an enemy
-void fireBulletEnemy(enemy_t* enemy);
+void fireBulletFromEnemy(enemy_t* enemy);
 
 // Detect and handle collision with bullet.
 // TODO: Fix need to pass all players down here!

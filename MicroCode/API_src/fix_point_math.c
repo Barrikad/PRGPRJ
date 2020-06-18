@@ -1,4 +1,5 @@
 #include "sin_lut.h"
+#include "asin_lut.h"
 #include "fix_point_math.h"
 
 //Note on all math functions:
@@ -47,6 +48,63 @@ fix14_t cosine(deg512_t degs){
     return sine(degs + 128); //  512*90/360 = 128
 }
 
+deg512_t asine(fix14_t s){
+    if(s < 0){
+        //convert to fix8
+        s >>= 6;
+        //set 9th bit to make negativ
+        s |= 1 << 9;
+        //only consider last 9 bits
+        s &= 0x1FF;
+    }
+    else{
+        //convert to fix8
+        s >>= 6;
+        //only consider last 8 bits
+        s &= 0xFF;
+    }
+    return ASIN[s];
+}
+
+deg512_t acosine(fix14_t c){
+    //acos(x) = pi/2 - asin(x)
+    return 128 - asine(c);
+}
+
+fix14_t squrt(fix14_t x){
+    //  note: division of fixpoint by int is safe
+    //initial estimate
+    fix14_t estimate = x/3;
+
+    //iterative estimates
+    for(int i = 0; i < 15; i++){
+        estimate = (estimate + FIX14_DIV(x,estimate)) / 2;
+    }
+
+    return estimate;
+}
+
+fix14_t vectorLen(vector_t v){
+    //signedness of x and y doesn't matter for distance
+    //so we convert to positive first
+    if(v.x < 0){
+        v.x = -v.x;
+    }
+    if(v.y < 0){
+        v.y = -v.y;
+    }
+
+    //convert to fix7
+    v.x >>= 7;
+    v.y >>= 7;
+
+    //calculate x^2+y^2. multiplication converts back to fix14
+    fix14_t x2y2 = (v.x * v.x) + (v.y * v.y);
+
+    //return distance
+    return squrt(x2y2);
+}
+
 //private function to round a guaranteed positive number
 static int16_t roundPositive(fix14_t x){
     //remove all decimals except the most significant
@@ -63,9 +121,9 @@ int16_t roundFix(fix14_t x){
     }
     else{
         //if number is negative, switch to positive, round, then switch back
-        x *= -1;
+        x = (~x) + 1;
         x = roundPositive(x);
-        return -1*x;
+        return ~(x - 1);
     }
 }
 

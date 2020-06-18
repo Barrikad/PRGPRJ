@@ -5,30 +5,20 @@
 #include "ansi.h"
 #include "entity_representation.h"
 
-//1x1 sprites - 4 rotations
-const char PLAYER[4];
-const char BULLET[4];
-const char ENEMY[4];
-//1x2 sprites
-//2x1 sprites
-//2x2 sprites
+#define TILE_WIDTH 4
+#define TILE_HEIGHT 3
 
-//draws sprite at position with hardware components
-//should translation from game coordinates to screen coordinates be done here or in APP?
-//position is position of middle of sprite?
-void drawSprite11(const char sprite[], const placement_t *placement);
+// Remove the given tank from the drawn area.
+void undrawTank(const placement_t *placement);
 
-// Draw the given player.
-void undrawPlayer(const placement_t *placement);
+// Draw the given tank.
+void drawTank(const placement_t *placement, uint8_t color);
 
-// Draw the given player.
-void drawPlayer(const placement_t *placement);
-
-// Draw the given bullet.
+// Remove the given bullet from the drawn area.
 void undrawBullet(const placement_t *placement);
 
 // Draw the given player.
-void drawBullet(const placement_t *placement);
+void drawBullet(const placement_t *placement, uint8_t color);
 
 
 #endif /* GRAPHICS_H_INCLUDED */

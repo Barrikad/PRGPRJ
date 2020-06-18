@@ -29,8 +29,23 @@ fix16_t expand(fix14_t x);
 fix14_t reduce(fix16_t x);
 
 // Sinus and cosine of an angle
-fix14_t sin512(deg512_t degs);
-fix14_t cos512(deg512_t degs);
+// calculated with lut
+fix14_t sine(deg512_t degs);
+fix14_t cosine(deg512_t degs);
+
+// Arcsine and arccosine of a fixpoint <1 and >-1
+// calculated with lut
+// no check for valid input
+deg512_t asine(fix14_t s);
+deg512_t acosine(fix14_t c);
+
+// Square root of fix14 number
+// Calculated with the babylonian method for 15 iterations
+// no check for negatives
+fix14_t squrt(fix14_t x);
+
+//length of vector, calculated with squrt
+fix14_t vectorLen(vector_t v);
 
 int16_t roundFix(fix14_t x);
 int16_t floorFix(fix14_t x);

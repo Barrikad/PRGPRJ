@@ -5,7 +5,7 @@
 #include "collision.h"
 
 
-void fireBulletEnemy(enemy_t* enemy){
+void fireBulletFromEnemy(enemy_t* enemy){
     if(!(*enemy).weaponCooldown){
         fireBulletFromPlacement((*enemy).placement);
         (*enemy).weaponCooldown = WEAPON_COOLDOWN;
