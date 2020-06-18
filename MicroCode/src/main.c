@@ -128,6 +128,14 @@ int main(void) {
     //initialize timer
     initFrameTimer();
 
+    //test enemy behavior. Will remove soon
+    vector_t pos = {5,0};
+    deg512_t rot = 0;
+    placement_t plc = {pos, 1 << 13, 1 << 13, rot};
+    enemy_t enemy = {plc,0,0,0};
+    addEnemy(enemy);
+    //tset
+
     printf("test");
 
     cursorHide();

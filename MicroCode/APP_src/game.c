@@ -5,6 +5,7 @@
 #include "level.h"
 #include "ansi.h"
 #include "graphics.h"
+#include "enemy_AI.h"
 #include <stdio.h>
 
 #define MAX_PLAYERS 4
@@ -93,6 +94,7 @@ static void processBullet(bullet_t *bullet) {
 
 static void processEnemy(enemy_t *enemy) {
     uint8_t i;
+
     // Enemy attributes
     if ((*enemy).weaponCooldown) {
         (*enemy).weaponCooldown--;
@@ -113,6 +115,10 @@ static void processEnemy(enemy_t *enemy) {
 
 
 void processGameTick() {
+    //test code
+    processEnemyActions(players,playerCount,enemies,enemyCount);
+    //tset
+
     uint8_t i;
     // Process entities
     for (i = 0; i < playerCount; i++) {
