@@ -45,44 +45,50 @@ void addEnemy(enemy_t enemy){
     }
 }
 
+static void processPlayer(player_t *player) {
+    // TODO: Add un-drawing of player
+    processPlayerActionsInGame(player);
+    movePlayer(player);
+    if ((*player).weaponCooldown) {
+        (*player).weaponCooldown--;
+    }
+    // TODO: Move this into main collision detection, and add more detection
+    playerCollideWall(player);
+    drawPlayer(&(*player).placement);
+}
+
+static void processBullet(bullet_t *bullet) {
+    // TODO: Add un-drawing of bullet
+    moveBullet(bullet);
+    // TODO: Add collision detection
+    drawBullet(&(*bullet).placement);
+}
+
+static void processEnemy(enemy_t *enemy) {
+    // TODO: More here!
+    if ((*enemy).weaponCooldown) {
+        (*enemy).weaponCooldown--;
+    }
+}
+
 
 void processGameTick() {
     uint8_t i;
-    processPlayerActionsInGame(&players[0]);
-
-    for (i = 0; i < playerCount; i++) {
-        movePlayer(&players[i]);
-    }
-
-    for (i = 0; i < bulletCount; i++) {
-        moveBullet(&bullets[i]);
-    }
-
-    for (i = 0; i < playerCount; i++) {
-        if (players[i].weaponCooldown) {
-            players[i].weaponCooldown--;
-        }
-    }
-
-    for (i = 0; i < enemyCount; i++) {
-        if (enemies[i].weaponCooldown) {
-            enemies[i].weaponCooldown--;
-        }
-    }
-
-    // TODO: Move this into main collision detection
-    playerCollideWall(&players[0]);
-
+    // TODO: Remove need to re-render level
     renderLevel(firstLevel);
 
+    // Process entities
+    for (i = 0; i < playerCount; i++) {
+        processPlayer(&players[i]);
+    }
+    for (i = 0; i < bulletCount; i++) {
+        processBullet(&bullets[i]);
+    }
+    for (i = 0; i < enemyCount; i++) {
+        processEnemy(&enemies[i]);
+    }
+
+    // Debug print current player rotation
     cursorToXY(40, 0);
     printf("%i ", players[0].placement.rotation);
-
-    for(i = 0; i < playerCount; i++) {
-        drawPlayer(&players[i].placement);
-    }
-
-    for(i = 0; i < bulletCount; i++){
-        drawBullet(&bullets[i].placement);
-    }
 }
