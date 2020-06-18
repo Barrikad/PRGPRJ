@@ -29,11 +29,11 @@ fix16_t expand(fix14_t x);
 fix14_t reduce(fix16_t x);
 
 // Sinus and cosine of an angle
-fix14_t asine(deg512_t degs);
+fix14_t sine(deg512_t degs);
 fix14_t cosine(deg512_t degs);
 
 // Arcsine and arccosine of a fixpoint <1 and >-1
-deg512_t asine(fix14_t s),;
+deg512_t asine(fix14_t s);
 deg512_t acosine(fix14_t c);
 
 int16_t roundFix(fix14_t x);

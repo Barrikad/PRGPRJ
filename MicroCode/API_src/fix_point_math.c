@@ -50,10 +50,17 @@ fix14_t cosine(deg512_t degs){
 
 deg512_t asine(fix14_t s){
     if(s < 0){
+        //convert to fix8
+        s >>= 6;
+        //set 9th bit to make negativ
         s |= 1 << 9;
+        //only consider last 9 bits
         s &= 0x1FF;
     }
     else{
+        //convert to fix8
+        s >>= 6;
+        //only consider last 8 bits
         s &= 0xFF;
     }
     return ASIN[s];

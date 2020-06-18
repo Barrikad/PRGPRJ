@@ -3,7 +3,7 @@
 #include "lcd.h"
 #include "joystick.h"
 #include "player.h"
-#include "game_state.h"
+#include "game.h"
 #include "menu.h"
 
 
