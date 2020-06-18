@@ -5,6 +5,9 @@
 #include "ansi.h"
 #include "entity_representation.h"
 
+#define TILE_WIDTH 4
+#define TILE_HEIGHT 3
+
 // Draw the given player.
 void undrawPlayer(const placement_t *placement);
 

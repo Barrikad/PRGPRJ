@@ -2,35 +2,57 @@
 
 #define DIRECTIONS 4
 
-//0-right, 1-down, 2-left, 3-up
-const char PLAYER[DIRECTIONS] = {195,194,180,193};
-const char BULLET = 111;
-const char ENEMY[DIRECTIONS] = {204,203,185,202};
+// TODO: Use UTF-8 Unicode
+// The player sprite
+const char PLAYER[DIRECTIONS][TILE_WIDTH * TILE_HEIGHT + 1] = {
+    // Right
+    "--- "
+    " H->"
+    "--- ",
+    // Down
+    "|  |"
+    "|HH|"
+    " \\/ ",
+    // Left
+    " ---"
+    "<-H "
+    " ---",
+    // Up
+    " /\\ "
+    "|HH|"
+    "|  |"};
+const char PLAYER_CLEAR[TILE_WIDTH * TILE_HEIGHT + 1] =
+    "    "
+    "    "
+    "    ";
 
-static void drawSpriteTiles(const char tiles[], uint8_t height, uint8_t width) {
-    for(int i = 0; i < height; i++){
-        //print all horizontal tiles
-        for(int j = 0; j < width; j++){
-            printf("\%c",tiles[i + j]);
+// The bullet sprite
+const char BULLET = 'o';
+
+static void drawSpriteTiles(const char sprite[TILE_WIDTH * TILE_HEIGHT]) {
+    uint8_t i, j;
+    for (i = 0; i < TILE_HEIGHT; i++) {
+        // Print all horizontal tiles
+        for (j = 0; j < TILE_WIDTH; j++) {
+            printf("%c", sprite[i * TILE_WIDTH + j]);
         }
 
-        //go down and to original x-position
+        // Go down and to original x-position
         cursorDown(1);
-        cursorLeft(width);
+        cursorLeft(TILE_WIDTH);
     }
 }
 
 // Go to the position from where we can start drawing
 static void goToPosition(const vector_t *position) {
-    // Rounding here is correct!
-    uint8_t x = roundFix((*position).x);
-    uint8_t y = roundFix((*position).y);
+    uint8_t x = roundFix((*position).x * TILE_WIDTH);
+    uint8_t y = roundFix((*position).y * TILE_HEIGHT);
     cursorToXY(x, y);
 }
 
 void undrawPlayer(const placement_t *placement) {
     goToPosition(&(*placement).position);
-    printf(" ");
+    drawSpriteTiles(PLAYER_CLEAR);
 }
 
 void drawPlayer(const placement_t *placement) {
@@ -40,7 +62,7 @@ void drawPlayer(const placement_t *placement) {
     //divide by 512 to get 0 <= rotationOffset < 4
     uint8_t rotationOffset = roundFix(((DIRECTIONS * ((*placement).rotation & 511)) << 14)/512);
     rotationOffset %= DIRECTIONS;
-    drawSpriteTiles(&PLAYER[rotationOffset], 1, 1);
+    drawSpriteTiles(PLAYER[rotationOffset]);
 }
 
 void undrawBullet(const placement_t *placement) {
@@ -52,5 +74,5 @@ void drawBullet(const placement_t *placement) {
     goToPosition(&(*placement).position);
     // TODO: Draw bullet with different character depending on where it is.
     // For example draw as "." if it's in the bottom of a character and as "\" if its in the top.
-    drawSpriteTiles(&BULLET, 1, 1);
+    printf("%c", BULLET);
 }

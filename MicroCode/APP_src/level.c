@@ -1,5 +1,6 @@
 #include "level.h"
 #include "ansi.h"
+#include "graphics.h"
 #include "fix_point_math.h"
 #include <stdio.h>
 
@@ -40,22 +41,26 @@ static const char * levelData2 =
 
 // TODO: Move some of this to API?
 static void drawLevel(const char * data) {
-    uint8_t i, j;
+    uint8_t i, j, k, l;
     char c;
     for (i = 0; i < LEVEL_HEIGHT; i++) {
-        for (j = 0; j < LEVEL_WIDTH; j++) {
-            c = data[i * LEVEL_WIDTH + j];
-            if (c == '#') {
-                printf("#");
-            } else if (c == '%') {
-                printf("%%");
-            } else {
-                printf(" ");
+        for (j = 0; j < TILE_HEIGHT; j++) {
+            for (k = 0; k < LEVEL_WIDTH; k++) {
+                for (l = 0; l < TILE_WIDTH; l++) {
+                    c = data[i * LEVEL_WIDTH + k];
+                    if (c == '#') {
+                        printf("#");
+                    } else if (c == '%') {
+                        printf("%%");
+                    } else {
+                        printf(" ");
+                    }
+                }
             }
+            // Go back to original position
+            cursorDown(1);
+            cursorLeft(LEVEL_WIDTH * TILE_WIDTH);
         }
-        // Go back to original position
-        cursorDown(1);
-        cursorLeft(LEVEL_WIDTH);
     }
 }
 
