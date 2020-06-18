@@ -5,7 +5,6 @@
 #include "level.h"
 #include "ansi.h"
 #include "draw_game.h"
-#include "player_actions.h"
 #include <stdio.h>
 
 #define MAX_PLAYERS 4
@@ -38,12 +37,6 @@ void movePlayers(){
         movePlayer(players + i);
     }
 }
-
-//only ever use this pointer for reading!
-player_t* allPlayers(){
-    return players;
-}
-
 
 //------------BULLETS-------------
 void addBullet(bullet_t bullet){
