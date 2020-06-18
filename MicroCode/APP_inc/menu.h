@@ -25,4 +25,7 @@ void renderScoreMenu(uint8_t clearedLevels);
 // Returns 0 if should stay in score menu, 1 if should return to main menu.
 uint8_t processInputScoreMenu();
 
+// Renders the credits screen. This should (FOR NOW) determine by itself how often it wants to render!
+void renderCreditsMenu();
+
 #endif /* MENU_H_INCLUDED */
