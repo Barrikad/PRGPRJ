@@ -5,24 +5,21 @@
 #include "player.h"
 #include "game.h"
 #include "menu.h"
+#include "falling_edge_selection.h"
+
+typedef enum {
+    newGame    = 0,
+    help  = 1,
+    score  = 2,
+    credits = 3
+} selectedOption_t;
+
+static menustate_t currentGamestate = mainMenu;
+static selectedOption_t currentSelectedOption = newGame;
 
 
-typedef struct {
-    const char * options;
-    int8_t layer;
-
-} menu_t;
-
-
-void setMenuOptions(menu_t menu) {
-    //*menu.options = {"New Game", "Help", "Highscore", "Credits"};
-
-}
-
-
-
-void renderMainMenu() {
-    char* newGame[] = {"New Game     ->Select", "Help", "Highscore", "Credits"};
+static void renderMainMenu() {
+    char* newGame[] = {"New Game     ->Select", "Help         <-Back", "Highscore", "Credits"};
     lcdClear();
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < strlen(newGame[i]); j++) {
@@ -33,14 +30,21 @@ void renderMainMenu() {
 }
 
 uint8_t processInputMainMenu() {
-
-    // TODO: This!
+    if (hasPressedRight()) {
+        return 1;
+    }
+    if (hasPressedDown()) {
+        return 2;
+    }
+    if (hasPressedUp()) {
+        return 3;
+    }
     return 0;
 }
 
-void renderHelpMenu() {
+static void renderHelpMenu() {
     // TODO: This!
-    char* helpMenuText[] = {"Control the tank with", "the joystick.", "Shoot by pressing the", "joystick down. <-Back"};
+    char* helpMenuText[] = {"Control the tank with", "the joystick.", "Shoot by pressing the", "joystick down."};
     lcdClear();
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < strlen(helpMenuText[i]); j++) {
@@ -50,24 +54,20 @@ void renderHelpMenu() {
     lcdFlush();
 }
 
-/*
 uint8_t processInputHelpMenu() {
-    if (JOYSTICK_LEFT) {
-        if (JOYSTICK_MIDDLE)
-            return 1; //returns to main menu
-        }
+    if (hasPressedLeft()) {
+        return 1;
     }
     return 0; // Stays in submenu
 }
-*/
 
-void scoreFormatting(char score[3][14], player_t* players, uint8_t numPlayers){
+static void scoreFormatting(char score[3][14], player_t* players, uint8_t numPlayers){
     for (int i = 0; i < numPlayers; i++) {
         sprintf(score[i], "%13d",players[i].points);
     }
 }
 
-void renderScoreMenu(uint8_t clearedLevels, player_t* players, uint8_t numPlayers) {
+static void renderScoreMenu(uint8_t clearedLevels, player_t* players, uint8_t numPlayers) {
     char* highscore = "      Highscore      ";
     char* playerNumber[] = {"Player 1", "Player 2", "Player 3"}; // if more than 3 players is wanted then a scroll function is needed
     char score[3][14];
@@ -94,28 +94,14 @@ void renderScoreMenu(uint8_t clearedLevels, player_t* players, uint8_t numPlayer
     lcdFlush();
 }
 
-
-
-/*
-static uint8_t lastJoystickLeft;
-
 uint8_t processInputScoreMenu() {
-    uint8_t currentJoystickLeft = ...;
-    if (lastJoystickLeft && !currentJoystickLeft) {
-        // Falling edge of JOYSTICK_LEFT
-    }
-    lastJoystickLeft = currentJoystickLeft;
-    return 0;
-     if (JOYSTICK_LEFT) {
-        if (JOYSTICK_MIDDLE)
-            return 1; //returns to main menu
-        }
+    if (hasPressedLeft()) {
+        return 1;
     }
     return 0; // Stays in submenu
-
 }
-*/
-void renderCreditsMenu() {
+
+static void renderCreditsMenu() {
     char* credits[] = {"Created by:","Mads Marquart", "Simon Tobias Lund", "Gustav Leth-Espensen"};
     lcdClear();
     for (int i = 0; i < 4; i++) {
@@ -125,6 +111,216 @@ void renderCreditsMenu() {
     }
     lcdFlush();
 }
+
+uint8_t processInputCreditsMenu() {
+    if (hasPressedLeft()) {
+        return 1;
+    }
+    return 0;
+}
+
+static void menuOptionNewGame() {
+    char* antiNewGame = {"New Game"};
+    for (int j = 0; j < strlen(antiNewGame); j++) {
+        lcdAntiWriteChar(antiNewGame[j], j * 6, 0);
+    }
+    lcdFlush();
+}
+
+static void menuOptionHelp() {
+    char* antiHelp = {"Help"};
+    for (int j = 0; j < strlen(antiHelp); j++) {
+        lcdAntiWriteChar(antiHelp[j], j * 6, 8);
+    }
+    lcdFlush();
+}
+
+static void menuOptionHighscore() {
+    char* antiHighscore = {"Highscore"};
+    for (int j = 0; j < strlen(antiHighscore); j++) {
+        lcdAntiWriteChar(antiHighscore[j], j * 6, 16);
+    }
+    lcdFlush();
+}
+
+static void menuOptionCredits() {
+    char* antiCredits = {"Credits"};
+    for (int j = 0; j < strlen(antiCredits); j++) {
+        lcdAntiWriteChar(antiCredits[j], j * 6, 24);
+    }
+    lcdFlush();
+}
+
+
+void initMainMenu() {
+    renderMainMenu();
+    menuOptionNewGame();
+}
+
+
+void mainMenuFunction() {
+    if (currentGamestate == mainMenu) {
+        if (currentSelectedOption == newGame) {
+            uint8_t joystickInput = processInputMainMenu();
+            if (joystickInput == 1) {
+                currentGamestate = game;
+            }
+            else if (joystickInput == 2) {
+                currentSelectedOption = help;
+                renderMainMenu();
+                menuOptionHelp();
+            }
+            else if (joystickInput == 3) {
+                currentSelectedOption = credits;
+                renderMainMenu();
+                menuOptionCredits();
+            }
+        }
+        else if (currentSelectedOption == help) {
+            uint8_t joystickInput = processInputMainMenu();
+            if (joystickInput == 1) {
+                currentGamestate = helpMenu;
+            }
+            else if (joystickInput == 2) {
+                currentSelectedOption = score;
+                renderMainMenu();
+                menuOptionHighscore();
+            }
+            else if (joystickInput == 3) {
+                currentSelectedOption = newGame;
+                renderMainMenu();
+                menuOptionNewGame();
+            }
+        }
+        else if (currentSelectedOption == score) {
+            uint8_t joystickInput = processInputMainMenu();
+            if (joystickInput == 1) {
+                currentGamestate = scoreMenu;
+            }
+            else if (joystickInput == 2) {
+                currentSelectedOption = credits;
+                renderMainMenu();
+                menuOptionCredits();
+            }
+            else if (joystickInput == 3) {
+                currentSelectedOption = help;
+                renderMainMenu();
+                menuOptionHelp();
+            }
+        }
+        else if (currentSelectedOption == credits) {
+            uint8_t joystickInput = processInputMainMenu();
+            if (joystickInput == 1) {
+                currentGamestate = creditsMenu;
+            }
+            else if (joystickInput == 2) {
+                currentSelectedOption = newGame;
+                renderMainMenu();
+                menuOptionNewGame();
+            }
+            else if (joystickInput == 3) {
+                currentSelectedOption = score;
+                renderMainMenu();
+                menuOptionHighscore();
+            }
+        }
+    }
+}
+
+/*
+            // TODO: This
+            // TODO: Add shouldShowBossKey
+            // processEnemy();
+            // moveEntities();
+            // detectCollisions(&player, &entities);
+            // if (player.health < 0) {
+            //     // Show highscore
+            //     currentGamestate = scoreMenu;
+            // } else if (enemyCount == 0) {
+            //     currentLevel = secondLevel;
+            //     enterLevel(currentLevel);
+            // }
+            if (isBossKeyPressed()) {
+                currentGamestate = bossMode;
+            }
+        } else if (currentGamestate == mainMenu) {
+            renderMainMenu();
+            // Change current menu
+            switch (processInputMainMenu()) {
+            case 1:
+                // Start game
+                currentGamestate = game;
+                currentLevel = firstLevel;
+                enterLevel(currentLevel);
+            case 2:
+                // Open help menu
+                currentGamestate = helpMenu;
+            case 3:
+                // Open minigame
+                currentGamestate = miniGame;
+            default:
+                // Do nothing
+                break;
+            }
+        } else if (currentGamestate == helpMenu) {
+            renderHelpMenu();
+            if (processInputHelpMenu()) {
+                currentGamestate = mainMenu;
+            }
+        } else if (currentGamestate == scoreMenu) {
+            // TODO: Pass correct parameters
+            //renderScoreMenu(currentLevel);
+            if (processInputScoreMenu()) {
+                currentGamestate = mainMenu;
+            }
+        } else if (currentGamestate == miniGame) {
+            // TODO
+        } else if (currentGamestate == bossMode) {
+            renderBossMode();
+            if (processInputBossMode()) {
+                // Return to game
+                currentGamestate = game;
+            }
+        }
+*/
+
+void helpMenuFunction() {
+    if (currentGamestate == helpMenu) {
+        renderHelpMenu();
+        uint8_t joystickInput = processInputHelpMenu();
+        if (joystickInput == 1) {
+            currentGamestate = mainMenu;
+            renderMainMenu();
+            menuOptionHelp();
+        }
+     }
+}
+
+void scoreMenuFunction() {
+    if (currentGamestate == scoreMenu) {
+        //renderScoreMenu();
+        uint8_t joystickInput = processInputScoreMenu();
+        if (joystickInput == 1) {
+            currentGamestate = mainMenu;
+            renderMainMenu();
+            menuOptionHighscore();
+        }
+    }
+}
+
+void creditsMenuFunction() {
+    if (currentGamestate == creditsMenu) {
+        renderCreditsMenu();
+        uint8_t joystickInput = processInputCreditsMenu();
+        if (joystickInput == 1) {
+            currentGamestate = mainMenu;
+            renderMainMenu();
+            menuOptionCredits();
+        }
+    }
+}
+
+
 
 
 /*
