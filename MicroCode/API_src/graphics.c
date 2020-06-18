@@ -4,7 +4,7 @@
 
 //0-right, 1-down, 2-left, 3-up
 const char PLAYER[DIRECTIONS] = {195,194,180,193};
-const char BULLET[DIRECTIONS] = {111,111,111,111};
+const char BULLET = 111;
 const char ENEMY[DIRECTIONS] = {204,203,185,202};
 
 static void drawSpriteTiles(const char tiles[], uint8_t height, uint8_t width) {
@@ -20,44 +20,37 @@ static void drawSpriteTiles(const char tiles[], uint8_t height, uint8_t width) {
     }
 }
 
-static void undrawSprite11(const vector_t *position) {
-    // Position of top left corner
-    uint16_t cornerLeft = roundFix((*position).x);
-    uint16_t cornerTop = roundFix((*position).y);
+// Go to the position from where we can start drawing
+static void goToPosition(const vector_t *position) {
+    // Rounding here is correct!
+    uint8_t x = roundFix((*position).x);
+    uint8_t y = roundFix((*position).y);
+    cursorToXY(x, y);
+}
 
-    cursorToXY(cornerLeft, cornerTop);
-
+void undrawPlayer(const placement_t *placement) {
+    goToPosition(&(*placement).position);
     printf(" ");
 }
 
-//draw 1x1 sprite
-static void drawSprite11(const char sprite[], const placement_t *placement) {
-    //position of top left corner
-    uint16_t cornerLeft = roundFix((*placement).position.x);
-    uint16_t cornerTop = roundFix((*placement).position.y);
-
-    cursorToXY(cornerLeft,cornerTop);
-
+void drawPlayer(const placement_t *placement) {
+    goToPosition(&(*placement).position);
     //reduce angle so that 0 <= rotation < 512
     //multiply by four to choose sprite
     //divide by 512 to get 0 <= rotationOffset < 4
     uint8_t rotationOffset = roundFix(((DIRECTIONS * ((*placement).rotation & 511)) << 14)/512);
     rotationOffset %= DIRECTIONS;
-    drawSpriteTiles(sprite + rotationOffset,1,1);
-}
-
-void undrawPlayer(const placement_t *placement) {
-    undrawSprite11(&(*placement).position);
-}
-
-void drawPlayer(const placement_t *placement) {
-    drawSprite11(PLAYER, placement);
+    drawSpriteTiles(&PLAYER[rotationOffset], 1, 1);
 }
 
 void undrawBullet(const placement_t *placement) {
-    undrawSprite11(&(*placement).position);
+    goToPosition(&(*placement).position);
+    printf(" ");
 }
 
 void drawBullet(const placement_t *placement) {
-    drawSprite11(BULLET, placement);
+    goToPosition(&(*placement).position);
+    // TODO: Draw bullet with different character depending on where it is.
+    // For example draw as "." if it's in the bottom of a character and as "\" if its in the top.
+    drawSpriteTiles(&BULLET, 1, 1);
 }
