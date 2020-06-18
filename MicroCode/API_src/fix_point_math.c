@@ -84,7 +84,26 @@ fix14_t squrt(fix14_t x){
     return estimate;
 }
 
+fix14_t vectorLen(vector_t v){
+    //signedness of x and y doesn't matter for distance
+    //so we convert to positive first
+    if(v.x < 0){
+        v.x = -v.x;
+    }
+    if(v.y < 0){
+        v.y = -v.y;
+    }
 
+    //convert to fix7
+    v.x >>= 7;
+    v.y >>= 7;
+
+    //calculate x^2+y^2. multiplication converts back to fix14
+    fix14_t x2y2 = (v.x * v.x) + (v.y * v.y);
+
+    //return distance
+    return squrt(x2y2);
+}
 
 //private function to round a guaranteed positive number
 static int16_t roundPositive(fix14_t x){
@@ -102,9 +121,9 @@ int16_t roundFix(fix14_t x){
     }
     else{
         //if number is negative, switch to positive, round, then switch back
-        x *= -1;
+        x = (~x) + 1;
         x = roundPositive(x);
-        return -1*x;
+        return ~(x - 1);
     }
 }
 

@@ -7,12 +7,12 @@ player_t findClosestPlayer(player_t *players, uint8_t playerCount, enemy_t enemy
     player_t closestPlayer;
 
     for(uint8_t i = 0; i < playerCount; i++){
-        //converting distance to fix7, for easier multiplication later
-        int32_t distance_x = (players[i].placement.position.x - enemy.placement.position.x) >> 7;
-        int32_t distance_y = (players[i].placement.position.y - enemy.placement.position.y) >> 7;
+        //find distance in x and y direction
+        int32_t distance_x = (players[i].placement.position.x - enemy.placement.position.x);
+        int32_t distance_y = (players[i].placement.position.y - enemy.placement.position.y);
+        vector_t distance_v = {distance_x,distance_y};
 
-        //multiplication, followed by conversion to integer, then addition
-        uint32_t distance = (distance_x * distance_x >> 14) + (distance_y * distance_y >> 14);
+        uint32_t distance = vectorLen(distance_v);
 
         //assign new closest player, if distance is smallest yet
         if(distance < minDistance){
@@ -31,6 +31,9 @@ void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemie
         //x and y values of vector from enemy to player
         fix14_t diff_x = closestPlayer.placement.position.x - enemies[i].placement.position.x;
         fix14_t diff_y = closestPlayer.placement.position.y - enemies[i].placement.position.y;
+
+        //distance from enemy to player
+        vector_t diff_v = {diff_x,diff_y};
 
         //formula for angle between vectors. The two vectors being vector from enemy to player
         //and unit-vector pointing right {1,0}.
