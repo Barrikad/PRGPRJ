@@ -6,7 +6,7 @@
 #include "bullet.h"
 
 //add entities to gamestate
-void addPlayer(vector_t position, deg512_t rotation);
+void addPlayer(vector_t position, deg512_t rotation, action_t (*inputFunction)());
 void addEnemy(enemy_t enemy);
 void addBullet(bullet_t bullet);
 

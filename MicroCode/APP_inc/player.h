@@ -9,17 +9,18 @@
 // bit1 on if powerup1 is on f.ex.
 typedef uint8_t effects_t;
 
-typedef struct{
+typedef struct {
     placement_t placement;
     vector_t velocity;
     uint8_t lives;
     uint8_t points;
     uint8_t weaponCooldown;
     effects_t effects;
-}player_t;
+    action_t (*inputFunction)();
+} player_t;
 
-// Initialize a player with the given position and rotation.
-void initPlayer(player_t *player, vector_t position, deg512_t rotation);
+// Initialize a player with the given position, rotation and input function.
+void initPlayer(player_t *player, vector_t position, deg512_t rotation, action_t (*inputFunction)());
 
 //adds velocity to player coordinates
 //  Side effects: players position is changed

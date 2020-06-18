@@ -16,7 +16,6 @@
 #include "boss_mode.h"
 #include "draw_game.h"
 #include "movement.h"
-#include "player_actions.h"
 #include "frame_timer.h"
 
 typedef enum {
@@ -127,9 +126,7 @@ int main(void) {
 
     // Create a player and add to game
     vector_t position = {createFix(1), createFix(1)};
-    addPlayer(position, 0);
-
-    addPlayerWithInput(allPlayers(), movementFromJoystick);
+    addPlayer(position, 0, movementFromJoystick);
 
     //initialize timer
     initFrameTimer();

@@ -11,12 +11,8 @@
 //    be arbitrary
 //this is extra important as we have not really yet decided on a final input method (13/06)
 
-
-//register a player to be affected by an input function, f.x. joystick
-void addPlayerWithInput(player_t* player, uint16_t (*inputFun)());
-
-//get input from all player input devices and realize the mapped actions
-void processPlayerActionsInGame();
+// Get input from player input devices and realize the mapped actions
+void processPlayerActionsInGame(player_t *player);
 
 
 

@@ -2,7 +2,7 @@
 #include "bullet.h"
 #include "game.h"
 
-void initPlayer(player_t *player, vector_t position, deg512_t rotation) {
+void initPlayer(player_t *player, vector_t position, deg512_t rotation, action_t (*inputFunction)()) {
     // This is very verbose, but this is intentional, since it makes it easy to
     // see which values are set to what.
     (*player).placement.position.x = position.x;
@@ -16,6 +16,7 @@ void initPlayer(player_t *player, vector_t position, deg512_t rotation) {
     (*player).points = 0;
     (*player).weaponCooldown = 0;
     (*player).effects = 0;
+    (*player).inputFunction = inputFunction;
 }
 
 

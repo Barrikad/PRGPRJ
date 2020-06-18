@@ -25,11 +25,11 @@ static enemy_t enemies[MAX_ENEMIES];
 
 
 //--------------PLAYERS-----------
-void addPlayer(vector_t position, deg512_t rotation) {
+void addPlayer(vector_t position, deg512_t rotation, action_t (*inputFunction)()) {
     if (playerCount >= MAX_PLAYERS) {
         return;
     }
-    initPlayer(&players[playerCount], position, rotation);
+    initPlayer(&players[playerCount], position, rotation, inputFunction);
     playerCount++;
 }
 
@@ -86,7 +86,7 @@ void reduceWeaponCooldowns(){
 
 
 void processGameTick() {
-    processPlayerActionsInGame();
+    processPlayerActionsInGame(&players[0]);
     movePlayers();
     moveBullets();
     reduceWeaponCooldowns();
