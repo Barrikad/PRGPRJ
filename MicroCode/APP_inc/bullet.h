@@ -16,10 +16,14 @@ typedef struct{
 //move the bullet according to its velocity
 void moveBullet(bullet_t *bullet);
 
+void copyBullet(bullet_t *toBullet, const bullet_t *fromBullet);
+
 //create a bullet fired from a placement
 void fireBulletFromPlacement(placement_t placement);
 
 // Detect and handle collision with wall.
-void bulletCollideWall(level_t level, bullet_t *bullet);
+// Returns true if the bullet should be deleted.
+// TODO: Name this better!
+uint8_t bulletCollideWallAndShouldDelete(level_t level, bullet_t *bullet);
 
 #endif /* BULLET_H_INCLUDED */

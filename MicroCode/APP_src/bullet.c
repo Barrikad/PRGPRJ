@@ -8,6 +8,17 @@ void moveBullet(bullet_t *bullet){
     moveEntity(&((*bullet).placement),(*bullet).velocity);
 }
 
+void copyBullet(bullet_t *toBullet, const bullet_t *fromBullet) {
+    // TODO: Test whether this copy can be done more consisely?
+    (*toBullet).placement.position.x = (*fromBullet).placement.position.x;
+    (*toBullet).placement.position.y = (*fromBullet).placement.position.y;
+    (*toBullet).placement.hitboxWidth = (*fromBullet).placement.hitboxWidth;
+    (*toBullet).placement.hitboxHeight = (*fromBullet).placement.hitboxHeight;
+    (*toBullet).placement.rotation = (*fromBullet).placement.rotation;
+    (*toBullet).velocity.x = (*fromBullet).velocity.x;
+    (*toBullet).velocity.y = (*fromBullet).velocity.y;
+}
+
 void fireBulletFromPlacement(placement_t placement){
     //make the placement of the bullet the same as the given placement, but with bullet hitbox
     vector_t position = placement.position;
@@ -42,9 +53,11 @@ static void bounceBullet(bullet_t *bullet){
 */
 
 
-void bulletCollideWall(level_t level, bullet_t *bullet) {
+uint8_t bulletCollideWallAndShouldDelete(level_t level, bullet_t *bullet) {
     if (entityCollidesWall(level, &(*bullet).placement)) {
+        // TODO: Implement bullet bouncing X times off the wall.
         // bounceBullet();
+        return 1;
     }
 }
 

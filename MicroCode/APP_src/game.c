@@ -47,6 +47,15 @@ void addBullet(bullet_t bullet){
     }
 }
 
+static void deleteBullet(uint8_t index) {
+    bullet_t *thisBullet = &bullets[index];
+    const bullet_t *lastBullet = &bullets[bulletCount - 1];
+    copyBullet(thisBullet, lastBullet);
+    thisBullet->placement = lastBullet->placement;
+    thisBullet->velocity = lastBullet->velocity;
+    bulletCount--;
+}
+
 void addEnemy(enemy_t enemy){
     if(enemyCount < MAX_ENEMIES){
         enemies[enemyCount] = enemy;
@@ -79,17 +88,22 @@ static void processPlayer(player_t *player) {
     drawPlayer(&(*player).placement);
 }
 
-static void processBullet(bullet_t *bullet) {
+// Returns whether the bullet should be deleted
+static uint8_t processBullet(bullet_t *bullet) {
     // Un-render bullet with the current position, so that we can simply draw it at the new position in the end
     undrawBullet(&(*bullet).placement);
 
     moveBullet(bullet);
 
     // Collision
-    bulletCollideWall(firstLevel, bullet);
+    if (bulletCollideWallAndShouldDelete(firstLevel, bullet)) {
+        return 1;
+    }
 
     // Rendering
     drawBullet(&(*bullet).placement);
+
+    return 0;
 }
 
 static void processEnemy(enemy_t *enemy) {
@@ -125,7 +139,10 @@ void processGameTick() {
         processPlayer(&players[i]);
     }
     for (i = 0; i < bulletCount; i++) {
-        processBullet(&bullets[i]);
+        if (processBullet(&bullets[i])) {
+            // TODO: Fix this so it doesn't skip bullets
+            deleteBullet(i);
+        }
     }
     for (i = 0; i < enemyCount; i++) {
         processEnemy(&enemies[i]);
