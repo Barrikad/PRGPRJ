@@ -19,7 +19,7 @@ uint8_t processInputHelpMenu();
 
 // Renders the score screen. This should (FOR NOW) determine by itself how often it wants to render!
 // TODO: Inputs to this function!
-void renderScoreMenu(uint8_t clearedLevels);
+void renderScoreMenu(uint8_t clearedLevels, player_t* players, uint8_t numPlayers);
 
 // Processes input from the user.
 // Returns 0 if should stay in score menu, 1 if should return to main menu.

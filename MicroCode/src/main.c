@@ -79,7 +79,7 @@ void mainGame() {
             }
         } else if (currentGamestate == scoreMenu) {
             // TODO: Pass correct parameters
-            renderScoreMenu(currentLevel);
+            //renderScoreMenu(currentLevel);
             if (processInputScoreMenu()) {
                 currentGamestate = mainMenu;
             }
