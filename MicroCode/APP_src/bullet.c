@@ -1,6 +1,7 @@
 #include "bullet.h"
 #include "entity_representation.h"
 #include "game.h"
+#include "collision.h"
 
 void moveBullet(bullet_t *bullet){
     //extract movement info from bullet and send to API
@@ -26,3 +27,24 @@ void fireBulletFromPlacement(placement_t placement){
 
     addBullet(bullet);
 }
+
+
+/*
+static void bounceBullet(bullet_t *bullet){
+    if (wallHitbox().x - bullet.position.x == 0) { //checks if the bullet hit wall in x direction
+        *(bullet).velocity.x -= bullet.velocity.x;
+    }
+    else if (wallHitbox().y - bullet.position.y == 0){ //checks if the bullet hit wall in y direction
+        *(bullet).velocity.y -= bullet.velocity.y;
+    }
+    *(bullet).position = *bullet.position - 1; //Earlier bullet position, don't know how to get it
+}
+*/
+
+
+void bulletCollideWall(level_t level, bullet_t *bullet) {
+    if (entityCollidesWall(level, &(*bullet).placement)) {
+        // bounceBullet();
+    }
+}
+

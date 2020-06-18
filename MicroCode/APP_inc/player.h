@@ -4,6 +4,10 @@
 #include "fix_point_math.h"
 #include "entity_representation.h"
 #include "movement.h"
+#include "level.h"
+#include "bullet.h"
+#include "powerUp.h"
+#include "door.h"
 
 //notes on the goals of the architecture:
 //  arbitrary number of players with arbitrary input devices
@@ -38,5 +42,17 @@ void fireBulletFromPlayer(player_t* player);
 
 // Get input from player input devices and realize the mapped actions
 void processPlayerActionsInGame(player_t *player);
+
+// Detect and handle collision with bullet.
+void playerCollideBullet(player_t *player, bullet_t *bullet);
+
+// Detect and handle collision with power-up.
+void playerCollidePowerUp(player_t *player, powerUp_t *powerUp);
+
+// Detect and handle collision with a wall.
+void playerCollideWall(level_t level, player_t *player);
+
+// TODO
+void playerCollideDoor(player_t *player, const door_t *door);
 
 #endif /* PLAYER_H_INCLUDED */

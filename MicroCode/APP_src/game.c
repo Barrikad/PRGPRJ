@@ -60,9 +60,6 @@ static void processPlayer(player_t *player) {
     for (i = 0; i < bulletCount; i++) {
         playerCollideBullet(player, &bullets[i]);
     }
-    for (i = 0; i < enemyCount; i++) {
-        playerCollideEnemy(player, &enemies[i]);
-    }
     playerCollideWall(firstLevel, player);
     // playerCollidePowerUp(player, powerUp);
     // playerCollideDoor(player, door);
@@ -78,7 +75,7 @@ static void processBullet(bullet_t *bullet) {
     // Collision
     bulletCollideWall(firstLevel, bullet);
 
-    // TODO: Add collision detection
+    // Rendering
     drawBullet(&(*bullet).placement);
 }
 
@@ -93,6 +90,9 @@ static void processEnemy(enemy_t *enemy) {
     for (i = 0; i < bulletCount; i++) {
         // TODO: Maybe add fromPlayer property on bullet, so we don't have to pass all players in here?
         enemyCollideBullet(players, playerCount, enemy, &bullets[i]);
+    }
+    for (i = 0; i < playerCount; i++) {
+        enemyCollidePlayer(enemy, &players[i]);
     }
     enemyCollideWall(firstLevel, enemy);
 

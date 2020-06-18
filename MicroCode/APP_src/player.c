@@ -1,6 +1,8 @@
 #include "player.h"
 #include "bullet.h"
 #include "game.h"
+#include "collision.h"
+#include "led.h"
 
 void initPlayer(player_t *player, vector_t position, deg512_t rotation, action_t (*inputFunction)()) {
     // This is very verbose, but this is intentional, since it makes it easy to
@@ -81,5 +83,46 @@ void processPlayerActionsInGame(player_t *player) {
     else{
         (*player).velocity.x = 0;
         (*player).velocity.y = 0;
+    }
+}
+
+
+/*
+void removeItem(itemType){
+    //Some function to remove bullet/enemy/power-up when they are hit
+}
+*/
+
+
+void playerCollideBullet(player_t *player, bullet_t *bullet) {
+    if (entitiesCollide((*player).placement, (*bullet).placement)) {
+        setLed(LED_RED); // This should be on a timer
+        (*player).lives -= 1;
+        //removeItem(bullet);
+    }
+}
+
+
+void playerCollidePowerUp(player_t *player, powerUp_t *powerUp) {
+    if (entitiesCollide((*player).placement, (*powerUp).placement)) {
+        (*player).effects = 1;
+        //removeItem(PowerUp);
+    }
+}
+
+
+void playerCollideWall(level_t level, player_t *player) {
+    if (entityCollidesWall(level, &(*player).placement)) {
+        // Don't care about setting the velocity, since that's controlled elsewhere!
+        // TODO: Let the player "snap" into place
+        (*player).placement.position.x -= (*player).velocity.x;
+        (*player).placement.position.y -= (*player).velocity.y;
+    }
+}
+
+
+void playerCollideDoor(player_t *player, const door_t *door) {
+    if (entitiesCollide((*player).placement, (*door).placement)) {
+        (*player).points += (*door).points;
     }
 }
