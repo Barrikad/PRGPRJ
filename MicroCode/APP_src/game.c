@@ -23,7 +23,6 @@ static uint8_t enemyCount = 0;
 static enemy_t enemies[MAX_ENEMIES];
 
 
-//--------------PLAYERS-----------
 void addPlayer(vector_t position, deg512_t rotation, action_t (*inputFunction)()) {
     if (playerCount >= MAX_PLAYERS) {
         return;
@@ -32,13 +31,6 @@ void addPlayer(vector_t position, deg512_t rotation, action_t (*inputFunction)()
     playerCount++;
 }
 
-void movePlayers(){
-    for(int i = 0; i < playerCount; i++){
-        movePlayer(players + i);
-    }
-}
-
-//------------BULLETS-------------
 void addBullet(bullet_t bullet){
     if(bulletCount < MAX_BULLETS){
         bullets[bulletCount] = bullet;
@@ -46,14 +38,6 @@ void addBullet(bullet_t bullet){
     }
 }
 
-void moveBullets(){
-    for(int i = 0; i < bulletCount; i++){
-        moveBullet(bullets + i);
-    }
-}
-
-
-//-----------ENEMIES----------------
 void addEnemy(enemy_t enemy){
     if(enemyCount < MAX_ENEMIES){
         enemies[enemyCount] = enemy;
@@ -62,27 +46,29 @@ void addEnemy(enemy_t enemy){
 }
 
 
-//--------------ALL-------------
-void reduceWeaponCooldowns(){
-    //players
-    for(int i = 0; i < playerCount; i++){
-        if(players[i].weaponCooldown)
-            players[i].weaponCooldown--;
-    }
-
-    //enemies
-    for(int i = 0; i < enemyCount; i++){
-        if(enemies[i].weaponCooldown)
-            enemies[i].weaponCooldown--;
-    }
-}
-
-
 void processGameTick() {
+    uint8_t i;
     processPlayerActionsInGame(&players[0]);
-    movePlayers();
-    moveBullets();
-    reduceWeaponCooldowns();
+
+    for (i = 0; i < playerCount; i++) {
+        movePlayer(&players[i]);
+    }
+
+    for (i = 0; i < bulletCount; i++) {
+        moveBullet(&bullets[i]);
+    }
+
+    for (i = 0; i < playerCount; i++) {
+        if (players[i].weaponCooldown) {
+            players[i].weaponCooldown--;
+        }
+    }
+
+    for (i = 0; i < enemyCount; i++) {
+        if (enemies[i].weaponCooldown) {
+            enemies[i].weaponCooldown--;
+        }
+    }
 
     // TODO: Move this into main collision detection
     playerCollideWall(&players[0]);
@@ -92,11 +78,11 @@ void processGameTick() {
     cursorToXY(40, 0);
     printf("%i ", players[0].placement.rotation);
 
-    for(int i = 0; i < playerCount; i++) {
+    for(i = 0; i < playerCount; i++) {
         drawPlayer(&players[i].placement);
     }
 
-    for(int i = 0; i < bulletCount; i++){
+    for(i = 0; i < bulletCount; i++){
         drawBullet(&bullets[i].placement);
     }
 }
