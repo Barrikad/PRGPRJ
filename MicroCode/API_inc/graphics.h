@@ -19,7 +19,13 @@ const char ENEMY[4];
 void drawSprite11(const char sprite[], const placement_t *placement);
 
 // Draw the given player.
+void undrawPlayer(const placement_t *placement);
+
+// Draw the given player.
 void drawPlayer(const placement_t *placement);
+
+// Draw the given bullet.
+void undrawBullet(const placement_t *placement);
 
 // Draw the given player.
 void drawBullet(const placement_t *placement);

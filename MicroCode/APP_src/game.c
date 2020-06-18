@@ -55,7 +55,9 @@ void addEnemy(enemy_t enemy){
 
 static void processPlayer(player_t *player) {
     uint8_t i;
-    // TODO: Add un-drawing of player
+    // Un-render bullet with the current position, so that we can simply draw it at the new position in the end
+    undrawPlayer(&(*player).placement);
+
     processPlayerActionsInGame(player);
 
     // Player attributes
@@ -77,7 +79,9 @@ static void processPlayer(player_t *player) {
 }
 
 static void processBullet(bullet_t *bullet) {
-    // TODO: Add un-drawing of bullet
+    // Un-render bullet with the current position, so that we can simply draw it at the new position in the end
+    undrawBullet(&(*bullet).placement);
+
     moveBullet(bullet);
 
     // Collision
@@ -110,9 +114,6 @@ static void processEnemy(enemy_t *enemy) {
 
 void processGameTick() {
     uint8_t i;
-    // TODO: Remove need to re-render level
-    renderLevel(firstLevel);
-
     // Process entities
     for (i = 0; i < playerCount; i++) {
         processPlayer(&players[i]);
@@ -126,5 +127,5 @@ void processGameTick() {
 
     // Debug print current player rotation
     cursorToXY(40, 0);
-    printf("%i ", players[0].placement.rotation);
+    printf("%3i", players[0].placement.rotation);
 }
