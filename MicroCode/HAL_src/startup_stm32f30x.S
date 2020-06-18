@@ -20,11 +20,13 @@ __StackTop:
 
     .section .heap
     .align 3
-#ifdef __HEAP_SIZE
-    .equ    Heap_Size, __HEAP_SIZE
-#else
-    .equ    Heap_Size, 0xC00
-#endif
+    // MODIFICATION: Disable heap
+	.equ    Heap_Size, 0x00
+//#ifdef __HEAP_SIZE
+//    .equ    Heap_Size, __HEAP_SIZE
+//#else
+//    .equ    Heap_Size, 0xC00
+//#endif
     .globl    __HeapBase
     .globl    __HeapLimit
 __HeapBase:

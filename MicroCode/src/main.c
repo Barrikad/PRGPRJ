@@ -6,7 +6,7 @@
 #include "player.h"
 #include "entity_representation.h"
 #include "fix_point_math.h"
-#include "game_state.h"
+#include "game.h"
 #include "joystick.h"
 #include "ansi.h"
 #include "led.h"
@@ -14,9 +14,8 @@
 #include "menu.h"
 #include "level.h"
 #include "boss_mode.h"
-#include "draw_game.h"
 #include "movement.h"
-#include "actions.h"
+#include "frame_timer.h"
 
 typedef enum {
     game      = 0,
@@ -41,8 +40,6 @@ void mainGame() {
         if (currentGamestate == game) {
             // TODO: This
             // TODO: Add shouldShowBossKey
-            renderLevel();
-            processInputLevel();
             // processEnemy();
             // moveEntities();
             // detectCollisions(&player, &entities);
@@ -124,30 +121,22 @@ int main(void) {
     lcdWriteChar('!', 42, 31);
     lcdFlush();
 
-    deg512_t rot = 0;
-    vector_t pos = {4,4};
-    vector_t hb = {1,1};
-    placement_t plc= {pos,hb,rot};
-    vector_t vel = {1,1};
-    player_t player = {plc,vel,0,0,0};
-
-    addPlayer(player);
     initJoystickForGame();
-    addPlayerWithInput(allPlayers(),movementFromJoystick);
+
+    // Create a player and add to game
+    vector_t position = {createFix(1), createFix(1)};
+    addPlayer(position, 0, movementFromJoystick);
+
+    //initialize timer
+    initFrameTimer();
 
     printf("test");
 
-    // TODO: Hide the cursor, so it doesn't show up when rendering
-    // cursorHide();
+    cursorHide();
     while (1) {
-        for(uint16_t i = 1; i > 0; i++){}
-        processPlayerActionsInGame();
-        movePlayers();
-        moveBullets();
-        clrscr();
-        cursorToXY(40,0);
-        printf("%i ",(*allPlayers()).placement.rotation);
-
-        drawGame();
+        if(getFlag()){
+            processGameTick();
+            unsetFlag();
+        }
     }
 }

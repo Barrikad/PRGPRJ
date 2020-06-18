@@ -1,4 +1,4 @@
-#include "lut.h"
+#include "sin_lut.h"
 #include "fix_point_math.h"
 
 //Note on all math functions:
@@ -79,6 +79,14 @@ int16_t floorFix(fix14_t x){
         x = x >> 14;
         return -1*x;
     }
+}
+
+fix14_t createFix(int16_t x) {
+    return x << FIX14_SHIFT;
+}
+
+fix14_t roundFixToFix(fix14_t x) {
+    return x << FIX14_SHIFT;
 }
 
 // Rotates the vector at the pointer the given number of degrees, with 512 degs in a circle
