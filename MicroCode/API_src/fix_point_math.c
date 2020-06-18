@@ -48,6 +48,21 @@ fix14_t cosine(deg512_t degs){
     return sine(degs + 128); //  512*90/360 = 128
 }
 
+deg512_t asine(fix14_t s){
+    if(s < 0){
+        s |= 1 << 9;
+        s &= 0x1FF;
+    }
+    else{
+        s &= 0xFF;
+    }
+    return ASIN[s];
+}
+
+deg512_t acosine(fix14_t c){
+    return 128 - asine(c);
+}
+
 
 //private function to round a guaranteed positive number
 static int16_t roundPositive(fix14_t x){
