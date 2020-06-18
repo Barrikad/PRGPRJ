@@ -43,12 +43,12 @@ static void incrementPlayerPoints(player_t *players, uint8_t playerCount, enemy_
 /*
 void bounceBullet(bullet_t *bullet){
     if (wallHitbox().x - bullet.position.x == 0) { //checks if the bullet hit wall in x direction
-        *bullet.velocity.x -= bullet.velocity.x;
+        *(bullet).velocity.x -= bullet.velocity.x;
     }
     else if (wallHitbox().y - bullet.position.y == 0){ //checks if the bullet hit wall in y direction
-        *bullet.velocity.y -= bullet.velocity.y;
+        *(bullet).velocity.y -= bullet.velocity.y;
     }
-    *bullet.position = *bullet.position - 1; //Earlier bullet position, don't know how to get it
+    *(bullet).position = *bullet.position - 1; //Earlier bullet position, don't know how to get it
 }
 */
 
@@ -77,15 +77,14 @@ void playerCollidePowerUp(player_t *player, powerUp_t *powerUp){
 }
 
 
-void playerCollideWall(player_t *player) {
-    if (entityCollidesWall(firstLevel, &(*player).placement)) {
+void playerCollideWall(level_t level, player_t *player) {
+    if (entityCollidesWall(level, &(*player).placement)) {
         // Don't care about setting the velocity, since that's controlled elsewhere!
         // TODO: Let the player "snap" into place
         (*player).placement.position.x -= (*player).velocity.x;
         (*player).placement.position.y -= (*player).velocity.y;
     }
 }
-
 
 
 void playerCollideDoor(player_t *player, door_t *door){
@@ -102,48 +101,17 @@ void enemyCollideBullet(player_t *players, uint8_t playerCount, enemy_t *enemy, 
 }
 
 
-/*
-void enemyCollideWall(enemy_t *enemy, wall_t wall) {
-    if (entitiesCollide((*enemy).placement, wall.placement)) {
+
+void enemyCollideWall(level_t level, enemy_t *enemy) {
+    if (entityCollidesWall(level, &(*enemy).placement)) {
         // *enemy.velocity = -enemy.velocity;
     }
 }
 
 
-void bulletCollideWall(bullet_t *bullet, wall_t wall) {
-    if (entitiesCollide((*bullet).placement, wall.placement)) {
-        bounceBullet();
+void bulletCollideWall(level_t level, bullet_t *bullet) {
+    if (entityCollidesWall(level, &(*bullet).placement)) {
+        // bounceBullet();
     }
 }
 
-*/
-
-
-void processPlayerCollisions(player_t *players, uint8_t playerCount, enemy_t *enemies, uint8_t enemyCount, bullet_t *bullets, uint8_t bulletCount, door_t *door, powerUp_t *powerUp) {
-    for(int i = 0; i < playerCount; i++){
-        for (int j = 0; j < bulletCount; j++) {
-            playerCollideBullet(&players[i], &bullets[j]);
-        }
-        for (int k = 0; k < enemyCount; k++) {
-            playerCollideEnemy(&players[i], &enemies[i]);
-        }
-        playerCollidePowerUp(&players[i], powerUp);
-        //playerCollideWall(player_t *player, wall_t wall);
-        playerCollideDoor(&players[i], door);
-    }
-}
-
-void processEnemyCollisions(player_t *players, uint8_t playerCount, enemy_t *enemies, uint8_t enemyCount, bullet_t *bullets, uint8_t bulletCount) {
-    for (int j = 0; j < bulletCount; j++) {
-        for (int k = 0; k < enemyCount; k++) {
-            enemyCollideBullet(players, playerCount, &enemies[k], &bullets[j]);
-        }
-    // enemyCollideWall(enemy_t *enemy, wall_t wall);
-    }
-}
-
-void processBulletCollisions(bullet_t *bullets, uint8_t bulletCount) {
-    for (int j = 0; j < bulletCount; j++) {
-        //bulletCollideWall(bullet_t bullet, wall_t wall);
-    }
-}

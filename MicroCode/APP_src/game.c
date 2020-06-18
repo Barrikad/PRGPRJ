@@ -46,29 +46,57 @@ void addEnemy(enemy_t enemy){
 }
 
 static void processPlayer(player_t *player) {
+    uint8_t i;
     // TODO: Add un-drawing of player
     processPlayerActionsInGame(player);
+
+    // Player attributes
     movePlayer(player);
     if ((*player).weaponCooldown) {
         (*player).weaponCooldown--;
     }
-    // TODO: Move this into main collision detection, and add more detection
-    playerCollideWall(player);
+
+    // Collision
+    for (i = 0; i < bulletCount; i++) {
+        playerCollideBullet(player, &bullets[i]);
+    }
+    for (i = 0; i < enemyCount; i++) {
+        playerCollideEnemy(player, &enemies[i]);
+    }
+    playerCollideWall(firstLevel, player);
+    // playerCollidePowerUp(player, powerUp);
+    // playerCollideDoor(player, door);
+
+    // Rendering
     drawPlayer(&(*player).placement);
 }
 
 static void processBullet(bullet_t *bullet) {
     // TODO: Add un-drawing of bullet
     moveBullet(bullet);
+
+    // Collision
+    bulletCollideWall(firstLevel, bullet);
+
     // TODO: Add collision detection
     drawBullet(&(*bullet).placement);
 }
 
 static void processEnemy(enemy_t *enemy) {
-    // TODO: More here!
+    uint8_t i;
+    // Enemy attributes
     if ((*enemy).weaponCooldown) {
         (*enemy).weaponCooldown--;
     }
+
+    // Collision
+    for (i = 0; i < bulletCount; i++) {
+        // TODO: Maybe add fromPlayer property on bullet, so we don't have to pass all players in here?
+        enemyCollideBullet(players, playerCount, enemy, &bullets[i]);
+    }
+    enemyCollideWall(firstLevel, enemy);
+
+    // TODO: More here!
 }
 
 
