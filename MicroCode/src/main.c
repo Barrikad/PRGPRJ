@@ -123,9 +123,7 @@ int main(void) {
 
     initJoystickForGame();
 
-    // Create a player and add to game
-    vector_t position = {createFix(1), createFix(1)};
-    addPlayer(position, 0, movementFromJoystick);
+    initLevel(firstLevel);
 
     //initialize timer
     initFrameTimer();

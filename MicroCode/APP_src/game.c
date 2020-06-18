@@ -23,6 +23,14 @@ static uint8_t enemyCount = 0;
 static enemy_t enemies[MAX_ENEMIES];
 
 
+void initLevel(level_t level) {
+    renderLevel(level);
+    vector_t position = {createFix(1), createFix(1)};
+    addPlayer(position, 0, movementFromJoystick);
+    // TODO: Store current level?
+}
+
+
 void addPlayer(vector_t position, deg512_t rotation, action_t (*inputFunction)()) {
     if (playerCount >= MAX_PLAYERS) {
         return;

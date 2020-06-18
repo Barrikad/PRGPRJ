@@ -5,6 +5,9 @@
 #include "enemy.h"
 #include "bullet.h"
 
+// Enter / initialize the given level.
+void initLevel(level_t level);
+
 //add entities to gamestate
 void addPlayer(vector_t position, deg512_t rotation, action_t (*inputFunction)());
 void addEnemy(enemy_t enemy);
