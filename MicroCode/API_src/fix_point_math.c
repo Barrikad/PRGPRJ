@@ -67,8 +67,23 @@ deg512_t asine(fix14_t s){
 }
 
 deg512_t acosine(fix14_t c){
+    //acos(x) = pi/2 - asin(x)
     return 128 - asine(c);
 }
+
+fix14_t squrt(fix14_t x){
+    //  note: division of fixpoint by int is safe
+    //initial estimate
+    fix14_t estimate = x/3;
+
+    //iterative estimates
+    for(int i = 0; i < 15; i++){
+        estimate = (estimate + FIX14_DIV(x,estimate)) / 2;
+    }
+
+    return estimate;
+}
+
 
 
 //private function to round a guaranteed positive number
