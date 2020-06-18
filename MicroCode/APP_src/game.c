@@ -25,11 +25,12 @@ static enemy_t enemies[MAX_ENEMIES];
 
 
 //--------------PLAYERS-----------
-void addPlayer(player_t player){
-    if(playerCount < MAX_PLAYERS){
-        players[playerCount] = player;
-        playerCount++;
+void addPlayer(vector_t position, deg512_t rotation) {
+    if (playerCount >= MAX_PLAYERS) {
+        return;
     }
+    initPlayer(&players[playerCount], position, rotation);
+    playerCount++;
 }
 
 void movePlayers(){

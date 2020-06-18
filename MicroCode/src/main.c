@@ -123,17 +123,13 @@ int main(void) {
     lcdWriteChar('!', 42, 31);
     lcdFlush();
 
-    //create a player at top left corner
-    deg512_t rot = 0;
-    vector_t pos = {createFix(1), createFix(1)};
-    placement_t plc= {pos, createFix(1), createFix(1), rot};
-    vector_t vel = {0, 0};
-    player_t player = {plc, vel, 0, 0, 0, 0};
-
-    //add player to gamestate and input
-    addPlayer(player);
     initJoystickForGame();
-    addPlayerWithInput(allPlayers(),movementFromJoystick);
+
+    // Create a player and add to game
+    vector_t position = {createFix(1), createFix(1)};
+    addPlayer(position, 0);
+
+    addPlayerWithInput(allPlayers(), movementFromJoystick);
 
     //initialize timer
     initFrameTimer();

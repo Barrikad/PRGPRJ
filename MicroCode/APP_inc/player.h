@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include "fix_point_math.h"
 #include "entity_representation.h"
+#include "movement.h"
 
 //type for registering that a player has powerups, debuffs etc.
 // bit1 on if powerup1 is on f.ex.
@@ -16,6 +17,9 @@ typedef struct{
     uint8_t weaponCooldown;
     effects_t effects;
 }player_t;
+
+// Initialize a player with the given position and rotation.
+void initPlayer(player_t *player, vector_t position, deg512_t rotation);
 
 //adds velocity to player coordinates
 //  Side effects: players position is changed
