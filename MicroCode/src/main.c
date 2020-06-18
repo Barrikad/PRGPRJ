@@ -129,10 +129,13 @@ int main(void) {
     initFrameTimer();
 
     //test enemy behavior. Will remove soon
-    vector_t pos = {5,0};
+    vector_t pos = {5 << 14,6 << 14};
     deg512_t rot = 0;
     placement_t plc = {pos, 1 << 13, 1 << 13, rot};
-    enemy_t enemy = {plc,0,0,0};
+    vector_t cp1 = {0,0};
+    vector_t cp2 = {9 << 14, 9 << 14};
+    vector_t cps[8] = {cp1,cp2,cp1,cp2,cp1,cp2,cp1,cp2};
+    enemy_t enemy = {plc,0,0,0,cps,0};
     addEnemy(enemy);
     //tset
 

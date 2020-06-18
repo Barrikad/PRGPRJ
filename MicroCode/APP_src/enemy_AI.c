@@ -38,6 +38,7 @@ player_relation_t findClosestPlayer(player_t *players, uint8_t playerCount, enem
 
 void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemies, uint8_t enemyCount) {
     for(uint8_t i = 0; i < enemyCount; i++){
+        //TODO: shooting and moving should probably be pulled into separate functions
         //---------------SHOT AT PLAYER---------------------------------------
         //find the player closest to the enemy, with distance information
         player_relation_t closestPR = findClosestPlayer(players, playerCount, enemies[i]);
@@ -72,6 +73,29 @@ void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemie
 
 
         //------------------MOVE ENEMY---------------------------
+        //TODO: should make a better naming convention, but might want to extract function first
+        //distance to checkpoint in either direction
+        fix14_t cpDiffX = enemies[i].checkpoints[enemies[i].checkpointIndex].x - enemies[i].placement.position.x;
+        fix14_t cpDiffY = enemies[i].checkpoints[enemies[i].checkpointIndex].y - enemies[i].placement.position.y;
 
+        //find distance to checkpoint
+        vector_t cpDiffV = {cpDiffX,cpDiffY};
+        fix14_t cpDist = vectorLen(cpDiffV);
+
+        if(cpDist < (1 << 14)){
+            //if distance is less than one move on to next checkpoint
+            enemies[i].checkpointIndex++;
+            enemies[i].checkpointIndex %= CHECKPOINT_COUNT;
+        }else{
+            //else move closer to checkpoint
+
+            //reduce distance vector to unit vector
+            cpDiffX = FIX14_DIV(cpDiffX,cpDist);
+            cpDiffY = FIX14_DIV(cpDiffY,cpDist);
+
+            //add unit vector pointing to checkpoint to enemy position
+            enemies[i].checkpoints[enemies[i].checkpointIndex].x += cpDiffX;
+            enemies[i].checkpoints[enemies[i].checkpointIndex].y += cpDiffY;
+        }
     }
 }
