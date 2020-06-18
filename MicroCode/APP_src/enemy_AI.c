@@ -1,12 +1,7 @@
-#include "game.h"
 #include "enemy.h"
 #include "player.h"
 
-player_t findClosestPlayer(enemy_t enemy){
-    //get player info from game_state
-    uint8_t playerCount = numberOfPlayers();
-    player_t *players = allPlayers();
-
+player_t findClosestPlayer(player_t *players, uint8_t playerCount, enemy_t enemy) {
     //initialize search vars
     uint16_t minDistance = ~0;
     player_t closestPlayer;
@@ -28,12 +23,8 @@ player_t findClosestPlayer(enemy_t enemy){
     return closestPlayer;
 }
 
-void processEnemyActions(){
-    enemy_t *enemies = allEnemies();
-    uint8_t enemyCount = numberOfEnemies();
-
+void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemies, uint8_t enemyCount) {
     for(uint8_t i = 0; i < enemyCount; i++){
-        player_t closestPlayer = findClosestPlayer(enemies[i]);
-
+        player_t closestPlayer = findClosestPlayer(players, playerCount, enemies[i]);
     }
 }

@@ -38,10 +38,6 @@ void movePlayers(){
     }
 }
 
-uint8_t numberOfPlayers(){
-    return playerCount;
-}
-
 //only ever use this pointer for reading!
 player_t* allPlayers(){
     return players;
@@ -62,15 +58,6 @@ void moveBullets(){
     }
 }
 
-uint8_t numberOfBullets(){
-    return bulletCount;
-}
-
-//Only ever use this pointer for reading!
-bullet_t* allBullets(){
-    return bullets;
-}
-
 
 //-----------ENEMIES----------------
 void addEnemy(enemy_t enemy){
@@ -80,13 +67,6 @@ void addEnemy(enemy_t enemy){
     }
 }
 
-uint8_t numberOfEnemies(){
-    return enemyCount;
-}
-
-enemy_t* allEnemies(){
-    return enemies;
-}
 
 //--------------ALL-------------
 void reduceWeaponCooldowns(){
