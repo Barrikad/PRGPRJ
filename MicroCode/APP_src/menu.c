@@ -67,11 +67,9 @@ void scoreFormatting(char score[3][14], player_t* players, uint8_t numPlayers){
     }
 }
 
-void renderScoreMenu(uint8_t clearedLevels) {
-    uint8_t numPlayers = numberOfPlayers();
+void renderScoreMenu(uint8_t clearedLevels, player_t* players, uint8_t numPlayers) {
     char* highscore = "      Highscore      ";
     char* playerNumber[] = {"Player 1", "Player 2", "Player 3"}; // if more than 3 players is wanted then a scroll function is needed
-    player_t* players = allPlayers();
     char score[3][14];
     scoreFormatting(score, players, numPlayers);
 
