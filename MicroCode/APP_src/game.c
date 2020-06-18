@@ -65,8 +65,7 @@ void addEnemy(enemy_t enemy){
 
 static void processPlayer(player_t *player) {
     uint8_t i;
-    // Un-render bullet with the current position, so that we can simply draw it at the new position in the end
-    undrawPlayer(&(*player).placement);
+    undrawTank(&(*player).placement);
 
     processPlayerActionsInGame(player);
 
@@ -84,13 +83,12 @@ static void processPlayer(player_t *player) {
     // playerCollidePowerUp(player, powerUp);
     // playerCollideDoor(player, door);
 
-    // Rendering
-    drawPlayer(&(*player).placement);
+    // Render purple tank
+    drawTank(&(*player).placement, 5);
 }
 
 // Returns whether the bullet should be deleted
 static uint8_t processBullet(bullet_t *bullet) {
-    // Un-render bullet with the current position, so that we can simply draw it at the new position in the end
     undrawBullet(&(*bullet).placement);
 
     moveBullet(bullet);
@@ -101,13 +99,14 @@ static uint8_t processBullet(bullet_t *bullet) {
     }
 
     // Rendering
-    drawBullet(&(*bullet).placement);
+    drawBullet(&(*bullet).placement, 1);
 
     return 0;
 }
 
 static void processEnemy(enemy_t *enemy) {
     uint8_t i;
+    undrawTank(&(*enemy).placement);
 
     // Enemy attributes
     if ((*enemy).weaponCooldown) {
@@ -125,6 +124,9 @@ static void processEnemy(enemy_t *enemy) {
     enemyCollideWall(firstLevel, enemy);
 
     // TODO: More here!
+
+    // Render yellow tank
+    drawTank(&(*enemy).placement, 11);
 }
 
 
@@ -134,7 +136,8 @@ void processGameTick() {
     //tset
 
     uint8_t i;
-    // Process entities
+    // Process entities.
+    // Each of these de-render each tick, so we can simply draw them at the new position in the end.
     for (i = 0; i < playerCount; i++) {
         processPlayer(&players[i]);
     }
