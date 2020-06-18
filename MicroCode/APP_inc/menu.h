@@ -3,29 +3,23 @@
 
 #include <stdint.h>
 
-// Renders the help screen. This should (FOR NOW) determine by itself how often it wants to render!
-void renderMainMenu();
+typedef enum {
+    game      = 0,
+    mainMenu  = 1,
+    helpMenu  = 2,
+    scoreMenu = 3,
+    creditsMenu  = 4,
+    bossMode  = 5
+    // miniGame = 6;
+} menustate_t;
 
-// Processes input from the user, possibly changing the currently selected item?
-// Returns 0 if should stay in main menu, 1 if should start game, 2 if should move to help menu and 3 if should start minigame.
-uint8_t processInputMainMenu();
 
-// Renders the help screen. This should (FOR NOW) determine by itself how often it wants to render!
-void renderHelpMenu();
+void initMainMenu();
 
-// Processes input from the user, possibly scrolling down the content?
-// Returns 0 if should stay in help menu, 1 if should return to main menu.
-uint8_t processInputHelpMenu();
+void mainMenuFunction();
+void helpMenuFunction();
+void scoreMenuFunction();
+void creditsMenuFunction();
 
-// Renders the score screen. This should (FOR NOW) determine by itself how often it wants to render!
-// TODO: Inputs to this function!
-void renderScoreMenu(uint8_t clearedLevels, player_t* players, uint8_t numPlayers);
-
-// Processes input from the user.
-// Returns 0 if should stay in score menu, 1 if should return to main menu.
-uint8_t processInputScoreMenu();
-
-// Renders the credits screen. This should (FOR NOW) determine by itself how often it wants to render!
-void renderCreditsMenu();
 
 #endif /* MENU_H_INCLUDED */
