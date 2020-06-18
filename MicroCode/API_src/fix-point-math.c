@@ -1,4 +1,5 @@
 #include "sin_lut.h"
+#include "asin_lut.h"
 #include "fix_point_math.h"
 
 //Note on all math functions:
@@ -46,6 +47,7 @@ fix14_t cosine(deg512_t degs){
     //we use the property that cos(x) = sin(x+90) (in ordinary degrees)
     return sine(degs + 128); //  512*90/360 = 128
 }
+
 
 //private function to round a guaranteed positive number
 static int16_t roundPositive(fix14_t x){
