@@ -4,7 +4,7 @@
 #include "enemy.h"
 #include "level.h"
 #include "ansi.h"
-#include "draw_game.h"
+#include "graphics.h"
 #include <stdio.h>
 
 #define MAX_PLAYERS 4
@@ -92,5 +92,11 @@ void processGameTick() {
     cursorToXY(40, 0);
     printf("%i ", players[0].placement.rotation);
 
-    drawGame(players, playerCount, bullets, bulletCount);
+    for(int i = 0; i < playerCount; i++) {
+        drawPlayer(&players[i].placement);
+    }
+
+    for(int i = 0; i < bulletCount; i++){
+        drawBullet(&bullets[i].placement);
+    }
 }

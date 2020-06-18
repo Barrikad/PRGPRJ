@@ -14,7 +14,6 @@
 #include "menu.h"
 #include "level.h"
 #include "boss_mode.h"
-#include "draw_game.h"
 #include "movement.h"
 #include "frame_timer.h"
 

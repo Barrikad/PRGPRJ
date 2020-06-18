@@ -19,17 +19,25 @@ void drawSpriteTiles(const char tiles[], uint8_t height, uint8_t width){
 }
 
 //draw 1x1 sprite
-void drawSprite11(const char sprite[], placement_t placement){
+void drawSprite11(const char sprite[], const placement_t *placement) {
     //position of top left corner
-    uint16_t cornerLeft = floorFix(placement.position.x);
-    uint16_t cornerTop = floorFix(placement.position.y);
+    uint16_t cornerLeft = floorFix((*placement).position.x);
+    uint16_t cornerTop = floorFix((*placement).position.y);
 
     cursorToXY(cornerLeft,cornerTop);
 
     //reduce angle so that 0 <= rotation < 512
     //multiply by four to choose sprite
     //divide by 512 to get 0 <= rotationOffset < 4
-    uint8_t rotationOffset = roundFix(((4 * (placement.rotation & 511)) << 14)/512);
+    uint8_t rotationOffset = roundFix(((4 * ((*placement).rotation & 511)) << 14)/512);
     rotationOffset %= 4;
     drawSpriteTiles(sprite + rotationOffset,1,1);
+}
+
+void drawPlayer(const placement_t *placement) {
+    drawSprite11(PLAYER, placement);
+}
+
+void drawBullet(const placement_t *placement) {
+    drawSprite11(BULLET, placement);
 }
