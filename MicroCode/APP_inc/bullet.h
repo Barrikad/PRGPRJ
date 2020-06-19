@@ -4,8 +4,6 @@
 #include "entity_representation.h"
 #include "level.h"
 
-#define BULLET_SPEED 1
-
 #define WEAPON_COOLDOWN 32
 
 typedef struct{

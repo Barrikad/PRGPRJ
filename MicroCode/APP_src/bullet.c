@@ -23,11 +23,12 @@ void fireBulletFromPlacement(placement_t placement){
     //make the placement of the bullet the same as the given placement, but with bullet hitbox
     vector_t position = placement.position;
     deg512_t rotation = placement.rotation;
-    placement_t bulletPlacement = {position, createFix(1), createFix(1), rotation};
+    // Hitbox is 0.25 by 0.25
+    placement_t bulletPlacement = {position, 1 << 12, 1 << 12, rotation};
 
-
-    //set velocity to 1 in the direction the bullet is pointing
-    vector_t bulletVelocity = {BULLET_SPEED << 14,0};
+    // Set velocity to 0.0625 in the direction the bullet is pointing
+    // Note: The velocoty should be smaller than the hitbox!
+    vector_t bulletVelocity = {1 << 10, 0};
     rotateVector(&bulletVelocity,rotation);
 
     //create bullet specified above

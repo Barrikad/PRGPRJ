@@ -55,29 +55,30 @@ void processPlayerActionsInGame(player_t *player) {
 
     //player rotates left
     if(input & 2){
-        rotateByAngle(&(*player).placement.rotation,-8);
+        rotateByAngle(&(*player).placement.rotation, -2);
     }
     //player rotates right
     if(input & 4){
-        rotateByAngle(&(*player).placement.rotation,8);
+        rotateByAngle(&(*player).placement.rotation, 2);
     }
 
 
-    //rotate a vector of length 1 to the orientation of the player
-    vector_t unitVector = {1 << 14,0};
+    // Set velocity to 0.03125 in the direction the player is pointing
+    // Note: The velocoty should be smaller than the hitbox!
+    vector_t velocity = {1 << 9, 0};
     pRot = (*player).placement.rotation;
-    rotateVector(&unitVector,pRot);
+    rotateVector(&velocity,pRot);
 
 
     //player moves forward
     if(input & 8){
-        (*player).velocity.x = unitVector.x;
-        (*player).velocity.y = unitVector.y;
+        (*player).velocity.x = velocity.x;
+        (*player).velocity.y = velocity.y;
     }
     //player moves backward
     else if(input & 16){
-        (*player).velocity.x = -unitVector.x;
-        (*player).velocity.y = -unitVector.y;
+        (*player).velocity.x = -velocity.x;
+        (*player).velocity.y = -velocity.y;
     }
     //player doesn't move
     else{
