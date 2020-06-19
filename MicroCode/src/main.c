@@ -54,36 +54,6 @@ int main(void) {
 
     uart_init(115200);
 
-    //test maths
-    printf("test sin\n");
-    printf("%li, ", 360*123/512);
-    printFix(expand(sine(123)));
-    printf("\n");
-    printf("%li, ", 360*(-123)/512);
-    printFix(expand(sine(-123)));
-    printf("\n");
-
-    printf("test asin\n");
-    printFix(expand(1 << 13));
-    printf(", %li\n",360*asine(1 << 13)/512);
-    printFix(expand(-(7 << 11)));
-    printf(", %li\n",360*asine(-(7 << 11))/512);
-
-    printf("test sqrt\n");
-    printFix(expand( 200 << 14));
-    printf(", ");
-    printFix(expand(squrt(200 << 14)));
-    printf("\n");
-    printFix(expand( 14294 << 14));
-    printf(", ");
-    printFix(expand(squrt(14294 << 14)));
-    printf("\n");
-
-
-    while(1){};
-    //tset
-
-
     initJoystickForGame();
 
     initLevel(firstLevel);
