@@ -112,11 +112,20 @@ void playerCollidePowerUp(player_t *player, powerUp_t *powerUp) {
 
 
 void playerCollideWall(level_t level, player_t *player) {
-    if (entityCollidesWall(level, &(*player).placement)) {
-        // Don't care about setting the velocity, since that's controlled elsewhere!
-        // TODO: Let the player "snap" into place
-        (*player).placement.position.x -= (*player).velocity.x;
-        (*player).placement.position.y -= (*player).velocity.y;
+    placement_t *placement = &(*player).placement;
+    wallCollision collision = entityCollidesWall(level, placement);
+    // Don't care about setting the velocity, since that's controlled elsewhere!
+    if (collision & collideTop) {
+        (*placement).position.y = (floorFix((*placement).position.y) + 1) << FIX14_SHIFT;
+    }
+    if (collision & collideBottom) {
+        (*placement).position.y = floorFix((*placement).position.y) << FIX14_SHIFT;
+    }
+    if (collision & collideLeft) {
+        (*placement).position.x = (floorFix((*placement).position.x) + 1) << FIX14_SHIFT;
+    }
+    if (collision & collideRight) {
+        (*placement).position.x = floorFix((*placement).position.x) << FIX14_SHIFT;
     }
 }
 
