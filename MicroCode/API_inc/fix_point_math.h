@@ -5,7 +5,8 @@
 //Defines operations for multiplication and division with fix point numbers
 #define FIX14_SHIFT 14
 #define FIX14_MULT(a, b) ( (a)*(b) >> FIX14_SHIFT )
-#define FIX14_DIV(a, b) ( ((a) << FIX14_SHIFT) / b )
+//Distributing shifts to avoid overflow and decreased accuracy
+#define FIX14_DIV(a, b) ( (((a) << 3) / (b >> 7)) << 4 )
 
 // Degrees expressed with 512 degrees in a circle
 typedef int16_t deg512_t;
