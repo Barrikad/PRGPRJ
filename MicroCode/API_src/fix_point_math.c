@@ -49,19 +49,33 @@ fix14_t cosine(deg512_t degs){
 }
 
 deg512_t asine(fix14_t s){
+    //TODO: too much indentation, should refactor
+    //negative numbers must be treated differently
     if(s < 0){
-        //convert to fix8
-        s >>= 6;
-        //set 9th bit to make negativ
-        s |= 1 << 9;
-        //only consider last 9 bits
-        s &= 0x1FF;
+        //cap at -1
+        if(s < -(1 << 14)){
+            s = 256;
+        }
+        else{
+            //convert to fix8
+            s >>= 6;
+            //set 9th bit to make negative
+            s |= 1 << 9;
+            //only consider last 9 bits
+            s &= 0x1FF;
+        }
     }
     else{
-        //convert to fix8
-        s >>= 6;
-        //only consider last 8 bits
-        s &= 0xFF;
+        //cap at 1
+        if(s >= 1 << 14){
+            s = 255;
+        }
+        else{
+            //convert to fix8
+            s >>= 6;
+            //only consider last 8 bits
+            s &= 0xFF;
+        }
     }
     return ASIN[s];
 }
@@ -137,6 +151,13 @@ int16_t floorFix(fix14_t x){
         x = x >> 14;
         return -1*x;
     }
+}
+
+fix14_t absFix(fix14_t x){
+    if(x < 0){
+        x = -x;
+    }
+    return x;
 }
 
 fix14_t createFix(int16_t x) {

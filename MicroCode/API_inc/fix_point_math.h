@@ -51,6 +51,9 @@ fix14_t vectorLen(vector_t v);
 int16_t roundFix(fix14_t x);
 int16_t floorFix(fix14_t x);
 
+//absolute value of fix
+fix14_t absFix(fix14_t x);
+
 // Create a 18.4 fixed point number from the given whole number.
 fix14_t createFix(int16_t x);
 

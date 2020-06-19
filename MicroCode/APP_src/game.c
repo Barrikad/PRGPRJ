@@ -113,6 +113,9 @@ static void processEnemy(enemy_t *enemy) {
         (*enemy).weaponCooldown--;
     }
 
+    //move and shoot
+    processEnemyActions(players,playerCount,enemy);
+
     // Collision
     for (i = 0; i < bulletCount; i++) {
         // TODO: Maybe add fromPlayer property on bullet, so we don't have to pass all players in here?
@@ -131,9 +134,6 @@ static void processEnemy(enemy_t *enemy) {
 
 
 void processGameTick() {
-    //test code
-    processEnemyActions(players,playerCount,enemies,enemyCount);
-    //tset
 
     uint8_t i;
     // Process entities.

@@ -2,8 +2,7 @@
 #define ENEMY_AI_H_INCLUDED
 
 
-//get input from all enemy input functions and realize the mapped actions
-void processEnemyActions();
+void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemy);
 
 
 #endif /* ENEMY_AI_H_INCLUDED */

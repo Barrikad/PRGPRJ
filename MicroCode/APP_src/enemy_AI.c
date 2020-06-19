@@ -14,16 +14,31 @@ player_relation_t findClosestPlayer(player_t *players, uint8_t playerCount, enem
     player_t closestPlayer;
 
     for(uint8_t i = 0; i < playerCount; i++){
-        //find distance in x and y direction
-        int32_t distance_x = (players[i].placement.position.x - enemy.placement.position.x);
-        int32_t distance_y = (players[i].placement.position.y - enemy.placement.position.y);
+        //find distance in x and y direction, converted to fix8
+        fix14_t distance_x = (players[i].placement.position.x - enemy.placement.position.x);
+        fix14_t distance_y = (players[i].placement.position.y - enemy.placement.position.y);
 
-        //multiplication, followed by conversion to integer, then addition
+        //ready values for distance calculation. because of the squaring we can take absolute value
+        //one could just use vectorLen here, but that would require unnecessary squaring
+        int32_t distance_xT = distance_x;
+        int32_t distance_yT = distance_y;
+        if(distance_xT < 0){
+            distance_xT = -distance_xT;
+        }
+        if(distance_yT < 0){
+            distance_yT = -distance_yT;
+        }
+        //convert to fix5 to avoid overflow;
+        distance_xT >>= 9;
+        distance_yT >>= 9;
+
+        //multiplication (converting to fix10), addition, then conversion to fix14
         //distance without square root since x < y -> sqrt(x) < sqrt(y)
-        uint32_t distance = (distance_x * distance_x >> 14) + (distance_y * distance_y >> 14);
+        uint32_t distance = ((distance_xT * distance_xT) + (distance_yT * distance_yT)) << 4;
 
         //assign new closest player, if distance is smallest yet
         if(distance < minDistance){
+            //converting back to fix14
             minVec.x = distance_x;
             minVec.y = distance_y;
             minDistance = distance;
@@ -36,66 +51,72 @@ player_relation_t findClosestPlayer(player_t *players, uint8_t playerCount, enem
     return pr;
 }
 
-void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemies, uint8_t enemyCount) {
-    for(uint8_t i = 0; i < enemyCount; i++){
-        //TODO: shooting and moving should probably be pulled into separate functions
-        //---------------SHOT AT PLAYER---------------------------------------
-        //find the player closest to the enemy, with distance information
-        player_relation_t closestPR = findClosestPlayer(players, playerCount, enemies[i]);
+void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemy) {
+    //TODO: shooting and moving should probably be pulled into separate functions
+    //---------------SHOT AT PLAYER---------------------------------------
+    //find the player closest to the enemy, with distance information
+    player_relation_t closestPR = findClosestPlayer(players, playerCount, *enemy);
 
-        //formula for angle between vectors. The two vectors being vector from enemy to player
-        //and unit-vector pointing right {1,0}.
-        //acos((1*x + 0*y) / (1*sqrt(x^2+y^2))) = acos(x/dist)
-        //https://onlinemschool.com/math/library/vector/angl/#:~:text=Basic%20relation.,the%20product%20of%20vector%20magnitude.
-        deg512_t angle = acosine(closestPR.vec.x / closestPR.distance);
-
-        //current rotation of enemy
-        deg512_t enemyRotation = enemies[i].placement.rotation;
-
-        //difference between rotation necessary to point at player, and current rotation
-        //i.e. what would have to be added to enemy rotation to be aiming at player
-        deg512_t rotationDiff = angle - enemyRotation;
-
-        //rotate towards player
-        //this is done even if currently pointing at player, as to create a spraying behavior
-        if(rotationDiff > 0){
-            enemies[i].placement.rotation += 8;
-        }
-        else{
-            enemies[i].placement.rotation -= 8;
-        }
-
-        //shoot if pointing within approx 20 deg(base 360) to either side
-        if(rotationDiff < 30 && rotationDiff > -30){
-            fireBulletFromEnemy(&enemies[i]);
-        }
+    fix14_t cosa = FIX14_DIV(absFix(closestPR.vec.x), closestPR.distance);
+    deg512_t angle;
+    if(closestPR.vec.x >= 0){
+        angle = acosine(cosa);
+    }
+    else{
+        angle = acosine(-cosa);
+    }
+    //formula for angle between vectors. The two vectors being vector from enemy to player
+    //and unit-vector pointing right {1,0}.
+    //acos((1*x + 0*y) / (1*sqrt(x^2+y^2))) = acos(x/dist)
+    //https://onlinemschool.com/math/library/vector/angl/#:~:text=Basic%20relation.,the%20product%20of%20vector%20magnitude.
 
 
+    //current rotation of enemy
+    deg512_t enemyRotation = (*enemy).placement.rotation;
 
-        //------------------MOVE ENEMY---------------------------
-        //TODO: should make a better naming convention, but might want to extract function first
-        //distance to checkpoint in either direction
-        fix14_t cpDiffX = enemies[i].checkpoints[enemies[i].checkpointIndex].x - enemies[i].placement.position.x;
-        fix14_t cpDiffY = enemies[i].checkpoints[enemies[i].checkpointIndex].y - enemies[i].placement.position.y;
+    //difference between rotation necessary to point at player, and current rotation
+    //i.e. what would have to be added to enemy rotation to be aiming at player
+    deg512_t rotationDiff = angle - enemyRotation;
 
-        //find distance to checkpoint
-        vector_t cpDiffV = {cpDiffX,cpDiffY};
-        fix14_t cpDist = vectorLen(cpDiffV);
+    //rotate towards player
+    //this is done even if currently pointing at player, as to create a spraying behavior
+    if(rotationDiff > 0){
+        (*enemy).placement.rotation += 8;
+    }
+    else{
+        (*enemy).placement.rotation -= 8;
+    }
 
-        if(cpDist < (1 << 14)){
-            //if distance is less than one move on to next checkpoint
-            enemies[i].checkpointIndex++;
-            enemies[i].checkpointIndex %= CHECKPOINT_COUNT;
-        }else{
-            //else move closer to checkpoint
+    //shoot if pointing within approx 20 deg(base 360) to either side
+    if(rotationDiff < 30 && rotationDiff > -30){
+        fireBulletFromEnemy(enemy);
+    }
 
-            //reduce distance vector to unit vector
-            cpDiffX = FIX14_DIV(cpDiffX,cpDist);
-            cpDiffY = FIX14_DIV(cpDiffY,cpDist);
 
-            //add unit vector pointing to checkpoint to enemy position
-            enemies[i].placement.position.x += cpDiffX;
-            enemies[i].placement.position.y += cpDiffY;
-        }
+
+    //------------------MOVE ENEMY---------------------------
+    //TODO: should make a better naming convention, but might want to extract function first
+    //distance to checkpoint in either direction
+    fix14_t cpDiffX = (*enemy).checkpoints[(*enemy).checkpointIndex].x - (*enemy).placement.position.x;
+    fix14_t cpDiffY = (*enemy).checkpoints[(*enemy).checkpointIndex].y - (*enemy).placement.position.y;
+
+    //find distance to checkpoint
+    vector_t cpDiffV = {cpDiffX,cpDiffY};
+    fix14_t cpDist = vectorLen(cpDiffV);
+
+    if(cpDist < (1 << 14)){
+        //if distance is less than one move on to next checkpoint
+        (*enemy).checkpointIndex++;
+        (*enemy).checkpointIndex %= CHECKPOINT_COUNT;
+    }else{
+        //else move closer to checkpoint
+
+        //reduce distance vector to unit vector
+        cpDiffX = FIX14_DIV(cpDiffX,cpDist);
+        cpDiffY = FIX14_DIV(cpDiffY,cpDist);
+
+        //add unit vector pointing to checkpoint to enemy position
+        (*enemy).placement.position.x += cpDiffX;
+        (*enemy).placement.position.y += cpDiffY;
     }
 }
