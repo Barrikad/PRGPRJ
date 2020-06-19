@@ -94,8 +94,8 @@ void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemie
             cpDiffY = FIX14_DIV(cpDiffY,cpDist);
 
             //add unit vector pointing to checkpoint to enemy position
-            enemies[i].checkpoints[enemies[i].checkpointIndex].x += cpDiffX;
-            enemies[i].checkpoints[enemies[i].checkpointIndex].y += cpDiffY;
+            enemies[i].placement.position.x += cpDiffX;
+            enemies[i].placement.position.y += cpDiffY;
         }
     }
 }

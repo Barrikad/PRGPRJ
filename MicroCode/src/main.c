@@ -66,7 +66,7 @@ int main(void) {
     deg512_t rot = 0;
     placement_t plc = {pos, 1 << 13, 1 << 13, rot};
     vector_t cp1 = {2 << 14, 1 << 14};
-    vector_t cp2 = {6 << 14, 1 << 14};
+    vector_t cp2 = {6 << 14, 2 << 14};
     vector_t cps[8] = {cp1,cp2,cp1,cp2,cp1,cp2,cp1,cp2};
     enemy_t enemy = {plc,0,0,0,cps,0};
     addEnemy(enemy);

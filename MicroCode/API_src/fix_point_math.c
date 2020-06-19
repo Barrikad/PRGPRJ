@@ -94,15 +94,15 @@ fix14_t vectorLen(vector_t v){
         v.y = -v.y;
     }
 
-    //convert to fix7
-    v.x >>= 7;
-    v.y >>= 7;
+    //convert to fix5
+    v.x >>= 9;
+    v.y >>= 9;
 
-    //calculate x^2+y^2. multiplication converts back to fix14
+    //calculate x^2+y^2. multiplication converts back to fix10
     fix14_t x2y2 = (v.x * v.x) + (v.y * v.y);
 
-    //return distance
-    return squrt(x2y2);
+    //return distance converted to fix14
+    return squrt(x2y2) << 4;
 }
 
 //private function to round a guaranteed positive number
