@@ -39,27 +39,19 @@ static const char * levelData2 =
     "#            #"
     "##############";
 
-// TODO: Move some of this to API?
 static void drawLevel(const char * data) {
-    uint8_t i, j, k, l;
+    uint8_t i, j;
     char c;
     for (i = 0; i < LEVEL_HEIGHT; i++) {
-        for (j = 0; j < TILE_HEIGHT; j++) {
-            for (k = 0; k < LEVEL_WIDTH; k++) {
-                for (l = 0; l < TILE_WIDTH; l++) {
-                    c = data[i * LEVEL_WIDTH + k];
-                    if (c == '#') {
-                        printf("#");
-                    } else if (c == '%') {
-                        printf("%%");
-                    } else {
-                        printf(" ");
-                    }
-                }
+        for (j = 0; j < LEVEL_WIDTH; j++) {
+            c = data[i * LEVEL_WIDTH + j];
+            if (c == '#') {
+                drawWall(i, j, 6);
+            } else if (c == '%') {
+                drawBox(i, j, 6);
+            } else {
+                // Noop
             }
-            // Go back to original position
-            cursorDown(1);
-            cursorLeft(LEVEL_WIDTH * TILE_WIDTH);
         }
     }
 }
@@ -86,7 +78,6 @@ static uint8_t collisionAtPosition(const char *data, uint8_t x, uint8_t y) {
 void renderLevel(level_t level) {
     clrscr();
     resetcolor();
-    cursorToXY(0, 0);
     drawLevel(getLevelData(level));
 }
 

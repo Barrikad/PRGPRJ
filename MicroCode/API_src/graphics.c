@@ -1,10 +1,11 @@
 #include "graphics.h"
 
 #define DIRECTIONS 4
+#define TILE_SIZE (TILE_WIDTH * TILE_HEIGHT + 1)
 
 // TODO: Use UTF-8 Unicode
 // Sprite for a tank
-const char TANK[DIRECTIONS][TILE_WIDTH * TILE_HEIGHT + 1] = {
+const char TANK[DIRECTIONS][TILE_SIZE] = {
     // Right
     "--- "
     " H->"
@@ -21,10 +22,22 @@ const char TANK[DIRECTIONS][TILE_WIDTH * TILE_HEIGHT + 1] = {
     " /\\ "
     "|HH|"
     "|  |"};
-const char TANK_CLEAR[TILE_WIDTH * TILE_HEIGHT + 1] =
+const char TANK_CLEAR[TILE_SIZE] =
     "    "
     "    "
     "    ";
+
+// Wall sprite
+const char WALL[TILE_SIZE] =
+    "####"
+    "#%%#"
+    "####";
+
+// Box sprite
+const char BOX[TILE_SIZE] =
+    "+--+"
+    "|  |"
+    "+--+";
 
 // The bullet sprite
 const char BULLET = 'o';
@@ -64,6 +77,20 @@ void drawTank(const placement_t *placement, uint8_t color) {
     rotationOffset %= DIRECTIONS;
     fgcolor(color);
     drawSpriteTiles(TANK[rotationOffset]);
+    resetcolor();
+}
+
+void drawWall(uint8_t x, uint8_t y, uint8_t color) {
+    cursorToXY(x * TILE_WIDTH, y * TILE_HEIGHT);
+    fgcolor(color);
+    drawSpriteTiles(WALL);
+    resetcolor();
+}
+
+void drawBox(uint8_t x, uint8_t y, uint8_t color) {
+    cursorToXY(x * TILE_WIDTH, y * TILE_HEIGHT);
+    fgcolor(color);
+    drawSpriteTiles(BOX);
     resetcolor();
 }
 
