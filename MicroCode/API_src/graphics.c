@@ -56,10 +56,21 @@ static void drawSpriteTiles(const char sprite[TILE_WIDTH * TILE_HEIGHT]) {
     }
 }
 
+static uint8_t getCoordinate(fix14_t coordinate) {
+    return roundFix(coordinate * TILE_WIDTH);
+}
+
+static uint8_t getRotationOffset(deg512_t rotation) {
+    //reduce angle so that 0 <= rotation < 512
+    //multiply by four to choose sprite
+    //divide by 512 to get 0 <= rotationOffset < 4
+    return roundFix(((DIRECTIONS * (rotation & 511)) << 14)/512) % DIRECTIONS;
+}
+
 // Go to the position from where we can start drawing
 static void goToPosition(const vector_t *position) {
-    uint8_t x = roundFix((*position).x * TILE_WIDTH);
-    uint8_t y = roundFix((*position).y * TILE_HEIGHT);
+    uint8_t x = getCoordinate((*position).x);
+    uint8_t y = getCoordinate((*position).y);
     cursorToXY(x, y);
 }
 
@@ -70,13 +81,8 @@ void undrawTank(const placement_t *placement) {
 
 void drawTank(const placement_t *placement, uint8_t color) {
     goToPosition(&(*placement).position);
-    //reduce angle so that 0 <= rotation < 512
-    //multiply by four to choose sprite
-    //divide by 512 to get 0 <= rotationOffset < 4
-    uint8_t rotationOffset = roundFix(((DIRECTIONS * ((*placement).rotation & 511)) << 14)/512);
-    rotationOffset %= DIRECTIONS;
     fgcolor(color);
-    drawSpriteTiles(TANK[rotationOffset]);
+    drawSpriteTiles(TANK[getRotationOffset((*placement).rotation)]);
     resetcolor();
 }
 
