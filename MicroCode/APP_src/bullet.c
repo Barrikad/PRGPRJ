@@ -24,6 +24,12 @@ void fireBulletFromPlacement(const placement_t *placement){
     bullet_t bullet = {bulletPlacement,bulletVelocity};
 
     //move the bullet out of the entity
+    // Done a few times since the velocity is too low to do this the first time
+    // TODO: Do this better!
+    moveBullet(&bullet);
+    moveBullet(&bullet);
+    moveBullet(&bullet);
+    moveBullet(&bullet);
     moveBullet(&bullet);
 
     addBullet(bullet);
