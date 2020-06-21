@@ -83,8 +83,6 @@ void renderLevel(level_t level) {
 
 // TODO: Move some of this to API?
 uint8_t entityCollidesWall(level_t level, const placement_t *placement) {
-    uint8_t i, j;
-    char c;
     wallCollision collision = noCollideTopBottom | noCollideLeftRight;
     uint8_t collisionTopLeft     = 0;
     uint8_t collisionTopRight    = 0;

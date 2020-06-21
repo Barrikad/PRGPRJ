@@ -18,37 +18,9 @@
 #include "frame_timer.h"
 
 
-void mainGame() {
+int main(void) {
     // Note: In the final game, we want to start the state in mainMenu
     // Or even make a fancy intro-screen?
-
-    level_t currentLevel = firstLevel;
-
-    uart_init(115200);
-    // TODO: Initialize other stuff
-
-    while(1) {
-        // TODO: This
-        // TODO: Add shouldShowBossKey
-        // processEnemy();
-        // moveEntities();
-        // detectCollisions(&player, &entities);
-        // if (player.health < 0) {
-        //     // Show highscore
-        //     currentGamestate = scoreMenu;
-        // } else if (enemyCount == 0) {
-        //     currentLevel = secondLevel;
-        //     enterLevel(currentLevel);
-        // }
-        if (isBossKeyPressed()) {
-        }
-
-    }
-}
-
-int main(void) {
-    // Run the actual game
-    // mainGame();
 
     // Test stuff below
 

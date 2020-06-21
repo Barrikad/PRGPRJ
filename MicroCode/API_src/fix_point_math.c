@@ -86,12 +86,13 @@ deg512_t acosine(fix14_t c){
 }
 
 fix14_t squrt(fix14_t x){
+    uint8_t i;
     //  note: division of fixpoint by int is safe
     //initial estimate
     fix14_t estimate = x/3;
 
     //iterative estimates
-    for(int i = 0; i < 15; i++){
+    for(i = 0; i < 15; i++){
         estimate = (estimate + FIX14_DIV(x,estimate)) / 2;
     }
 
