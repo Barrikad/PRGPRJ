@@ -200,25 +200,25 @@ uint8_t entityCollidesWall(level_t level, const placement_t *placement) {
         // Noop
     }
 
-    cursorToXY(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH), floorFix(top * TILE_HEIGHT));
-    printf("                                   \n");
-    cursorRight(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH));
-    printf("                                   \n");
-    cursorRight(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH));
-    printf("                                   \n");
-    cursorRight(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH));
-    printf("                                   \n");
-    cursorRight(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH));
-    printf("------- %d, %d, %d, %d -------\n", collisionTopLeft, collisionTopRight, collisionBottomLeft, collisionBottomRight);
-    cursorRight(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH));
-    printf("------- %d, %d, %d, %d -------\n", collision & collideTop, collision & collideBottom, collision & collideLeft, collision & collideRight);
-    cursorRight(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH));
-    printf("                                   \n");
-    cursorRight(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH));
-    printf("                                   \n");
-    cursorRight(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH));
-    printf("                                   \n");
-    cursorRight(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH));
-    printf("                                   \n");
+//    cursorToXY(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH), floorFix(top * TILE_HEIGHT));
+//    printf("                                   \n");
+//    cursorRight(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH));
+//    printf("                                   \n");
+//    cursorRight(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH));
+//    printf("                                   \n");
+//    cursorRight(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH));
+//    printf("                                   \n");
+//    cursorRight(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH));
+//    printf("------- %d, %d, %d, %d -------\n", collisionTopLeft, collisionTopRight, collisionBottomLeft, collisionBottomRight);
+//    cursorRight(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH));
+//    printf("------- %d, %d, %d, %d -------\n", collision & collideTop, collision & collideBottom, collision & collideLeft, collision & collideRight);
+//    cursorRight(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH));
+//    printf("                                   \n");
+//    cursorRight(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH));
+//    printf("                                   \n");
+//    cursorRight(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH));
+//    printf("                                   \n");
+//    cursorRight(LEVEL_WIDTH * TILE_WIDTH + 2 + floorFix(left * TILE_WIDTH));
+//    printf("                                   \n");
     return collision;
 }
