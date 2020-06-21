@@ -81,10 +81,10 @@ void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemy,
     //rotate towards player
     //this is done even if currently pointing at player, as to create a spraying behavior
     if(rotationDiff > 0){
-        (*enemy).placement.rotation += 8;
+        (*enemy).placement.rotation += 2;
     }
     else{
-        (*enemy).placement.rotation -= 8;
+        (*enemy).placement.rotation -= 2;
     }
 
     //shoot if pointing within approx 20 deg(base 360) to either side
