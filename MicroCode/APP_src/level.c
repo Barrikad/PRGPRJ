@@ -46,9 +46,9 @@ static void drawLevel(const char * data) {
         for (j = 0; j < LEVEL_WIDTH; j++) {
             c = data[i * LEVEL_WIDTH + j];
             if (c == '#') {
-                drawWall(i, j, 6);
+                drawWall(j, i, 6);
             } else if (c == '%') {
-                drawBox(i, j, 6);
+                drawBox(j, i, 6);
             } else {
                 // Noop
             }
