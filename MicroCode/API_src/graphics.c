@@ -56,8 +56,12 @@ static void drawSpriteTiles(const char sprite[TILE_WIDTH * TILE_HEIGHT]) {
     }
 }
 
-static uint8_t getCoordinate(fix14_t coordinate) {
-    return roundFix(coordinate * TILE_WIDTH);
+static uint8_t getXCoordinate(fix14_t x) {
+    return roundFix(x * TILE_WIDTH);
+}
+
+static uint8_t getYCoordinate(fix14_t y) {
+    return roundFix(y * TILE_HEIGHT);
 }
 
 static uint8_t getRotationOffset(deg512_t rotation) {
@@ -69,8 +73,8 @@ static uint8_t getRotationOffset(deg512_t rotation) {
 
 // Go to the position from where we can start drawing
 static void goToPosition(const vector_t *position) {
-    uint8_t x = getCoordinate((*position).x);
-    uint8_t y = getCoordinate((*position).y);
+    uint8_t x = getXCoordinate((*position).x);
+    uint8_t y = getYCoordinate((*position).y);
     cursorToXY(x, y);
 }
 
