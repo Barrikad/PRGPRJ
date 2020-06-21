@@ -33,7 +33,7 @@ static enemy_t enemies[MAX_ENEMIES];
 
 void initLevel(level_t level) {
     renderLevel(level);
-    vector_t position = {createFix(1), createFix(1)};
+    vector_t position = {createFix(2), createFix(9)};
     addPlayer(position, 0, movementFromJoystick);
     // TODO: Store current level?
 }
