@@ -61,17 +61,6 @@ int main(void) {
     //initialize timer
     initFrameTimer();
 
-    //test enemy behavior. Will remove soon
-    vector_t pos = {11 << 14, 6 << 14};
-    deg512_t rot = 0;
-    placement_t plc = {pos, 1 << 13, 1 << 13, rot};
-    vector_t cp1 = {11 << 14, 6 << 14};
-    vector_t cp2 = {9 << 14, 3 << 14};
-    vector_t cps[8] = {cp1,cp2,cp1,cp2,cp1,cp2,cp1,cp2};
-    enemy_t enemy = {plc,0,0,0,cps,0};
-    addEnemy(enemy);
-    //tset
-
     printf("test");
 
     cursorHide();

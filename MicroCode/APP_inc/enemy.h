@@ -14,7 +14,6 @@ typedef struct{
     uint8_t lives;
     uint8_t weaponCooldown;
     uint8_t points;
-    vector_t* checkpoints;
     uint8_t checkpointIndex;
 } enemy_t;
 

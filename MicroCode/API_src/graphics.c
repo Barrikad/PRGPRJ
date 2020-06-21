@@ -65,10 +65,11 @@ static uint8_t getYCoordinate(fix14_t y) {
 }
 
 static uint8_t getRotationOffset(deg512_t rotation) {
-    //reduce angle so that 0 <= rotation < 512
-    //multiply by four to choose sprite
-    //divide by 512 to get 0 <= rotationOffset < 4
-    return roundFix(((DIRECTIONS * (rotation & 511)) << 14)/512) % DIRECTIONS;
+    // Reduce angle so that 0 <= rotation < 512
+    // Multiply by DIRECTIONS to choose sprite
+    // Divide by 512 to get 0 <= rotationOffset < DIRECTIONS
+    // Ensure within range by using modulus DIRECTIONS
+    return roundFix(((DIRECTIONS * (rotation & 511)) << 14) / 512) % DIRECTIONS;
 }
 
 // Go to the position from where we can start drawing

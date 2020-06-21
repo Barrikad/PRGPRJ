@@ -22,6 +22,7 @@ static bullet_t bullets[MAX_BULLETS];
 //actual number of enemies in enemyCount
 static uint8_t enemyCount = 0;
 static enemy_t enemies[MAX_ENEMIES];
+static vector_t enemyCheckpoints[MAX_ENEMIES][CHECKPOINT_COUNT];
 
 // Purple
 #define playerColor 5
@@ -35,6 +36,24 @@ void initLevel(level_t level) {
     renderLevel(level);
     vector_t position = {createFix(2), createFix(9)};
     addPlayer(position, 0, movementFromJoystick);
+
+    // Test enemy behavior
+    vector_t pos = {11 << 14, 6 << 14};
+    deg512_t rot = 0;
+    placement_t plc = {pos, 1 << 13, 1 << 13, rot};
+    enemy_t enemy = {plc,0,0,0,0};
+    addEnemy(enemy);
+    vector_t cp1 = {11 << 14, 6 << 14};
+    vector_t cp2 = {9 << 14, 3 << 14};
+    enemyCheckpoints[0][0] = cp1;
+    enemyCheckpoints[0][1] = cp2;
+    enemyCheckpoints[0][2] = cp1;
+    enemyCheckpoints[0][3] = cp2;
+    enemyCheckpoints[0][4] = cp1;
+    enemyCheckpoints[0][5] = cp2;
+    enemyCheckpoints[0][6] = cp1;
+    enemyCheckpoints[0][7] = cp2;
+
     // TODO: Store current level?
 }
 
@@ -114,7 +133,7 @@ static uint8_t processBullet(bullet_t *bullet) {
     return 0;
 }
 
-static void processEnemy(enemy_t *enemy) {
+static void processEnemy(enemy_t *enemy, vector_t *checkpoints) {
     uint8_t i;
     placement_t previousPlacement = (*enemy).placement;
 
@@ -124,7 +143,7 @@ static void processEnemy(enemy_t *enemy) {
     }
 
     //move and shoot
-    processEnemyActions(players,playerCount,enemy);
+    processEnemyActions(players,playerCount,enemy, checkpoints);
 
     // Collision
     for (i = 0; i < bulletCount; i++) {
@@ -159,7 +178,7 @@ void processGameTick() {
         }
     }
     for (i = 0; i < enemyCount; i++) {
-        processEnemy(&enemies[i]);
+        processEnemy(&enemies[i], enemyCheckpoints[i]);
     }
 
     // Debug print current player rotation

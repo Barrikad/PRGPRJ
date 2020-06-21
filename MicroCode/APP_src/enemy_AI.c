@@ -51,7 +51,7 @@ player_relation_t findClosestPlayer(player_t *players, uint8_t playerCount, enem
     return pr;
 }
 
-void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemy) {
+void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemy, vector_t *checkpoints) {
     //TODO: shooting and moving should probably be pulled into separate functions
     //---------------SHOT AT PLAYER---------------------------------------
     //find the player closest to the enemy, with distance information
@@ -97,8 +97,8 @@ void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemy)
     //------------------MOVE ENEMY---------------------------
     //TODO: should make a better naming convention, but might want to extract function first
     //distance to checkpoint in either direction
-    fix14_t cpDiffX = (*enemy).checkpoints[(*enemy).checkpointIndex].x - (*enemy).placement.position.x;
-    fix14_t cpDiffY = (*enemy).checkpoints[(*enemy).checkpointIndex].y - (*enemy).placement.position.y;
+    fix14_t cpDiffX = checkpoints[(*enemy).checkpointIndex].x - (*enemy).placement.position.x;
+    fix14_t cpDiffY = checkpoints[(*enemy).checkpointIndex].y - (*enemy).placement.position.y;
 
     //find distance to checkpoint
     vector_t cpDiffV = {cpDiffX,cpDiffY};
