@@ -8,10 +8,10 @@ void moveBullet(bullet_t *bullet){
     moveEntity(&((*bullet).placement),(*bullet).velocity);
 }
 
-void fireBulletFromPlacement(placement_t placement){
+void fireBulletFromPlacement(const placement_t *placement){
     //make the placement of the bullet the same as the given placement, but with bullet hitbox
-    vector_t position = placement.position;
-    deg512_t rotation = placement.rotation;
+    vector_t position = {(*placement).position.x + (*placement).hitboxWidth / 2, (*placement).position.y + (*placement).hitboxHeight / 2};
+    deg512_t rotation = (*placement).rotation;
     // Hitbox is 0.25 by 0.25
     placement_t bulletPlacement = {position, 1 << 12, 1 << 12, rotation};
 

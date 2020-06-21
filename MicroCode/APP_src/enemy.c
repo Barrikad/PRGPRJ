@@ -7,7 +7,7 @@
 
 void fireBulletFromEnemy(enemy_t* enemy){
     if(!(*enemy).weaponCooldown){
-        fireBulletFromPlacement((*enemy).placement);
+        fireBulletFromPlacement(&(*enemy).placement);
         (*enemy).weaponCooldown = WEAPON_COOLDOWN;
     }
 }

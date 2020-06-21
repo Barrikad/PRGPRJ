@@ -28,7 +28,7 @@ void movePlayer(player_t *player){
 
 void fireBulletFromPlayer(player_t* player){
     if(!(*player).weaponCooldown){
-        fireBulletFromPlacement((*player).placement);
+        fireBulletFromPlacement(&(*player).placement);
         (*player).weaponCooldown = WEAPON_COOLDOWN;
     }
 }
