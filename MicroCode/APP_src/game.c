@@ -65,7 +65,7 @@ void addEnemy(enemy_t enemy){
 
 static void processPlayer(player_t *player) {
     uint8_t i;
-    undrawTank(&(*player).placement);
+    placement_t previousPlacement = (*player).placement;
 
     processPlayerActionsInGame(player);
 
@@ -84,21 +84,24 @@ static void processPlayer(player_t *player) {
     // playerCollideDoor(player, door);
 
     // Render purple tank
+    undrawTank(&previousPlacement);
     drawTank(&(*player).placement, 5);
 }
 
 // Returns whether the bullet should be deleted
 static uint8_t processBullet(bullet_t *bullet) {
-    undrawBullet(&(*bullet).placement);
+    placement_t previousPlacement = (*bullet).placement;
 
     moveBullet(bullet);
 
     // Collision
     if (bulletCollideWallAndShouldDelete(firstLevel, bullet)) {
+        undrawBullet(&previousPlacement);
         return 1;
     }
 
     // Rendering
+    undrawBullet(&previousPlacement);
     drawBullet(&(*bullet).placement, 1);
 
     return 0;
@@ -106,7 +109,7 @@ static uint8_t processBullet(bullet_t *bullet) {
 
 static void processEnemy(enemy_t *enemy) {
     uint8_t i;
-    undrawTank(&(*enemy).placement);
+    placement_t previousPlacement = (*enemy).placement;
 
     // Enemy attributes
     if ((*enemy).weaponCooldown) {
@@ -129,6 +132,7 @@ static void processEnemy(enemy_t *enemy) {
     // TODO: More here!
 
     // Render yellow tank
+    undrawTank(&previousPlacement);
     drawTank(&(*enemy).placement, 11);
 }
 
