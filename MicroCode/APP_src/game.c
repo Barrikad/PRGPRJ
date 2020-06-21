@@ -54,10 +54,6 @@ void initLevel(level_t level) {
     enemyCheckpoints[0][6] = cp1;
     enemyCheckpoints[0][7] = cp2;
 
-    // TODO: Do initial drawings in a better way!
-    drawTank(&players[0].placement, playerColor);
-    drawTank(&enemies[0].placement, enemyColor);
-
     // TODO: Store current level?
 }
 
@@ -67,14 +63,17 @@ void addPlayer(vector_t position, deg512_t rotation, action_t (*inputFunction)()
         return;
     }
     initPlayer(&players[playerCount], position, rotation, inputFunction);
+    drawTank(&players[playerCount].placement, playerColor);
     playerCount++;
 }
 
-void addBullet(bullet_t bullet){
-    if(bulletCount < MAX_BULLETS){
-        bullets[bulletCount] = bullet;
-        bulletCount++;
+void addBullet(bullet_t bullet) {
+    if (bulletCount >= MAX_BULLETS) {
+        return;
     }
+    bullets[bulletCount] = bullet;
+    drawBullet(&bullets[bulletCount].placement, bulletColor);
+    bulletCount++;
 }
 
 static void deleteBullet(uint8_t index) {
@@ -85,11 +84,13 @@ static void deleteBullet(uint8_t index) {
     bulletCount--;
 }
 
-void addEnemy(enemy_t enemy){
-    if(enemyCount < MAX_ENEMIES){
-        enemies[enemyCount] = enemy;
-        enemyCount++;
+void addEnemy(enemy_t enemy) {
+    if (enemyCount >= MAX_ENEMIES) {
+        return;
     }
+    enemies[enemyCount] = enemy;
+    drawTank(&enemies[enemyCount].placement, enemyColor);
+    enemyCount++;
 }
 
 static void processPlayer(player_t *player) {
