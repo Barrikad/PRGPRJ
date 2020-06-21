@@ -2,11 +2,6 @@
 #include "joystick.h"
 #include "movement.h"
 
-void initJoystickForGame(){
-    initJoystick();
-}
-
-
 action_t movementFromJoystick(){
     uint16_t moves = 0;
     moves += readJoystick(JOYSTICK_MIDDLE) << 0;

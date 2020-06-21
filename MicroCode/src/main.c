@@ -26,7 +26,8 @@ int main(void) {
 
     uart_init(115200);
 
-    initJoystickForGame();
+    // Initialize joystick both for the game and the menu
+    initJoystick();
 
     initLevel(firstLevel);
 
