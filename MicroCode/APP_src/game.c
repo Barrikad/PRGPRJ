@@ -23,6 +23,13 @@ static bullet_t bullets[MAX_BULLETS];
 static uint8_t enemyCount = 0;
 static enemy_t enemies[MAX_ENEMIES];
 
+// Purple
+#define playerColor 5
+// Yellow
+#define enemyColor 11
+// Red
+#define bulletColor 1
+
 
 void initLevel(level_t level) {
     renderLevel(level);
@@ -83,9 +90,9 @@ static void processPlayer(player_t *player) {
     // playerCollidePowerUp(player, powerUp);
     // playerCollideDoor(player, door);
 
-    // Render purple tank
+    // Render
     undrawTank(&previousPlacement);
-    drawTank(&(*player).placement, 5);
+    drawTank(&(*player).placement, playerColor);
 }
 
 // Returns whether the bullet should be deleted
@@ -100,9 +107,9 @@ static uint8_t processBullet(bullet_t *bullet) {
         return 1;
     }
 
-    // Rendering
+    // Render
     undrawBullet(&previousPlacement);
-    drawBullet(&(*bullet).placement, 1);
+    drawBullet(&(*bullet).placement, bulletColor);
 
     return 0;
 }
@@ -131,9 +138,9 @@ static void processEnemy(enemy_t *enemy) {
 
     // TODO: More here!
 
-    // Render yellow tank
+    // Render
     undrawTank(&previousPlacement);
-    drawTank(&(*enemy).placement, 11);
+    drawTank(&(*enemy).placement, enemyColor);
 }
 
 
