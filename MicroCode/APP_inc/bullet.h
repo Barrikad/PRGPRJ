@@ -14,8 +14,6 @@ typedef struct{
 //move the bullet according to its velocity
 void moveBullet(bullet_t *bullet);
 
-void copyBullet(bullet_t *toBullet, const bullet_t *fromBullet);
-
 //create a bullet fired from a placement
 void fireBulletFromPlacement(placement_t placement);
 

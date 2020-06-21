@@ -7,8 +7,7 @@
 void initPlayer(player_t *player, vector_t position, deg512_t rotation, action_t (*inputFunction)()) {
     // This is very verbose, but this is intentional, since it makes it easy to
     // see which values are set to what.
-    (*player).placement.position.x = position.x;
-    (*player).placement.position.y = position.y;
+    (*player).placement.position = position;
     (*player).placement.hitboxWidth = createFix(1);
     (*player).placement.hitboxHeight = createFix(1);
     (*player).placement.rotation = rotation;

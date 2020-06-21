@@ -80,9 +80,8 @@ void addBullet(bullet_t bullet){
 static void deleteBullet(uint8_t index) {
     bullet_t *thisBullet = &bullets[index];
     const bullet_t *lastBullet = &bullets[bulletCount - 1];
-    copyBullet(thisBullet, lastBullet);
-    thisBullet->placement = lastBullet->placement;
-    thisBullet->velocity = lastBullet->velocity;
+    (*thisBullet).placement = (*lastBullet).placement;
+    (*thisBullet).velocity = (*lastBullet).velocity;
     bulletCount--;
 }
 
