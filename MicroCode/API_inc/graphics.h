@@ -8,6 +8,9 @@
 #define TILE_WIDTH 4
 #define TILE_HEIGHT 3
 
+// Check if should re-draw the tank based on the given position.
+uint8_t shouldRedraw(const placement_t *previousPlacement, const placement_t *currentPlacement);
+
 // Remove the given tank from the drawn area.
 void undrawTank(const placement_t *placement);
 

@@ -54,6 +54,10 @@ void initLevel(level_t level) {
     enemyCheckpoints[0][6] = cp1;
     enemyCheckpoints[0][7] = cp2;
 
+    // TODO: Do initial drawings in a better way!
+    drawTank(&players[0].placement, playerColor);
+    drawTank(&enemies[0].placement, enemyColor);
+
     // TODO: Store current level?
 }
 
@@ -109,9 +113,11 @@ static void processPlayer(player_t *player) {
     // playerCollidePowerUp(player, powerUp);
     // playerCollideDoor(player, door);
 
-    // Render
-    undrawTank(&previousPlacement);
-    drawTank(&(*player).placement, playerColor);
+    // Render purple tank
+    if (shouldRedraw(&previousPlacement, &(*player).placement)) {
+        undrawTank(&previousPlacement);
+        drawTank(&(*player).placement, playerColor);
+    }
 }
 
 // Returns whether the bullet should be deleted
@@ -126,9 +132,11 @@ static uint8_t processBullet(bullet_t *bullet) {
         return 1;
     }
 
-    // Render
-    undrawBullet(&previousPlacement);
-    drawBullet(&(*bullet).placement, bulletColor);
+    // Rendering
+    if (shouldRedraw(&previousPlacement, &(*bullet).placement)) {
+        undrawBullet(&previousPlacement);
+        drawBullet(&(*bullet).placement, bulletColor);
+    }
 
     return 0;
 }
@@ -157,9 +165,11 @@ static void processEnemy(enemy_t *enemy, vector_t *checkpoints) {
 
     // TODO: More here!
 
-    // Render
-    undrawTank(&previousPlacement);
-    drawTank(&(*enemy).placement, enemyColor);
+    // Render yellow tank
+    if (shouldRedraw(&previousPlacement, &(*enemy).placement)) {
+        undrawTank(&previousPlacement);
+        drawTank(&(*enemy).placement, enemyColor);
+    }
 }
 
 

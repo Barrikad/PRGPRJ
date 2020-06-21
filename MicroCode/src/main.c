@@ -65,9 +65,9 @@ int main(void) {
 
     cursorHide();
     while (1) {
-        if(getFlag()){
-            processGameTick();
+        if (getFlag()) {
             unsetFlag();
+            processGameTick();
         }
     }
 

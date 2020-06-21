@@ -84,6 +84,20 @@ void undrawTank(const placement_t *placement) {
     drawSpriteTiles(TANK_CLEAR);
 }
 
+uint8_t shouldRedraw(const placement_t *previousPlacement, const placement_t *currentPlacement) {
+    uint8_t previousX        = getXCoordinate((*previousPlacement).position.x);
+    uint8_t currentX         = getXCoordinate((*currentPlacement).position.x);
+    uint8_t previousY        = getYCoordinate((*previousPlacement).position.y);
+    uint8_t currentY         = getYCoordinate((*currentPlacement).position.y);
+    uint8_t previousRotation = getRotationOffset((*previousPlacement).rotation);
+    uint8_t currentRotation  = getRotationOffset((*currentPlacement).rotation);
+
+    if (previousX == currentX && previousY == currentY && previousRotation == currentRotation) {
+        return 0;
+    }
+    return 1;
+}
+
 void drawTank(const placement_t *placement, uint8_t color) {
     goToPosition(&(*placement).position);
     fgcolor(color);
