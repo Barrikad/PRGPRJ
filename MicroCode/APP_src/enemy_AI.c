@@ -115,6 +115,11 @@ void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemy,
         cpDiffX = FIX14_DIV(cpDiffX,cpDist);
         cpDiffY = FIX14_DIV(cpDiffY,cpDist);
 
+        // And reduce further yet to a speed of 1 << 9 (same as player)
+        // TODO: Verify the correctness of this!
+        cpDiffX = cpDiffX >> 5;
+        cpDiffY = cpDiffY >> 5;
+
         //add unit vector pointing to checkpoint to enemy position
         (*enemy).placement.position.x += cpDiffX;
         (*enemy).placement.position.y += cpDiffY;
