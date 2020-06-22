@@ -75,7 +75,7 @@ static void initLevel1() {
     vector_t pos = {11 << 14, 6 << 14};
     deg512_t rot = 0;
     placement_t plc = {pos, 1 << 13, 1 << 13, rot};
-    enemy_t enemy = {plc,0,0,2,0};
+    enemy_t enemy = {plc,5,0,2,0};
     addEnemy(enemy);
     vector_t cp1 = {11 << 14, 6 << 14};
     vector_t cp2 = {9 << 14, 3 << 14};
@@ -109,7 +109,7 @@ static void initLevel2() {
     vector_t pos = {11 << 14, 2 << 14};
     deg512_t rot = 0;
     placement_t plc = {pos, 1 << 13, 1 << 13, rot};
-    enemy_t enemy = {plc,0,0,0,0};
+    enemy_t enemy = {plc,5,0,0,0};
     addEnemy(enemy);
     vector_t cp1 = {11 << 14, 2 << 14};
     vector_t cp2 = {11 << 14, 10 << 14};
@@ -293,7 +293,14 @@ static uint8_t processEnemy(level_t level, enemy_t *enemies, uint8_t index, vect
     // Collision
     for (i = 0; i < bulletCount; i++) {
         // TODO: Maybe add fromPlayer property on bullet, so we don't have to pass all players in here?
-        enemyCollideBullet(players, enemies + index, &bullets[i]);
+        if (enemyCollideBullet(players, enemies + index, &bullets[i])) {
+            deleteBullet(&bullets[i]);
+            i--;
+        }
+        if (enemies[index].lives == 0) {
+            undrawTank(&previousPlacement);
+            return 1;
+        }
     }
     for (i = 0; i < playerCount; i++) {
         enemyCollidePlayer(enemies + index, &players[i]);
