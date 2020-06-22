@@ -123,14 +123,6 @@ void addBullet(bullet_t bullet) {
     bulletCount++;
 }
 
-static void deleteBullet(uint8_t index) {
-    bullet_t *thisBullet = &bullets[index];
-    const bullet_t *lastBullet = &bullets[bulletCount - 1];
-    (*thisBullet).placement = (*lastBullet).placement;
-    (*thisBullet).velocity = (*lastBullet).velocity;
-    bulletCount--;
-}
-
 void addEnemy(enemy_t enemy) {
     if (enemyCount >= MAX_ENEMIES) {
         return;
@@ -219,7 +211,7 @@ static uint8_t processBullet(bullet_t *bullet) {
     return 0;
 }
 
-static void processEnemy(enemy_t *enemy, vector_t *checkpoints) {
+static uint8_t processEnemy(enemy_t *enemy, vector_t *checkpoints) {
     uint8_t i;
     placement_t previousPlacement = (*enemy).placement;
 
@@ -248,6 +240,8 @@ static void processEnemy(enemy_t *enemy, vector_t *checkpoints) {
         undrawTank(&previousPlacement);
         drawTank(&(*enemy).placement, enemyColor);
     }
+
+    return 0;
 }
 
 
@@ -261,12 +255,19 @@ void processGameTick() {
     }
     for (i = 0; i < bulletCount; i++) {
         if (processBullet(&bullets[i])) {
-            // TODO: Fix this so it doesn't skip bullets
-            deleteBullet(i);
+            // Delete the bullet by moving the last entry into it, and deleting the last entry.
+            bullets[i] = bullets[bulletCount - 1];
+            bulletCount--;
+            i--;
         }
     }
     for (i = 0; i < enemyCount; i++) {
-        processEnemy(&enemies[i], enemyCheckpoints[i]);
+        if (processEnemy(&enemies[i], enemyCheckpoints[i])) {
+            // Delete the enemy by moving the last entry into it, and deleting the last entry.
+            enemies[i] = enemies[enemyCount - 1];
+            enemyCount--;
+            i--;
+        }
     }
 
     // Debug print current player rotation
