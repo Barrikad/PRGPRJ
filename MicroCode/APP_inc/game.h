@@ -19,4 +19,6 @@ void deletePowerUp(uint8_t index);
 // Run one tick of the main game loop.
 void processGameTick();
 
+
+
 #endif /* GAME_ENTITIES_H_INCLUDED */
