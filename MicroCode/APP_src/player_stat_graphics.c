@@ -1,5 +1,6 @@
 #include "player.h"
 #include "lcd.h"
+#include <string.h>
 
 static void getScore(char score[3][14], player_t* players, uint8_t numPlayers){
     for (int i = 0; i < numPlayers; i++) {
