@@ -1,6 +1,5 @@
 #include <stdint.h>
 #include "enemy.h"
-#include "game.h"
 #include "fix_point_math.h"
 #include "movement.h"
 #include "collision.h"
@@ -19,18 +18,21 @@ static void incrementPlayerPoints(player_t *players, uint8_t index, enemy_t *ene
 }
 
 
-void enemyCollideBullet(player_t *players, enemy_t *enemy, bullet_t *bullet) {
+uint8_t enemyCollideBullet(player_t *players, enemy_t *enemy, bullet_t *bullet) {
     if (((*bullet).shotBy != 5) && entitiesCollide((*enemy).placement, (*bullet).placement)) {
         incrementPlayerPoints(players, (*bullet).shotBy - 1, enemy);
-        deleteBullet(bullet);
+        (*enemy).lives -= 1;
+        return 1;
     }
+    return 0;
 }
 
 void enemyCollidePlayer(enemy_t *enemy, player_t *player) {
-    if (entitiesCollide((*player).placement, (*enemy).placement)) {
-        (*player).points += (*enemy).points;
+    //noop
+    //if (entitiesCollide((*player).placement, (*enemy).placement)) {
+        //(*player).points += (*enemy).points;
         //removeItem(enemy);
-    }
+    //}
 }
 
 void enemyCollideWall(level_t level, enemy_t *enemy) {

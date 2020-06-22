@@ -39,7 +39,7 @@ void fireBulletFromPlayer(player_t* players, uint8_t index);
 void processPlayerActionsInGame(player_t *players, uint8_t index);
 
 // Detect and handle collision with bullet.
-void playerCollideBullet(player_t *players, uint8_t pIndex, bullet_t *bullet);
+uint8_t playerCollideBullet(player_t *players, uint8_t pIndex, bullet_t *bullet);
 
 // Detect and handle collision with power-up.
 void playerCollidePowerUp(player_t *player, powerUp_t *powerUps, uint8_t index);

@@ -6,7 +6,8 @@
 #define POWERUP_HEIGHT 1 << 13
 
 //type for registering that a player has powerups, debuffs etc.
-// bit1 on if powerup1 is on f.ex.
+// bit1 on if motorcycle mode
+// bit2 on if drift mode is on
 typedef uint8_t effects_t;
 
 

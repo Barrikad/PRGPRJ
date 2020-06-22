@@ -10,7 +10,7 @@ typedef struct{
 player_relation_t findClosestPlayer(player_t *players, uint8_t playerCount, enemy_t enemy) {
     //initialize search vars
     uint32_t minDistance = ~0;
-    vector_t minVec;
+    vector_t minVec = {0,0};
     player_t closestPlayer;
 
     for(uint8_t i = 0; i < playerCount; i++){

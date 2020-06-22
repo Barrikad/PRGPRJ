@@ -151,10 +151,12 @@ void undrawPowerUp(const placement_t *placement) {
     drawSpriteTiles(TANK_CLEAR);
 }
 
-void drawPowerUp(const placement_t *placement, uint8_t color) {
+void drawPowerUp(const placement_t *placement, uint8_t color, uint8_t blinkOn) {
     goToPosition(&(*placement).position);
+    blink(blinkOn);
     fgcolor(color);
     drawSpriteTiles(POWERUP);
+    blink(0);
     resetcolor();
 }
 
