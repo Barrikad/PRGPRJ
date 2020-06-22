@@ -5,25 +5,22 @@
 #include "collision.h"
 
 
-void fireBulletFromEnemy(enemy_t* enemy){
-    if(!(*enemy).weaponCooldown){
-        fireBulletFromPlacement(&(*enemy).placement);
-        (*enemy).weaponCooldown = WEAPON_COOLDOWN;
+void fireBulletFromEnemy(enemy_t* enemies, uint8_t index){
+    if(!enemies[index].weaponCooldown){
+        fireBulletFromPlacement(&enemies[index].placement,5);
+        enemies[index].weaponCooldown = WEAPON_COOLDOWN;
     }
 }
 
 
-static void incrementPlayerPoints(player_t *players, uint8_t playerCount, enemy_t *enemy) {
-    uint8_t i;
-    for (i = 0; i < playerCount; i++){
-        players[i].points += (*enemy).points;
-    }
+static void incrementPlayerPoints(player_t *players, uint8_t index, enemy_t *enemy) {
+    players[index].points += (*enemy).points;
 }
 
 
-void enemyCollideBullet(player_t *players, uint8_t playerCount, enemy_t *enemy, bullet_t *bullet) {
-    if (entitiesCollide((*enemy).placement, (*bullet).placement)) {
-        incrementPlayerPoints(players, playerCount, enemy);
+void enemyCollideBullet(player_t *players, enemy_t *enemy, bullet_t *bullet) {
+    if (((*bullet).shotBy != 5) && entitiesCollide((*enemy).placement, (*bullet).placement)) {
+        incrementPlayerPoints(players, (*bullet).shotBy - 1, enemy);
     }
 }
 
