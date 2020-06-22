@@ -50,6 +50,33 @@ static void rotateByAngle(deg512_t *rotation, deg512_t angle){
     *rotation &= 511;
 }
 
+static void driftMove(player_t *player, vector_t acceleration){
+    //velocity might become larger than max if acc and vel have same sign
+    //if they have the same sign, vel after acc must be smaller than
+    // 1
+    if(((acceleration.x < 0 && (*player).velocity.x < 0)
+        || (acceleration.x > 0 && (*player).velocity.x > 0))
+          && absFix(acceleration.x + (*player).velocity.x) < (1 << 14)){
+        //noop
+    }
+    //acceleration is safe if acc and vel have different signs, or magnitude is still small
+    else{
+        (*player).velocity.x += acceleration.x;
+    }
+
+    //velocity might become larger than max if acc and vel have same sign
+    if(((acceleration.y < 0 && (*player).velocity.y < 0)
+        || (acceleration.y > 0 && (*player).velocity.y > 0))
+          && absFix(acceleration.y + (*player).velocity.y) < (1 << 14)){
+        //noop
+    }
+    //acceleration is safe if acc and vel have different signs, or magnitude is still small
+    else{
+        (*player).velocity.y += acceleration.y;
+    }
+}
+
+
 //movement as defined for tanks
 static void processTankPlayer(player_t *players, uint8_t index){
     action_t input;
@@ -79,20 +106,41 @@ static void processTankPlayer(player_t *players, uint8_t index){
     pRot = players[index].placement.rotation;
     rotateVector(&velocity,pRot);
 
-    //player moves forward
-    if(input & 8){
-        players[index].velocity.x = velocity.x;
-        players[index].velocity.y = velocity.y;
+    //normal move if driftmode is off
+    if(!(players[index].effects & 2)){
+        //player moves forward
+        if(input & 8){
+            players[index].velocity.x = velocity.x;
+            players[index].velocity.y = velocity.y;
+        }
+        //player moves backward
+        else if(input & 16){
+            players[index].velocity.x = -velocity.x;
+            players[index].velocity.y = -velocity.y;
+        }
+        //player doesn't move
+        else{
+            players[index].velocity.x = 0;
+            players[index].velocity.y = 0;
+        }
     }
-    //player moves backward
-    else if(input & 16){
-        players[index].velocity.x = -velocity.x;
-        players[index].velocity.y = -velocity.y;
-    }
-    //player doesn't move
     else{
-        players[index].velocity.x = 0;
-        players[index].velocity.y = 0;
+        //player moves forward
+        if(input & 8){
+            driftMove(players + index, velocity);
+        }
+        //player moves backward
+        else if(input & 16){
+            velocity.x = -velocity.x;
+            velocity.y = -velocity.y;
+            driftMove(players + index, velocity);
+        }
+        //player doesn't move
+        else{
+            velocity.x = 0;
+            velocity.y = 0;
+            driftMove(players + index, velocity);
+        }
     }
 }
 
@@ -126,9 +174,16 @@ static void processMotorCyclePlayer(player_t *players, uint8_t index){
     pRot = players[index].placement.rotation;
     rotateVector(&velocity,pRot);
 
-    //forced forwards movement for motorcycle
-    players[index].velocity.x = velocity.x;
-    players[index].velocity.y = velocity.y;
+    //if not drift mode
+    if(!(players[index].effects & 2)){
+        //forced forwards movement for motorcycle
+        players[index].velocity.x = velocity.x;
+        players[index].velocity.y = velocity.y;
+    }
+    //if drift mode
+    else{
+        driftMove(players + index, velocity);
+    }
 }
 
 

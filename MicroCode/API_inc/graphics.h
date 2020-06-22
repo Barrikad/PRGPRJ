@@ -31,7 +31,7 @@ void drawDoor(const placement_t *placement, uint8_t color, uint8_t open);
 void undrawPowerUp(const placement_t *placement);
 
 // Draw power up at location
-void drawPowerUp(const placement_t *placement, uint8_t color);
+void drawPowerUp(const placement_t *placement, uint8_t color, uint8_t blinkOn);
 
 // Remove the given bullet from the drawn area.
 void undrawBullet(const placement_t *placement);

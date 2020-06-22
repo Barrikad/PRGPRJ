@@ -92,6 +92,7 @@ static void initLevel1() {
     vector_t puPos = {2 << 14,4 << 14};
     effects_t effect = 1;
     addPowerUp(puPos,effect);
+    players[0].effects |= 2;
 
     vector_t doorPosition1 = {createFix(13), createFix(2)};
     addDoor(doorPosition1, secondLevel);
@@ -202,7 +203,7 @@ void addPowerUp(vector_t position, effects_t effect){
     powerUp_t powerUp = {plc,effect};
 
     powerUps[powerUpCount] = powerUp;
-    drawPowerUp(&powerUp.placement, powerUpColor);
+    drawPowerUp(&powerUp.placement, powerUpColor, effect & 2);
     powerUpCount++;
 }
 
