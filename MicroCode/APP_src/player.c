@@ -160,10 +160,10 @@ void playerCollideBullet(player_t *player, bullet_t *bullet) {
 }
 
 
-void playerCollidePowerUp(player_t *player, powerUp_t *powerUp) {
-    if (entitiesCollide((*player).placement, (*powerUp).placement)) {
-        (*player).effects |= (*powerUp).effects;
-        //removeItem(PowerUp);
+void playerCollidePowerUp(player_t *player, powerUp_t *powerUps, uint8_t index) {
+    if (entitiesCollide((*player).placement, powerUps[index].placement)) {
+        (*player).effects |= powerUps[index].effects;
+        deletePowerUp(index);
     }
 }
 

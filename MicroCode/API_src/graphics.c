@@ -1,6 +1,7 @@
 #include "graphics.h"
 
 #define DIRECTIONS 4
+//strings end with \0, so we add 1 to array size
 #define TILE_SIZE (TILE_WIDTH * TILE_HEIGHT + 1)
 
 // TODO: Use UTF-8 Unicode
@@ -38,6 +39,12 @@ const char BOX[TILE_SIZE] =
     "+--+"
     "|  |"
     "+--+";
+
+// PowerUp sprite
+const char POWERUP[TILE_SIZE] =
+    "@~  "
+    "~@  "
+    "    ";
 
 // The bullet sprite
 const char BULLET = 'o';
@@ -116,6 +123,19 @@ void drawBox(uint8_t x, uint8_t y, uint8_t color) {
     cursorToXY(x * TILE_WIDTH, y * TILE_HEIGHT);
     fgcolor(color);
     drawSpriteTiles(BOX);
+    resetcolor();
+}
+
+void undrawPowerUp(const placement_t *placement) {
+    goToPosition(&(*placement).position);
+    //tank clear, clears the powerup
+    drawSpriteTiles(TANK_CLEAR);
+}
+
+void drawPowerUp(const placement_t *placement, uint8_t color) {
+    goToPosition(&(*placement).position);
+    fgcolor(color);
+    drawSpriteTiles(POWERUP);
     resetcolor();
 }
 
