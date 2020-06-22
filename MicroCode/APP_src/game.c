@@ -242,7 +242,7 @@ static void getScore(char score[3][14], player_t* players, uint8_t numPlayers){
 }
 
 void livesAndScoreLcd(player_t* players, uint8_t numPlayers) {
-    char* header = {"        Score:  Lives:"}
+    char* header = {"        Score:  Lives:"};
     char* players[] = {"Player 1", "Player 2", "Player 3"};
     char score[3][14];
     lcdClear();
