@@ -86,10 +86,15 @@ static void initLevel1() {
     enemyCheckpoints[0][7] = cp2;
 
     // Test powerup
+    // motorcycle powerup
     vector_t puPos = {2 << 14,4 << 14};
     effects_t effect = 1;
     addPowerUp(puPos,effect);
-    players[0].effects |= 2;
+
+    // driftmode powerup
+    vector_t puPos2 = {4 << 14,11 << 14};
+    effects_t effect2 = 2;
+    addPowerUp(puPos2,effect2);
 
     vector_t doorPosition1 = {createFix(13), createFix(2)};
     addDoor(doorPosition1, secondLevel);
