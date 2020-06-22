@@ -3,10 +3,10 @@
 
 void initFrameTimer();
 
-uint8_t getFlag();
+uint8_t getFrameFlag();
 
 uint32_t getFramesSkipped();
 
-void unsetFlag();
+void unsetFrameFlag();
 
 #endif /* FRAME_TIMER_H_INCLUDED */

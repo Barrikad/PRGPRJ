@@ -67,8 +67,11 @@ static void addDoor(vector_t position, level_t nextLevel) {
 
 
 void initLevel(level_t level) {
+    // Clear screen and hide cursor
+    cursorHide();
     resetcolor();
     clrscr();
+
     // Render level with doors closed
     renderLevel(level);
     vector_t position = {createFix(2), createFix(9)};
@@ -155,7 +158,7 @@ void deletePowerUp(uint8_t index){
     powerUpCount--;
 }
 
-static void processPlayer(player_t *players, uint8_t index) {
+static void processPlayer(level_t level, player_t *players, uint8_t index) {
     uint8_t i;
     placement_t previousPlacement = players[index].placement;
 
@@ -185,7 +188,7 @@ static void processPlayer(player_t *players, uint8_t index) {
         }
     }
 
-    playerCollideWall(firstLevel, players + index);
+    playerCollideWall(level, players + index);
 
     // Render purple tank
     if (shouldRedraw(&previousPlacement, &players[index].placement)) {
@@ -195,13 +198,13 @@ static void processPlayer(player_t *players, uint8_t index) {
 }
 
 // Returns whether the bullet should be deleted
-static uint8_t processBullet(bullet_t *bullet) {
+static uint8_t processBullet(level_t level, bullet_t *bullet) {
     placement_t previousPlacement = (*bullet).placement;
 
     moveBullet(bullet);
 
     // Collision
-    if (bulletCollideWallAndShouldDelete(firstLevel, bullet)) {
+    if (bulletCollideWallAndShouldDelete(level, bullet)) {
         undrawBullet(&previousPlacement);
         return 1;
     }
@@ -215,7 +218,7 @@ static uint8_t processBullet(bullet_t *bullet) {
     return 0;
 }
 
-static uint8_t processEnemy(enemy_t *enemies, uint8_t index, vector_t *checkpoints) {
+static uint8_t processEnemy(level_t level, enemy_t *enemies, uint8_t index, vector_t *checkpoints) {
     uint8_t i;
     placement_t previousPlacement = enemies[index].placement;
 
@@ -235,7 +238,7 @@ static uint8_t processEnemy(enemy_t *enemies, uint8_t index, vector_t *checkpoin
     for (i = 0; i < playerCount; i++) {
         enemyCollidePlayer(enemies + index, &players[i]);
     }
-    enemyCollideWall(firstLevel, enemies + index);
+    enemyCollideWall(level, enemies + index);
 
     // TODO: More here!
 
@@ -261,9 +264,7 @@ void processLivesAndScore(uint8_t previousScore[], player_t* player, uint8_t num
     }
 }
 
-
-
-void processGameTick() {
+void processGameTick(level_t level) {
     uint8_t i;
     uint8_t previousScore[MAX_PLAYERS];
     for (i = 0; i < playerCount; i++) {
@@ -273,10 +274,10 @@ void processGameTick() {
     // Process entities.
     // Each of these de-render each tick, so we can simply draw them at the new position in the end.
     for (i = 0; i < playerCount; i++) {
-        processPlayer(players,i);
+        processPlayer(level, players,i);
     }
     for (i = 0; i < bulletCount; i++) {
-        if (processBullet(&bullets[i])) {
+        if (processBullet(level, &bullets[i])) {
             // Delete the bullet by moving the last entry into it, and deleting the last entry.
             bullets[i] = bullets[bulletCount - 1];
             bulletCount--;
@@ -284,7 +285,7 @@ void processGameTick() {
         }
     }
     for (i = 0; i < enemyCount; i++) {
-        if (processEnemy(enemies, i, enemyCheckpoints[i])) {
+        if (processEnemy(level, enemies, i, enemyCheckpoints[i])) {
             // Delete the enemy by moving the last entry into it, and deleting the last entry.
             enemies[i] = enemies[enemyCount - 1];
             enemyCount--;

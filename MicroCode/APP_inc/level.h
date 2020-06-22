@@ -5,8 +5,9 @@
 #include "entity_representation.h"
 
 typedef enum {
-    firstLevel = 0,
-    secondLevel = 1,
+    invalidLevel = 0,
+    firstLevel = 1,
+    secondLevel = 2,
 } level_t;
 
 // Determines what kind of collision happened:
