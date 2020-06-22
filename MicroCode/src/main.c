@@ -54,7 +54,10 @@ int main(void) {
 
     uart_init(115200);
 
-    initJoystickForGame();
+
+    lcdInit();
+    initJoystick();
+    initMainMenu();
 
     initLevel(firstLevel);
 
@@ -72,11 +75,25 @@ int main(void) {
     printf("test");
 
     cursorHide();
+
+    uint8_t isGame = 0;
+
     while (1) {
-        if(getFlag()){
-            processGameTick();
-            unsetFlag();
+        if (isGame) {
+            if (getFlag()) {
+                processGameTick();
+
+                unsetFlag();
+            }
+
+        }
+        else {
+            if (mainMenuFunction()) {
+                isGame = 1;
+            }
+            helpMenuFunction();
+            scoreMenuFunction();
+            creditsMenuFunction();
         }
     }
-
 }

@@ -158,12 +158,12 @@ void initMainMenu() {
 }
 
 
-void mainMenuFunction() {
+uint8_t mainMenuFunction() {
     if (currentGamestate == mainMenu) {
         if (currentSelectedOption == newGame) {
             uint8_t joystickInput = processInputMainMenu();
             if (joystickInput == 1) {
-                currentGamestate = game;
+                return 1;
             }
             else if (joystickInput == 2) {
                 currentSelectedOption = help;
@@ -225,6 +225,7 @@ void mainMenuFunction() {
             }
         }
     }
+    return 0;
 }
 
 /*

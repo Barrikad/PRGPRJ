@@ -16,7 +16,7 @@ typedef enum {
 
 void initMainMenu();
 
-void mainMenuFunction();
+uint8_t mainMenuFunction();
 void helpMenuFunction();
 void scoreMenuFunction();
 void creditsMenuFunction();
