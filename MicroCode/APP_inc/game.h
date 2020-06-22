@@ -18,7 +18,7 @@ void deletePowerUp(uint8_t index);
 
 
 // Run one tick of the main game loop.
-void processGameTick(level_t level);
+level_t processGameTick(level_t level);
 
 
 

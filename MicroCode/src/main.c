@@ -22,6 +22,7 @@
 int main(void) {
     // TODO: Make a fancy intro-screen?
     level_t currentLevel = invalidLevel;
+    level_t nextLevel = invalidLevel;
 
     // Initialize the UART as the display during game.
     uart_init(115200);
@@ -40,7 +41,6 @@ int main(void) {
             if (mainMenuFunction()) {
                 currentLevel = firstLevel;
                 initLevel(currentLevel);
-                initFrameTimer(100);
             }
             helpMenuFunction();
             scoreMenuFunction();
@@ -54,7 +54,11 @@ int main(void) {
                 // Each time this number rises, a frame was skipped, and the game is running too slowly!
                 cursorToXY(50, 0);
                 printf("%5ld", getFramesSkipped());
-                processGameTick(currentLevel);
+                nextLevel = processGameTick(currentLevel);
+                if (nextLevel != invalidLevel) {
+                    currentLevel = nextLevel;
+                    initLevel(currentLevel);
+                }
             }
         }
     }

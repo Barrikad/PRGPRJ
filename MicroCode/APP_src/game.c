@@ -10,6 +10,7 @@
 #include "enemy_AI.h"
 #include "collision.h"
 #include "door.h"
+#include "frame_timer.h"
 #include <stdio.h>
 #include "player_stat_graphics.h"
 
@@ -66,14 +67,7 @@ static void addDoor(vector_t position, level_t nextLevel) {
 }
 
 
-void initLevel(level_t level) {
-    // Clear screen and hide cursor
-    cursorHide();
-    resetcolor();
-    clrscr();
-
-    // Render level with doors closed
-    renderLevel(level);
+static void initLevel1() {
     vector_t position = {createFix(2), createFix(9)};
     addPlayer(position, 0, movementFromJoystick);
 
@@ -103,11 +97,73 @@ void initLevel(level_t level) {
     addDoor(doorPosition1, secondLevel);
     vector_t doorPosition2 = {createFix(13), createFix(3)};
     addDoor(doorPosition2, secondLevel);
+}
+
+
+static void initLevel2() {
+    // TODO: Fix the positions of stuff in here!
+    vector_t position = {createFix(2), createFix(9)};
+    addPlayer(position, 0, movementFromJoystick);
+
+    // Test enemy behavior
+    vector_t pos = {11 << 14, 2 << 14};
+    deg512_t rot = 0;
+    placement_t plc = {pos, 1 << 13, 1 << 13, rot};
+    enemy_t enemy = {plc,0,0,0,0};
+    addEnemy(enemy);
+    vector_t cp1 = {11 << 14, 2 << 14};
+    vector_t cp2 = {11 << 14, 10 << 14};
+    vector_t cp3 = {2 << 14, 10 << 14};
+    vector_t cp4 = {2 << 14, 2 << 14};
+    enemyCheckpoints[0][0] = cp1;
+    enemyCheckpoints[0][1] = cp2;
+    enemyCheckpoints[0][2] = cp3;
+    enemyCheckpoints[0][3] = cp4;
+    enemyCheckpoints[0][4] = cp1;
+    enemyCheckpoints[0][5] = cp2;
+    enemyCheckpoints[0][6] = cp3;
+    enemyCheckpoints[0][7] = cp4;
+
+    // Test powerup
+    vector_t puPos = {11 << 14, 6 << 14};
+    effects_t effect = 1;
+    addPowerUp(puPos,effect);
+
+    vector_t doorPosition1 = {createFix(0), createFix(2)};
+    addDoor(doorPosition1, firstLevel);
+    vector_t doorPosition2 = {createFix(0), createFix(3)};
+    addDoor(doorPosition2, firstLevel);
+
+    // TODO: Make doors that lead to the third level
+}
+
+
+void initLevel(level_t level) {
+    // Clear screen and hide cursor
+    cursorHide();
+    resetcolor();
+    clrscr();
+
+    // Render level with doors closed
+    renderLevel(level);
     isDoorsOpen = 0;
+
+    switch(level) {
+    case firstLevel:
+        initLevel1();
+        initFrameTimer(100);
+        break;
+    case secondLevel:
+        initLevel2();
+        initFrameTimer(150);
+        break;
+    default:
+        // Unreachable
+        break;
+    }
 
     // Initializes score and lives screen.
     livesAndScoreLcd(players, playerCount);
-    // TODO: Store current level?
 }
 
 
@@ -264,7 +320,7 @@ void processLivesAndScore(uint8_t previousScore[], player_t* player, uint8_t num
     }
 }
 
-void processGameTick(level_t level) {
+level_t processGameTick(level_t level) {
     uint8_t i;
     uint8_t previousScore[MAX_PLAYERS];
     for (i = 0; i < playerCount; i++) {
@@ -297,6 +353,9 @@ void processGameTick(level_t level) {
     cursorToXY(40, 0);
     printf("%3i", players[0].placement.rotation);
     processLivesAndScore(previousScore, players, playerCount);
+
+    // Return invalidLevel to signal we don't want to change the level.
+    return invalidLevel;
 }
 
 
