@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "lcd.h"
-#include "joystick.h"
 #include "player.h"
 #include "game.h"
 #include "menu.h"

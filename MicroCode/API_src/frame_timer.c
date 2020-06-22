@@ -1,13 +1,23 @@
 #include <stdint.h>
 #include "timer.h"
 
-static uint8_t flag = 0;
+static volatile uint8_t flag = 0;
+static volatile uint32_t framesSkipped = 0;
 
 uint8_t getFlag(){
     return flag;
 }
 
-static void setFlag(){
+uint32_t getFramesSkipped() {
+    return framesSkipped;
+}
+
+static void setFlag() {
+    // If we tried to set the flag while it was set, we've missed processing a frame!
+    // An indication that the game is running too slowly!
+    if (flag) {
+        framesSkipped++;
+    }
     flag = 1;
 }
 

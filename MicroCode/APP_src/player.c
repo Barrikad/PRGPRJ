@@ -13,7 +13,7 @@ void initPlayer(player_t *player, vector_t position, deg512_t rotation, action_t
     (*player).placement.rotation = rotation;
     (*player).velocity.x = 0;
     (*player).velocity.y = 0;
-    (*player).lives = 0;
+    (*player).lives = 9;
     (*player).points = 0;
     (*player).weaponCooldown = 0;
     (*player).effects = 0;
@@ -111,11 +111,11 @@ static void processMotorCyclePlayer(player_t *player){
     //double rotating speed for motorcycle
     //player rotates left
     if(input & 2){
-        rotateByAngle(&(*player).placement.rotation, -4);
+        rotateByAngle(&(*player).placement.rotation, -6);
     }
     //player rotates right
     if(input & 4){
-        rotateByAngle(&(*player).placement.rotation, 4);
+        rotateByAngle(&(*player).placement.rotation, 6);
     }
 
 
