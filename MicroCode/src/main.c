@@ -16,6 +16,7 @@
 #include "boss_mode.h"
 #include "movement.h"
 #include "frame_timer.h"
+#include "player_stat_graphics.h"
 
 
 int main(void) {
