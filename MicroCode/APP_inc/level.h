@@ -20,8 +20,7 @@ typedef uint8_t wallCollision;
 #define collideRight       0x20
 
 // Initialize / enter the given level.
-// TODO: This should change SOME timer, maybe the Enemy-AI timer?
-void renderLevel(level_t level);
+void renderLevel(level_t level, uint8_t doorsOpen);
 
 // Detect whether a player touches a door.
 // TODO: Change return type so caller know which level to enter?

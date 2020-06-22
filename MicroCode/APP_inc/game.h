@@ -6,6 +6,7 @@
 #include "bullet.h"
 
 // Enter / initialize the given level.
+// TODO: This should change SOME timer, maybe the Enemy-AI timer?
 void initLevel(level_t level);
 
 //add entities to gamestate
