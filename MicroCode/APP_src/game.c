@@ -102,6 +102,8 @@ void initLevel(level_t level) {
     addDoor(doorPosition2, secondLevel);
     isDoorsOpen = 0;
 
+    // Initializes score and lives screen.
+    livesAndScoreLcd(players, playerCount);
     // TODO: Store current level?
 }
 
@@ -122,14 +124,6 @@ void addBullet(bullet_t bullet) {
     bullets[bulletCount] = bullet;
     drawBullet(&bullets[bulletCount].placement, bulletColors[bullets[bulletCount].shotBy-1]);
     bulletCount++;
-}
-
-static void deleteBullet(uint8_t index) {
-    bullet_t *thisBullet = &bullets[index];
-    const bullet_t *lastBullet = &bullets[bulletCount - 1];
-    (*thisBullet).placement = (*lastBullet).placement;
-    (*thisBullet).velocity = (*lastBullet).velocity;
-    bulletCount--;
 }
 
 void addEnemy(enemy_t enemy) {
@@ -221,7 +215,7 @@ static uint8_t processBullet(bullet_t *bullet) {
     return 0;
 }
 
-static void processEnemy(enemy_t *enemies, uint8_t index, vector_t *checkpoints) {
+static uint8_t processEnemy(enemy_t *enemies, uint8_t index, vector_t *checkpoints) {
     uint8_t i;
     placement_t previousPlacement = enemies[index].placement;
 
@@ -250,12 +244,32 @@ static void processEnemy(enemy_t *enemies, uint8_t index, vector_t *checkpoints)
         undrawTank(&previousPlacement);
         drawTank(&enemies[index].placement, enemyColor);
     }
+
+    return 0;
+}
+
+void processLivesAndScore(uint8_t previousScore[], player_t* player, uint8_t numPlayers){
+    uint8_t currentScore[MAX_PLAYERS];
+    uint8_t i;
+    for (i = 0; i < numPlayers; i++) {
+        currentScore[i] = players[i].points;
+    }
+    for (i = 0; i < numPlayers; i++) {
+        if (currentScore[i] != previousScore[i]) {
+            livesAndScoreLcd(players, playerCount);
+        }
+    }
 }
 
 
-void processGameTick() {
 
+void processGameTick() {
     uint8_t i;
+    uint8_t previousScore[MAX_PLAYERS];
+    for (i = 0; i < playerCount; i++) {
+        previousScore[i] = players[i].points;
+    }
+
     // Process entities.
     // Each of these de-render each tick, so we can simply draw them at the new position in the end.
     for (i = 0; i < playerCount; i++) {
@@ -263,18 +277,25 @@ void processGameTick() {
     }
     for (i = 0; i < bulletCount; i++) {
         if (processBullet(&bullets[i])) {
-            // TODO: Fix this so it doesn't skip bullets
-            deleteBullet(i);
+            // Delete the bullet by moving the last entry into it, and deleting the last entry.
+            bullets[i] = bullets[bulletCount - 1];
+            bulletCount--;
+            i--;
         }
     }
     for (i = 0; i < enemyCount; i++) {
-        processEnemy(enemies, i, enemyCheckpoints[i]);
+        if (processEnemy(enemies, i, enemyCheckpoints[i])) {
+            // Delete the enemy by moving the last entry into it, and deleting the last entry.
+            enemies[i] = enemies[enemyCount - 1];
+            enemyCount--;
+            i--;
+        }
     }
 
     // Debug print current player rotation
     cursorToXY(40, 0);
     printf("%3i", players[0].placement.rotation);
-    livesAndScoreLcd(players, playerCount);
+    processLivesAndScore(previousScore, players, playerCount);
 }
 
 

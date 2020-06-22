@@ -48,6 +48,10 @@ int main(void) {
     while (1) {
         if (isGame) {
             if (getFlag()) {
+                // Debug print frame skips
+                // Each time this number rises, a frame was skipped, and the game is running too slowly!
+                cursorToXY(50, 0);
+                printf("%5ld", getFramesSkipped());
                 unsetFlag();
                 processGameTick();
             }
