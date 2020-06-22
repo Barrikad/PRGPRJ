@@ -243,7 +243,10 @@ static uint8_t processPlayer(player_t *players, uint8_t index) {
 
     // Collision walls
     for (i = 0; i < bulletCount; i++) {
-        playerCollideBullet(players, index, &bullets[i]);
+        if (playerCollideBullet(players, index, &bullets[i])) {
+            deleteBullet(&bullets[i]);
+            i--;
+        }
         if (players[index].lives == 0) {
             return 1;
         }

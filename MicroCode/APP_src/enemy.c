@@ -24,6 +24,7 @@ uint8_t enemyCollideBullet(player_t *players, enemy_t *enemy, bullet_t *bullet) 
         (*enemy).lives -= 1;
         return 1;
     }
+    return 0;
 }
 
 void enemyCollidePlayer(enemy_t *enemy, player_t *player) {
