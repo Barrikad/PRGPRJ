@@ -261,7 +261,11 @@ void processLivesAndScore(uint8_t previousScore[], player_t* player, uint8_t num
     }
 }
 
-
+void deleteBullet(bullet_t *bullet){
+    // Delete the bullet by moving the last entry into it, and deleting the last entry.
+    *bullet = bullets[bulletCount - 1];
+    bulletCount--;
+}
 
 void processGameTick() {
     uint8_t i;
@@ -277,9 +281,7 @@ void processGameTick() {
     }
     for (i = 0; i < bulletCount; i++) {
         if (processBullet(&bullets[i])) {
-            // Delete the bullet by moving the last entry into it, and deleting the last entry.
-            bullets[i] = bullets[bulletCount - 1];
-            bulletCount--;
+            deleteBullet(bullets + i);
             i--;
         }
     }

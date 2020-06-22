@@ -151,11 +151,11 @@ void removeItem(itemType){
 */
 
 
-void playerCollideBullet(player_t *players, uint8_t index, bullet_t *bullet) {
-    if (((*bullet).shotBy != index + 1) && entitiesCollide(players[index].placement, (*bullet).placement)) {
+void playerCollideBullet(player_t *players, uint8_t pIndex, bullet_t *bullet) {
+    if (((*bullet).shotBy != pIndex + 1) && entitiesCollide(players[pIndex].placement, (*bullet).placement)) {
         setLed(LED_RED); // This should be on a timer
-        players[index].lives -= 1;
-        //removeItem(bullet);
+        players[pIndex].lives -= 1;
+        deleteBullet(bullet);
     }
 }
 
