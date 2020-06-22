@@ -36,6 +36,8 @@ static powerUp_t powerUps[MAX_POWERUPS];
 #define enemyColor 11
 // Red
 #define bulletColor 1
+// Cyan
+#define powerUpColor 6
 
 
 void initLevel(level_t level) {
@@ -61,10 +63,9 @@ void initLevel(level_t level) {
     enemyCheckpoints[0][7] = cp2;
 
     // Test powerup
-    // hardwired application of effect.
-    // powerup collision should work, but can't be bothered to
-    // figure out placement
-    players[0].effects = 1;
+    vector_t puPos = {2 << 14,4 << 14};
+    effects_t effect = 1;
+    addPowerUp(puPos,effect);
 
     // TODO: Store current level?
 }
@@ -105,6 +106,26 @@ void addEnemy(enemy_t enemy) {
     enemyCount++;
 }
 
+void addPowerUp(vector_t position, effects_t effect){
+    if (powerUpCount >= MAX_POWERUPS){
+        return;
+    }
+    placement_t plc = {position,POWERUP_WIDTH,POWERUP_HEIGHT,0};
+    powerUp_t powerUp = {plc,effect};
+
+    powerUps[powerUpCount] = powerUp;
+    drawPowerUp(&powerUp.placement, powerUpColor);
+    powerUpCount++;
+}
+
+void deletePowerUp(uint8_t index){
+    undrawPowerUp(&powerUps[index].placement);
+
+    powerUps[index].placement = powerUps[powerUpCount - 1].placement;
+    powerUps[index].effects = powerUps[powerUpCount - 1].effects;
+    powerUpCount--;
+}
+
 static void processPlayer(player_t *player) {
     uint8_t i;
     placement_t previousPlacement = (*player).placement;
@@ -117,10 +138,16 @@ static void processPlayer(player_t *player) {
         (*player).weaponCooldown--;
     }
 
-    // Collision
+    // Collision walls
     for (i = 0; i < bulletCount; i++) {
         playerCollideBullet(player, &bullets[i]);
     }
+
+    // Collision powerups
+    for (i = 0; i < powerUpCount; i++) {
+        playerCollidePowerUp(player, powerUps, i);
+    }
+
     playerCollideWall(firstLevel, player);
     // playerCollidePowerUp(player, powerUp);
     // playerCollideDoor(player, door);

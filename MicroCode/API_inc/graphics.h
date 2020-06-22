@@ -23,6 +23,12 @@ void drawWall(uint8_t x, uint8_t y, uint8_t color);
 // Draw a box at the given location.
 void drawBox(uint8_t x, uint8_t y, uint8_t color);
 
+// Remove power up from location
+void undrawPowerUp(const placement_t *placement);
+
+// Draw power up at location
+void drawPowerUp(const placement_t *placement, uint8_t color);
+
 // Remove the given bullet from the drawn area.
 void undrawBullet(const placement_t *placement);
 

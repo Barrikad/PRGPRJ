@@ -43,7 +43,7 @@ void processPlayerActionsInGame(player_t *player);
 void playerCollideBullet(player_t *player, bullet_t *bullet);
 
 // Detect and handle collision with power-up.
-void playerCollidePowerUp(player_t *player, powerUp_t *powerUp);
+void playerCollidePowerUp(player_t *player, powerUp_t *powerUps, uint8_t index);
 
 // Detect and handle collision with a wall.
 void playerCollideWall(level_t level, player_t *player);
