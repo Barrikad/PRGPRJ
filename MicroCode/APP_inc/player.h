@@ -19,7 +19,7 @@ typedef struct {
     placement_t placement;
     vector_t velocity;
     uint8_t lives;
-    uint8_t points;
+    uint16_t points;
     uint8_t weaponCooldown;
     effects_t effects;
     action_t (*inputFunction)();
