@@ -138,8 +138,8 @@ void drawBox(uint8_t x, uint8_t y, uint8_t color) {
     resetcolor();
 }
 
-void drawDoor(uint8_t x, uint8_t y, uint8_t color, uint8_t open) {
-    cursorToXY(x * TILE_WIDTH, y * TILE_HEIGHT);
+void drawDoor(const placement_t *placement, uint8_t color, uint8_t open) {
+    goToPosition(&(*placement).position);
     fgcolor(color);
     drawSpriteTiles(open ? DOOR_OPEN : DOOR_CLOSED);
     resetcolor();

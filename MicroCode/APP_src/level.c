@@ -53,7 +53,7 @@ static const char * getLevelData(level_t level) {
     }
 }
 
-void renderLevel(level_t level, uint8_t doorsOpen) {
+void renderLevel(level_t level) {
     uint8_t i, j;
     char c;
     const char * data = getLevelData(level);
@@ -64,8 +64,6 @@ void renderLevel(level_t level, uint8_t doorsOpen) {
                 drawWall(j, i, levelColor);
             } else if (c == '%') {
                 drawBox(j, i, levelColor);
-            } else if (c == 'd') {
-                drawDoor(j, i, levelColor, doorsOpen);
             } else {
                 // Noop
             }
@@ -75,7 +73,7 @@ void renderLevel(level_t level, uint8_t doorsOpen) {
 
 static uint8_t collisionAtPosition(const char *data, uint8_t x, uint8_t y) {
     char c = data[x * LEVEL_WIDTH + y];
-    if (c == '#' || c == '%') {
+    if (c == '#' || c == '%' || c == 'd') { // Handle collisions with doors as well!
         return 1;
     }
     return 0;

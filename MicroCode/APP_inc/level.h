@@ -23,7 +23,7 @@ typedef uint8_t levelCollision_t;
 #define collideRight       0x08
 
 // Initialize / enter the given level.
-void renderLevel(level_t level, uint8_t doorsOpen);
+void renderLevel(level_t level);
 
 // Detect whether a player touches a door.
 // TODO: Change return type so caller know which level to enter?

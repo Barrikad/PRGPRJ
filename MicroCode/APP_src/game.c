@@ -31,6 +31,10 @@ static vector_t enemyCheckpoints[MAX_ENEMIES][CHECKPOINT_COUNT];
 static uint8_t powerUpCount = 0;
 static powerUp_t powerUps[MAX_POWERUPS];
 
+#define MAX_DOORS 4
+static uint8_t doorCount = 0;
+static door_t doors[MAX_DOORS];
+
 
 // Purple
 #define playerColor 5
@@ -40,13 +44,26 @@ static powerUp_t powerUps[MAX_POWERUPS];
 #define bulletColor 1
 // Cyan
 #define powerUpColor 6
+// Cyan, same as level walls
+#define doorColor 6
+
+
+static void addDoor(vector_t position, level_t nextLevel) {
+    if (doorCount >= MAX_DOORS) {
+        return;
+    }
+    initDoor(&doors[doorCount], position, nextLevel);
+    // Draw the door as closed initially.
+    drawDoor(&doors[doorCount].placement, doorColor, 0);
+    doorCount++;
+}
 
 
 void initLevel(level_t level) {
     resetcolor();
     clrscr();
     // Render level with doors closed
-    renderLevel(level, 0);
+    renderLevel(level);
     vector_t position = {createFix(2), createFix(9)};
     addPlayer(position, 0, movementFromJoystick);
 
@@ -71,6 +88,11 @@ void initLevel(level_t level) {
     vector_t puPos = {2 << 14,4 << 14};
     effects_t effect = 1;
     addPowerUp(puPos,effect);
+
+    vector_t doorPosition1 = {createFix(13), createFix(2)};
+    addDoor(doorPosition1, secondLevel);
+    vector_t doorPosition2 = {createFix(13), createFix(3)};
+    addDoor(doorPosition2, secondLevel);
 
     // TODO: Store current level?
 }

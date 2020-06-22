@@ -23,6 +23,10 @@ void drawWall(uint8_t x, uint8_t y, uint8_t color);
 // Draw a box at the given location.
 void drawBox(uint8_t x, uint8_t y, uint8_t color);
 
+// Draw the given door.
+// If `open` is 1, the door is drawn open, else it's drawn closed.
+void drawDoor(const placement_t *placement, uint8_t color, uint8_t open);
+
 // Remove power up from location
 void undrawPowerUp(const placement_t *placement);
 
