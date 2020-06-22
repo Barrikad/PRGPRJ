@@ -55,7 +55,11 @@ int main(void) {
                 cursorToXY(50, 0);
                 printf("%5ld", getFramesSkipped());
                 nextLevel = processGameTick(currentLevel);
-                if (nextLevel != invalidLevel) {
+                if (nextLevel == invalidLevel) {
+                    currentLevel = nextLevel;
+                    // TODO: Enter score menu
+                    initMainMenu();
+                } else if (nextLevel != currentLevel) {
                     currentLevel = nextLevel;
                     initLevel(currentLevel);
                 }

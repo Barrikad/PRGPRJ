@@ -16,31 +16,28 @@
 
 #define MAX_PLAYERS 4
 //array of players, and size of actually contained players
-static uint8_t playerCount = 0;
+static uint8_t playerCount;
 static player_t players[MAX_PLAYERS];
 
 #define MAX_BULLETS 8
 //actual number of bullets in bulletCount
-static uint8_t bulletCount = 0;
+static uint8_t bulletCount;
 static bullet_t bullets[MAX_BULLETS];
 
 #define MAX_ENEMIES 16
 //actual number of enemies in enemyCount
-static uint8_t enemyCount = 0;
+static uint8_t enemyCount;
 static enemy_t enemies[MAX_ENEMIES];
 static vector_t enemyCheckpoints[MAX_ENEMIES][CHECKPOINT_COUNT];
 
 #define MAX_POWERUPS 8
 //actual number of bullets in bulletCount
-static uint8_t powerUpCount = 0;
+static uint8_t powerUpCount;
 static powerUp_t powerUps[MAX_POWERUPS];
 
 #define MAX_DOORS 4
-static uint8_t doorCount = 0;
+static uint8_t doorCount;
 static door_t doors[MAX_DOORS];
-
-
-static uint8_t isDoorsOpen;
 
 
 // Purple
@@ -139,6 +136,13 @@ static void initLevel2() {
 
 
 void initLevel(level_t level) {
+    // Reset all counts
+    playerCount = 0;
+    bulletCount = 0;
+    enemyCount = 0;
+    powerUpCount = 0;
+    doorCount = 0;
+
     // Clear screen and hide cursor
     cursorHide();
     resetcolor();
@@ -146,7 +150,6 @@ void initLevel(level_t level) {
 
     // Render level with doors closed
     renderLevel(level);
-    isDoorsOpen = 0;
 
     switch(level) {
     case firstLevel:
@@ -164,6 +167,11 @@ void initLevel(level_t level) {
 
     // Initializes score and lives screen.
     livesAndScoreLcd(players, playerCount);
+}
+
+
+static uint8_t isDoorsOpen() {
+    return enemyCount == 0;
 }
 
 
@@ -221,9 +229,8 @@ static void renderTank(const placement_t *previousPlacement, const placement_t *
     }
 }
 
-static void processPlayer(level_t level, player_t *players, uint8_t index) {
+static uint8_t processPlayer(player_t *players, uint8_t index) {
     uint8_t i;
-    placement_t previousPlacement = players[index].placement;
 
     processPlayerActionsInGame(players, index);
 
@@ -237,6 +244,9 @@ static void processPlayer(level_t level, player_t *players, uint8_t index) {
     // Collision walls
     for (i = 0; i < bulletCount; i++) {
         playerCollideBullet(players, index, &bullets[i]);
+        if (players[index].lives == 0) {
+            return 1;
+        }
     }
 
     // Collision powerups
@@ -244,17 +254,7 @@ static void processPlayer(level_t level, player_t *players, uint8_t index) {
         playerCollidePowerUp(players + index, powerUps, i);
     }
 
-    for (i = 0; i < doorCount; i++) {
-        // Note: Door collision is also handled in playerCollideWall!
-        if (isDoorsOpen && entitiesCollide(players[index].placement, doors[i].placement)) {
-            // TODO: This
-        }
-    }
-
-    playerCollideWall(level, players + index);
-
-    // Render purple tank
-    renderTank(&previousPlacement, &players[index].placement, playerColor);
+    return 0;
 }
 
 // Returns whether the bullet should be deleted
@@ -348,7 +348,8 @@ void deleteBullet(bullet_t *bullet){
 }
 
 level_t processGameTick(level_t level) {
-    uint8_t i;
+    uint8_t i, j;
+    placement_t previousPlacement;
     uint8_t previousScore[MAX_PLAYERS];
     uint8_t previousLives[MAX_PLAYERS];
     for (i = 0; i < playerCount; i++) {
@@ -363,8 +364,35 @@ level_t processGameTick(level_t level) {
     // Process entities.
     // Each of these de-render each tick, so we can simply draw them at the new position in the end.
     for (i = 0; i < playerCount; i++) {
-        processPlayer(level, players,i);
+        previousPlacement = players[i].placement;
+        if (processPlayer(players, i)) {
+            undrawTank(&previousPlacement);
+            // Delete the player by moving the last entry into it, and deleting the last entry.
+            players[i] = players[playerCount - 1];
+            playerCount--;
+            i--;
+            // Sorry, too lazy to not use a continue here ://
+            continue;
+        }
+
+        for (j = 0; j < doorCount; j++) {
+            // Note: Door collision is also handled in playerCollideWall!
+            if (isDoorsOpen() && entitiesCollide(players[i].placement, doors[j].placement)) {
+                return doors[j].nextLevel;
+            }
+        }
+
+        playerCollideWall(level, players + i);
+
+        // Render purple tank
+        renderTank(&previousPlacement, &players[i].placement, playerColor);
     }
+
+    // Exit game if playerCount is zero
+    if (playerCount == 0) {
+        return invalidLevel;
+    }
+
     for (i = 0; i < bulletCount; i++) {
         if (processBullet(level,bullets + i)) {
             deleteBullet(bullets + i);
@@ -377,6 +405,12 @@ level_t processGameTick(level_t level) {
             enemies[i] = enemies[enemyCount - 1];
             enemyCount--;
             i--;
+            if (isDoorsOpen()) {
+                // Draw doors as open
+                for (j = 0; j < doorCount; j++) {
+                    drawDoor(&doors[j].placement, doorColor, 1);
+                }
+            }
         }
     }
 
@@ -385,8 +419,8 @@ level_t processGameTick(level_t level) {
     printf("%3i", players[0].placement.rotation);
     processLivesAndScore(previousScore, previousLives, players, playerCount);
 
-    // Return invalidLevel to signal we don't want to change the level.
-    return invalidLevel;
+    // Return the current level to signal we don't want to change the level.
+    return level;
 }
 
 
