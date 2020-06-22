@@ -59,10 +59,10 @@ void livesAndScoreLcd(player_t* players, uint8_t numPlayers) {
     lcdFlush();
 }
 
-uint8_t scoreAfterDeath(player_t* players, uint8_t numPlayers) {
-    char* gameOver = {"GAMEOVER      Score:"};
+void showScoreAfterDeath(player_t* players, uint8_t numPlayers) {
+    char* gameOver = {"GAMEOVER       Score:"};
     char* playerName[] = {"Player 1", "Player 2", "Player 3"};
-    char* help = {"              <-Back"};
+    char* help = {"               <-Back"};
     char score[3][14];
     uint8_t i;
     uint8_t j;
@@ -82,7 +82,7 @@ uint8_t scoreAfterDeath(player_t* players, uint8_t numPlayers) {
 
     for (i = 0; i < numPlayers; i++) {
         for (j = 0; j < 6; j++) {
-                lcdWriteChar(score[i][j], (j + 14) * 6, (i + 1) * 8);
+                lcdWriteChar(score[i][j], (j + 15) * 6, (i + 1) * 8);
         }
     }
 
@@ -92,9 +92,9 @@ uint8_t scoreAfterDeath(player_t* players, uint8_t numPlayers) {
 
 
     lcdFlush();
+}
 
-
-
+uint8_t leaveScoreScreen() {
     if (hasPressedLeft()){
         return 1;
     }

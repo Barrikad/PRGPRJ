@@ -394,6 +394,8 @@ level_t processGameTick(level_t level) {
 
     // Exit game if playerCount is zero
     if (playerCount == 0) {
+        // TODO: Move this somewhere else
+        showScoreAfterDeath(players, playerCount);
         return invalidLevel;
     }
 
@@ -423,7 +425,6 @@ level_t processGameTick(level_t level) {
     printf("%3i", players[0].placement.rotation);
     processLivesAndScore(previousScore, previousLives, players, playerCount);
 
-    scoreAfterDeath(players, playerCount);
 
     // Return the current level to signal we don't want to change the level.
     return level;

@@ -57,8 +57,6 @@ int main(void) {
                 nextLevel = processGameTick(currentLevel);
                 if (nextLevel == invalidLevel) {
                     currentLevel = nextLevel;
-                    // TODO: Enter score menu
-                    initMainMenu();
                 } else if (nextLevel != currentLevel) {
                     currentLevel = nextLevel;
                     initLevel(currentLevel);
