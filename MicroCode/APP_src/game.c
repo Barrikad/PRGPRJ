@@ -377,8 +377,6 @@ level_t processGameTick(level_t level) {
     cursorToXY(40, 0);
     printf("%3i", players[0].placement.rotation);
     processLivesAndScore(previousScore, previousLives, players, playerCount);
-    cursorToXY(30, 0);
-    printf("%3i", players[0].lives);
 
     // Return invalidLevel to signal we don't want to change the level.
     return invalidLevel;

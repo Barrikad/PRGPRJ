@@ -15,6 +15,7 @@ void addEnemy(enemy_t enemy);
 void addBullet(bullet_t bullet);
 void addPowerUp(vector_t position, effects_t effect);
 void deletePowerUp(uint8_t index);
+void deleteBullet(bullet_t* bullet);
 
 
 // Run one tick of the main game loop.
