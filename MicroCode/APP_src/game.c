@@ -1,5 +1,6 @@
 #include "game.h"
 #include "player.h"
+#include "door.h"
 #include "bullet.h"
 #include "enemy.h"
 #include "powerUp.h"
@@ -189,7 +190,7 @@ static void processPlayer(player_t *player) {
 
     playerCollideWall(firstLevel, player);
 
-    playerCollideDoor(player, door);
+    //playerCollideDoor(player, door);
 
     // Render purple tank
     if (shouldRedraw(&previousPlacement, &(*player).placement)) {
