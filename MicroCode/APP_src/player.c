@@ -56,8 +56,9 @@ static void driftMove(player_t *player, vector_t acceleration){
     // 1
     if(((acceleration.x < 0 && (*player).velocity.x < 0)
         || (acceleration.x > 0 && (*player).velocity.x > 0))
-          && absFix(acceleration.x + (*player).velocity.x) < (1 << 14)){
-        //noop
+          && absFix(acceleration.x + (*player).velocity.x) >= (1 << 12)){
+        //set speed to almost max
+        (*player).velocity.x = 1 << 12;
     }
     //acceleration is safe if acc and vel have different signs, or magnitude is still small
     else{
@@ -67,8 +68,9 @@ static void driftMove(player_t *player, vector_t acceleration){
     //velocity might become larger than max if acc and vel have same sign
     if(((acceleration.y < 0 && (*player).velocity.y < 0)
         || (acceleration.y > 0 && (*player).velocity.y > 0))
-          && absFix(acceleration.y + (*player).velocity.y) < (1 << 14)){
-        //noop
+          && absFix(acceleration.y + (*player).velocity.y) >= (1 << 12)){
+        //set speed to almost max
+        (*player).velocity.y = 1 << 12;
     }
     //acceleration is safe if acc and vel have different signs, or magnitude is still small
     else{
@@ -102,7 +104,8 @@ static void processTankPlayer(player_t *players, uint8_t index){
 
     // Set velocity to 0.03125 in the direction the player is pointing
     // Note: The velocity should be smaller than the hitbox!
-    vector_t velocity = {1 << 9, 0};
+    // much smaller velocity when drift mode is on
+    vector_t velocity = {players[index].effects & 2 ? 1 << 4 :1 << 9, 0};
     pRot = players[index].placement.rotation;
     rotateVector(&velocity,pRot);
 
@@ -170,7 +173,8 @@ static void processMotorCyclePlayer(player_t *players, uint8_t index){
     // double velocity for motorcycle
     // Set velocity to 0.03125*2 in the direction the player is pointing
     // Note: The velocity should be smaller than the hitbox!
-    vector_t velocity = {1 << 10, 0};
+    // much slower velocity when drifting
+    vector_t velocity = {players[index].effects & 2 ? 7 << 2 : 1 << 10, 0};
     pRot = players[index].placement.rotation;
     rotateVector(&velocity,pRot);
 
@@ -227,18 +231,22 @@ void playerCollidePowerUp(player_t *player, powerUp_t *powerUps, uint8_t index) 
 void playerCollideWall(level_t level, player_t *player) {
     placement_t *placement = &(*player).placement;
     levelCollision_t collision = entityCollidesWall(level, placement);
-    // Don't care about setting the velocity, since that's controlled elsewhere!
+
     if (collision & collideTop) {
         (*placement).position.y = (floorFix((*placement).position.y) + 1) << FIX14_SHIFT;
+        (*player).velocity.y = 0;
     }
     if (collision & collideBottom) {
         (*placement).position.y = floorFix((*placement).position.y) << FIX14_SHIFT;
+        (*player).velocity.y = 0;
     }
     if (collision & collideLeft) {
         (*placement).position.x = (floorFix((*placement).position.x) + 1) << FIX14_SHIFT;
+        (*player).velocity.x = 0;
     }
     if (collision & collideRight) {
         (*placement).position.x = floorFix((*placement).position.x) << FIX14_SHIFT;
+        (*player).velocity.x = 0;
     }
 }
 
