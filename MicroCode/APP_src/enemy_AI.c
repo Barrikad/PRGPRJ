@@ -57,19 +57,25 @@ void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemy,
     //find the player closest to the enemy, with distance information
     player_relation_t closestPR = findClosestPlayer(players, playerCount, *enemy);
 
+
+    //formula for angle between vectors. The two vectors being vector from enemy to player
+    //and unit-vector pointing right {1,0}.
+    //acos((1*x + 0*y) / (1*sqrt(x^2+y^2))) = acos(x/dist)
+    //https://onlinemschool.com/math/library/vector/angl/#:~:text=Basic%20relation.,the%20product%20of%20vector%20magnitude.
     fix14_t cosa = FIX14_DIV(absFix(closestPR.vec.x), closestPR.distance);
     deg512_t angle;
     if(closestPR.vec.x >= 0){
         angle = acosine(cosa);
     }
     else{
+        //negative angle must be reduced to within bounds
         angle = acosine(-cosa);
     }
-    //formula for angle between vectors. The two vectors being vector from enemy to player
-    //and unit-vector pointing right {1,0}.
-    //acos((1*x + 0*y) / (1*sqrt(x^2+y^2))) = acos(x/dist)
-    //https://onlinemschool.com/math/library/vector/angl/#:~:text=Basic%20relation.,the%20product%20of%20vector%20magnitude.
-
+    //if player is above enemy we've have the angle anti-clockwise
+    //must be converted to angle clockwise
+    if(closestPR.vec.y < 0){
+        angle = 512 - angle;
+    }
 
     //current rotation of enemy
     deg512_t enemyRotation = (*enemy).placement.rotation;
@@ -77,6 +83,7 @@ void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemy,
     //difference between rotation necessary to point at player, and current rotation
     //i.e. what would have to be added to enemy rotation to be aiming at player
     deg512_t rotationDiff = angle - enemyRotation;
+
 
     //rotate towards player
     //this is done even if currently pointing at player, as to create a spraying behavior
