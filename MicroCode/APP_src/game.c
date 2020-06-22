@@ -9,6 +9,7 @@
 #include "graphics.h"
 #include "enemy_AI.h"
 #include "collision.h"
+#include "door.h"
 #include <stdio.h>
 #include "player_stat_graphics.h"
 
@@ -189,8 +190,6 @@ static void processPlayer(player_t *player) {
     }
 
     playerCollideWall(firstLevel, player);
-
-    //playerCollideDoor(player, door);
 
     // Render purple tank
     if (shouldRedraw(&previousPlacement, &(*player).placement)) {
