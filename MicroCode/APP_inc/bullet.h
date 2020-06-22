@@ -14,8 +14,11 @@ typedef struct{
 //move the bullet according to its velocity
 void moveBullet(bullet_t *bullet);
 
-//create a bullet fired from a placement
+//create a bullet fired from a placement, with standard velocity
 void fireBulletFromPlacement(const placement_t *placement);
+
+//create a bullet fired from a placement, with specified velocity
+void fireBulletFromPlacementWithVelocity(const placement_t *placement, fix14_t velocity);
 
 // Detect and handle collision with wall.
 // Returns true if the bullet should be deleted.

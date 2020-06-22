@@ -16,10 +16,6 @@
 //    be arbitrary
 //this is extra important as we have not really yet decided on a final input method (13/06)
 
-//type for registering that a player has powerups, debuffs etc.
-// bit1 on if powerup1 is on f.ex.
-typedef uint8_t effects_t;
-
 typedef struct {
     placement_t placement;
     vector_t velocity;

@@ -28,8 +28,19 @@ void movePlayer(player_t *player){
 
 void fireBulletFromPlayer(player_t* player){
     if(!(*player).weaponCooldown){
-        fireBulletFromPlacement(&(*player).placement);
-        (*player).weaponCooldown = WEAPON_COOLDOWN;
+        //power up makes cooldown shorter, and bullets faster
+        if((*player).effects & 1){
+            //double of standard velocity
+            fireBulletFromPlacementWithVelocity(&(*player).placement,1 << 11);
+            //half of standard cooldown
+            (*player).weaponCooldown = WEAPON_COOLDOWN/2;
+        }
+        else{
+            //fire bullet
+            fireBulletFromPlacement(&(*player).placement);
+            //set cooldown
+            (*player).weaponCooldown = WEAPON_COOLDOWN;
+        }
     }
 }
 
@@ -39,8 +50,8 @@ static void rotateByAngle(deg512_t *rotation, deg512_t angle){
     *rotation &= 511;
 }
 
-//get input from all player input devices and realize the mapped actions
-void processPlayerActionsInGame(player_t *player) {
+//movement as defined for tanks
+static void processTankPlayer(player_t *player){
     action_t input;
     deg512_t pRot;
 
@@ -63,11 +74,10 @@ void processPlayerActionsInGame(player_t *player) {
 
 
     // Set velocity to 0.03125 in the direction the player is pointing
-    // Note: The velocoty should be smaller than the hitbox!
+    // Note: The velocity should be smaller than the hitbox!
     vector_t velocity = {1 << 9, 0};
     pRot = (*player).placement.rotation;
     rotateVector(&velocity,pRot);
-
 
     //player moves forward
     if(input & 8){
@@ -86,6 +96,53 @@ void processPlayerActionsInGame(player_t *player) {
     }
 }
 
+//movement as defined for cycles
+static void processMotorCyclePlayer(player_t *player){
+
+    action_t input;
+    deg512_t pRot;
+
+    //get player input
+    input = (*player).inputFunction();
+
+    //motorcycle powerup makes player shoot continually
+    fireBulletFromPlayer(player);
+
+    //double rotating speed for motorcycle
+    //player rotates left
+    if(input & 2){
+        rotateByAngle(&(*player).placement.rotation, -4);
+    }
+    //player rotates right
+    if(input & 4){
+        rotateByAngle(&(*player).placement.rotation, 4);
+    }
+
+
+    // double velocity for motorcycle
+    // Set velocity to 0.03125*2 in the direction the player is pointing
+    // Note: The velocity should be smaller than the hitbox!
+    vector_t velocity = {1 << 10, 0};
+    pRot = (*player).placement.rotation;
+    rotateVector(&velocity,pRot);
+
+    //forced forwards movement for motorcycle
+    (*player).velocity.x = velocity.x;
+    (*player).velocity.y = velocity.y;
+}
+
+
+//get input from all player input devices and realize the mapped actions
+void processPlayerActionsInGame(player_t *player) {
+    //bit 1 on means player is motorcycle
+    if((*player).effects & 1){
+        processMotorCyclePlayer(player);
+    }
+    //bit 1 off means player is tank
+    else{
+        processTankPlayer(player);
+    }
+}
 
 /*
 void removeItem(itemType){
@@ -105,7 +162,7 @@ void playerCollideBullet(player_t *player, bullet_t *bullet) {
 
 void playerCollidePowerUp(player_t *player, powerUp_t *powerUp) {
     if (entitiesCollide((*player).placement, (*powerUp).placement)) {
-        (*player).effects = 1;
+        (*player).effects |= (*powerUp).effects;
         //removeItem(PowerUp);
     }
 }

@@ -54,6 +54,12 @@ void initLevel(level_t level) {
     enemyCheckpoints[0][6] = cp1;
     enemyCheckpoints[0][7] = cp2;
 
+    // Test powerup
+    // hardwired application of effect.
+    // powerup collision should work, but can't be bothered to
+    // figure out placement
+    players[0].effects = 1;
+
     // TODO: Store current level?
 }
 
