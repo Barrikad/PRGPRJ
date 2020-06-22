@@ -214,6 +214,13 @@ void deletePowerUp(uint8_t index){
     powerUpCount--;
 }
 
+static void renderTank(const placement_t *previousPlacement, const placement_t *currentPlacement, uint8_t color) {
+    if (shouldRedraw(previousPlacement, currentPlacement)) {
+        undrawTank(previousPlacement);
+        drawTank(currentPlacement, color);
+    }
+}
+
 static void processPlayer(level_t level, player_t *players, uint8_t index) {
     uint8_t i;
     placement_t previousPlacement = players[index].placement;
@@ -247,10 +254,7 @@ static void processPlayer(level_t level, player_t *players, uint8_t index) {
     playerCollideWall(level, players + index);
 
     // Render purple tank
-    if (shouldRedraw(&previousPlacement, &players[index].placement)) {
-        undrawTank(&previousPlacement);
-        drawTank(&players[index].placement, playerColor);
-    }
+    renderTank(&previousPlacement, &players[index].placement, playerColor);
 }
 
 // Returns whether the bullet should be deleted
@@ -296,28 +300,37 @@ static uint8_t processEnemy(level_t level, enemy_t *enemies, uint8_t index, vect
     }
     enemyCollideWall(level, enemies + index);
 
-    // TODO: More here!
-
     // Render yellow tank
-    if (shouldRedraw(&previousPlacement, &enemies[index].placement)) {
-        undrawTank(&previousPlacement);
-        drawTank(&enemies[index].placement, enemyColor);
-    }
+    renderTank(&previousPlacement, &enemies[index].placement, enemyColor);
 
     return 0;
 }
 
-void processLivesAndScore(uint8_t previousScore[], player_t* player, uint8_t numPlayers){
+void processLivesAndScore(uint8_t previousScore[], uint8_t previousLives[], player_t* player, uint8_t numPlayers){
     uint8_t currentScore[MAX_PLAYERS];
+    uint8_t currentLives[MAX_PLAYERS];
     uint8_t i;
     for (i = 0; i < numPlayers; i++) {
         currentScore[i] = players[i].points;
     }
+
+    for (i = 0; i < numPlayers; i++) {
+        currentLives[i] = players[i].lives;
+    }
+
     for (i = 0; i < numPlayers; i++) {
         if (currentScore[i] != previousScore[i]) {
             livesAndScoreLcd(players, playerCount);
         }
     }
+
+    for (i = 0; i < numPlayers; i++) {
+        if (currentLives[i] != previousLives[i]) {
+            livesAndScoreLcd(players, playerCount);
+        }
+    }
+
+
 }
 
 void deleteBullet(bullet_t *bullet){
@@ -330,9 +343,15 @@ void deleteBullet(bullet_t *bullet){
 level_t processGameTick(level_t level) {
     uint8_t i;
     uint8_t previousScore[MAX_PLAYERS];
+    uint8_t previousLives[MAX_PLAYERS];
     for (i = 0; i < playerCount; i++) {
         previousScore[i] = players[i].points;
     }
+
+    for (i = 0; i < playerCount; i++) {
+        previousLives[i] = players[i].lives;
+    }
+
 
     // Process entities.
     // Each of these de-render each tick, so we can simply draw them at the new position in the end.
@@ -357,7 +376,7 @@ level_t processGameTick(level_t level) {
     // Debug print current player rotation
     cursorToXY(40, 0);
     printf("%3i", players[0].placement.rotation);
-    processLivesAndScore(previousScore, players, playerCount);
+    processLivesAndScore(previousScore, previousLives, players, playerCount);
     cursorToXY(30, 0);
     printf("%3i", players[0].lives);
 
