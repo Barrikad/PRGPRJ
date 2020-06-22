@@ -170,7 +170,7 @@ void playerCollidePowerUp(player_t *player, powerUp_t *powerUps, uint8_t index) 
 
 void playerCollideWall(level_t level, player_t *player) {
     placement_t *placement = &(*player).placement;
-    wallCollision collision = entityCollidesWall(level, placement);
+    levelCollision_t collision = entityCollidesWall(level, placement);
     // Don't care about setting the velocity, since that's controlled elsewhere!
     if (collision & collideTop) {
         (*placement).position.y = (floorFix((*placement).position.y) + 1) << FIX14_SHIFT;

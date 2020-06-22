@@ -12,8 +12,8 @@
 static const char * levelData1 =
     "##############"
     "#            #"
-    "#            $"
-    "#  ##%%# c   $"
+    "#            d"
+    "#  ##%%# c   d"
     "#      #     #"
     "#      #     #"
     "#     ##   e #"
@@ -27,8 +27,8 @@ static const char * levelData1 =
 static const char * levelData2 =
     "##############"
     "#            #"
-    "$            #"
-    "$          e #"
+    "d            #"
+    "d          e #"
     "#   ######   #"
     "#            #"
     "#            #"
@@ -39,22 +39,8 @@ static const char * levelData2 =
     "#            #"
     "##############";
 
-static void drawLevel(const char * data) {
-    uint8_t i, j;
-    char c;
-    for (i = 0; i < LEVEL_HEIGHT; i++) {
-        for (j = 0; j < LEVEL_WIDTH; j++) {
-            c = data[i * LEVEL_WIDTH + j];
-            if (c == '#') {
-                drawWall(j, i, 6);
-            } else if (c == '%') {
-                drawBox(j, i, 6);
-            } else {
-                // Noop
-            }
-        }
-    }
-}
+// Cyan
+#define levelColor 6
 
 static const char * getLevelData(level_t level) {
     switch(level) {
@@ -67,6 +53,26 @@ static const char * getLevelData(level_t level) {
     }
 }
 
+void renderLevel(level_t level, uint8_t doorsOpen) {
+    uint8_t i, j;
+    char c;
+    const char * data = getLevelData(level);
+    for (i = 0; i < LEVEL_HEIGHT; i++) {
+        for (j = 0; j < LEVEL_WIDTH; j++) {
+            c = data[i * LEVEL_WIDTH + j];
+            if (c == '#') {
+                drawWall(j, i, levelColor);
+            } else if (c == '%') {
+                drawBox(j, i, levelColor);
+            } else if (c == 'd') {
+                drawDoor(j, i, levelColor, doorsOpen);
+            } else {
+                // Noop
+            }
+        }
+    }
+}
+
 static uint8_t collisionAtPosition(const char *data, uint8_t x, uint8_t y) {
     char c = data[x * LEVEL_WIDTH + y];
     if (c == '#' || c == '%') {
@@ -75,15 +81,9 @@ static uint8_t collisionAtPosition(const char *data, uint8_t x, uint8_t y) {
     return 0;
 }
 
-void renderLevel(level_t level) {
-    clrscr();
-    resetcolor();
-    drawLevel(getLevelData(level));
-}
-
 // TODO: Move some of this to API?
-uint8_t entityCollidesWall(level_t level, const placement_t *placement) {
-    wallCollision collision = noCollideTopBottom | noCollideLeftRight;
+levelCollision_t entityCollidesWall(level_t level, const placement_t *placement) {
+    levelCollision_t collision = noCollide;
     uint8_t collisionTopLeft     = 0;
     uint8_t collisionTopRight    = 0;
     uint8_t collisionBottomLeft  = 0;
