@@ -2,6 +2,7 @@
 #include "player.h"
 #include "bullet.h"
 #include "enemy.h"
+#include "powerUp.h"
 #include "level.h"
 #include "ansi.h"
 #include "graphics.h"
