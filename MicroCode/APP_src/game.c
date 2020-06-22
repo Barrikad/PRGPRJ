@@ -10,6 +10,7 @@
 #include "enemy_AI.h"
 #include "collision.h"
 #include "door.h"
+#include "frame_timer.h"
 #include <stdio.h>
 #include "player_stat_graphics.h"
 
@@ -66,11 +67,7 @@ static void addDoor(vector_t position, level_t nextLevel) {
 }
 
 
-void initLevel(level_t level) {
-    resetcolor();
-    clrscr();
-    // Render level with doors closed
-    renderLevel(level);
+static void initLevel1() {
     vector_t position = {createFix(2), createFix(9)};
     addPlayer(position, 0, movementFromJoystick);
 
@@ -100,11 +97,73 @@ void initLevel(level_t level) {
     addDoor(doorPosition1, secondLevel);
     vector_t doorPosition2 = {createFix(13), createFix(3)};
     addDoor(doorPosition2, secondLevel);
+}
+
+
+static void initLevel2() {
+    // TODO: Fix the positions of stuff in here!
+    vector_t position = {createFix(2), createFix(9)};
+    addPlayer(position, 0, movementFromJoystick);
+
+    // Test enemy behavior
+    vector_t pos = {11 << 14, 2 << 14};
+    deg512_t rot = 0;
+    placement_t plc = {pos, 1 << 13, 1 << 13, rot};
+    enemy_t enemy = {plc,0,0,0,0};
+    addEnemy(enemy);
+    vector_t cp1 = {11 << 14, 2 << 14};
+    vector_t cp2 = {11 << 14, 10 << 14};
+    vector_t cp3 = {2 << 14, 10 << 14};
+    vector_t cp4 = {2 << 14, 2 << 14};
+    enemyCheckpoints[0][0] = cp1;
+    enemyCheckpoints[0][1] = cp2;
+    enemyCheckpoints[0][2] = cp3;
+    enemyCheckpoints[0][3] = cp4;
+    enemyCheckpoints[0][4] = cp1;
+    enemyCheckpoints[0][5] = cp2;
+    enemyCheckpoints[0][6] = cp3;
+    enemyCheckpoints[0][7] = cp4;
+
+    // Test powerup
+    vector_t puPos = {11 << 14, 6 << 14};
+    effects_t effect = 1;
+    addPowerUp(puPos,effect);
+
+    vector_t doorPosition1 = {createFix(0), createFix(2)};
+    addDoor(doorPosition1, firstLevel);
+    vector_t doorPosition2 = {createFix(0), createFix(3)};
+    addDoor(doorPosition2, firstLevel);
+
+    // TODO: Make doors that lead to the third level
+}
+
+
+void initLevel(level_t level) {
+    // Clear screen and hide cursor
+    cursorHide();
+    resetcolor();
+    clrscr();
+
+    // Render level with doors closed
+    renderLevel(level);
     isDoorsOpen = 0;
+
+    switch(level) {
+    case firstLevel:
+        initLevel1();
+        initFrameTimer(100);
+        break;
+    case secondLevel:
+        initLevel2();
+        initFrameTimer(150);
+        break;
+    default:
+        // Unreachable
+        break;
+    }
 
     // Initializes score and lives screen.
     livesAndScoreLcd(players, playerCount);
-    // TODO: Store current level?
 }
 
 
@@ -155,7 +214,7 @@ void deletePowerUp(uint8_t index){
     powerUpCount--;
 }
 
-static void processPlayer(player_t *players, uint8_t index) {
+static void processPlayer(level_t level, player_t *players, uint8_t index) {
     uint8_t i;
     placement_t previousPlacement = players[index].placement;
 
@@ -185,7 +244,7 @@ static void processPlayer(player_t *players, uint8_t index) {
         }
     }
 
-    playerCollideWall(firstLevel, players + index);
+    playerCollideWall(level, players + index);
 
     // Render purple tank
     if (shouldRedraw(&previousPlacement, &players[index].placement)) {
@@ -195,13 +254,13 @@ static void processPlayer(player_t *players, uint8_t index) {
 }
 
 // Returns whether the bullet should be deleted
-static uint8_t processBullet(bullet_t *bullet) {
+static uint8_t processBullet(level_t level, bullet_t *bullet) {
     placement_t previousPlacement = (*bullet).placement;
 
     moveBullet(bullet);
 
     // Collision
-    if (bulletCollideWallAndShouldDelete(firstLevel, bullet)) {
+    if (bulletCollideWallAndShouldDelete(level, bullet)) {
         undrawBullet(&previousPlacement);
         return 1;
     }
@@ -215,7 +274,7 @@ static uint8_t processBullet(bullet_t *bullet) {
     return 0;
 }
 
-static uint8_t processEnemy(enemy_t *enemies, uint8_t index, vector_t *checkpoints) {
+static uint8_t processEnemy(level_t level, enemy_t *enemies, uint8_t index, vector_t *checkpoints) {
     uint8_t i;
     placement_t previousPlacement = enemies[index].placement;
 
@@ -235,7 +294,7 @@ static uint8_t processEnemy(enemy_t *enemies, uint8_t index, vector_t *checkpoin
     for (i = 0; i < playerCount; i++) {
         enemyCollidePlayer(enemies + index, &players[i]);
     }
-    enemyCollideWall(firstLevel, enemies + index);
+    enemyCollideWall(level, enemies + index);
 
     // TODO: More here!
 
@@ -275,9 +334,7 @@ void processLivesAndScore(uint8_t previousScore[], uint8_t previousLives[], play
 
 }
 
-
-
-void processGameTick() {
+level_t processGameTick(level_t level) {
     uint8_t i;
     uint8_t previousScore[MAX_PLAYERS];
     uint8_t previousLives[MAX_PLAYERS];
@@ -293,10 +350,10 @@ void processGameTick() {
     // Process entities.
     // Each of these de-render each tick, so we can simply draw them at the new position in the end.
     for (i = 0; i < playerCount; i++) {
-        processPlayer(players,i);
+        processPlayer(level, players,i);
     }
     for (i = 0; i < bulletCount; i++) {
-        if (processBullet(&bullets[i])) {
+        if (processBullet(level, &bullets[i])) {
             // Delete the bullet by moving the last entry into it, and deleting the last entry.
             bullets[i] = bullets[bulletCount - 1];
             bulletCount--;
@@ -304,7 +361,7 @@ void processGameTick() {
         }
     }
     for (i = 0; i < enemyCount; i++) {
-        if (processEnemy(enemies, i, enemyCheckpoints[i])) {
+        if (processEnemy(level, enemies, i, enemyCheckpoints[i])) {
             // Delete the enemy by moving the last entry into it, and deleting the last entry.
             enemies[i] = enemies[enemyCount - 1];
             enemyCount--;
@@ -315,7 +372,12 @@ void processGameTick() {
     // Debug print current player rotation
     cursorToXY(40, 0);
     printf("%3i", players[0].placement.rotation);
+
     processLivesAndScore(previousScore, previousLives, players, playerCount);
+
+
+    // Return invalidLevel to signal we don't want to change the level.
+    return invalidLevel;
 }
 
 

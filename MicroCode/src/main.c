@@ -20,51 +20,46 @@
 
 
 int main(void) {
-    // Note: In the final game, we want to start the state in mainMenu
-    // Or even make a fancy intro-screen?
+    // TODO: Make a fancy intro-screen?
+    level_t currentLevel = invalidLevel;
+    level_t nextLevel = invalidLevel;
 
-    // Test stuff below
-
+    // Initialize the UART as the display during game.
     uart_init(115200);
-
-
+    // Initialize the LCD for the menu and score/lives during game.
     lcdInit();
+    // Initialize joystick both for the game and the menu.
+    initJoystick();
+    // Initialize the main menu.
     initMainMenu();
 
-    // Initialize joystick both for the game and the menu
-    initJoystick();
-
-    initLevel(firstLevel);
-
-    //initialize timer
-    initFrameTimer();
-
-    printf("test");
-
-    cursorHide();
-
-    uint8_t isGame = 0;
-
+    // The main game loop.
+    // We will always return to this, instead of having loops inside functions, since that makes our state explicit.
     while (1) {
-        if (isGame) {
-            if (getFlag()) {
-                // Debug print frame skips
-                // Each time this number rises, a frame was skipped, and the game is running too slowly!
-                cursorToXY(50, 0);
-                printf("%5ld", getFramesSkipped());
-                unsetFlag();
-                processGameTick();
-            }
-
-        }
-        else {
+        // Menu is currently open, game is not running.
+        if (currentLevel == invalidLevel) {
             if (mainMenuFunction()) {
-                isGame = 1;
+                currentLevel = firstLevel;
+                initLevel(currentLevel);
             }
             helpMenuFunction();
             scoreMenuFunction();
             creditsMenuFunction();
-
+        // Game is running.
+        } else {
+            // Render on a clock,
+            if (getFrameFlag()) {
+                unsetFrameFlag();
+                // Debug print frame skips
+                // Each time this number rises, a frame was skipped, and the game is running too slowly!
+                cursorToXY(50, 0);
+                printf("%5ld", getFramesSkipped());
+                nextLevel = processGameTick(currentLevel);
+                if (nextLevel != invalidLevel) {
+                    currentLevel = nextLevel;
+                    initLevel(currentLevel);
+                }
+            }
         }
     }
 }

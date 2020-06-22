@@ -4,7 +4,7 @@
 static volatile uint8_t flag = 0;
 static volatile uint32_t framesSkipped = 0;
 
-uint8_t getFlag(){
+uint8_t getFrameFlag(){
     return flag;
 }
 
@@ -12,7 +12,7 @@ uint32_t getFramesSkipped() {
     return framesSkipped;
 }
 
-static void setFlag() {
+static void setFrameFlag() {
     // If we tried to set the flag while it was set, we've missed processing a frame!
     // An indication that the game is running too slowly!
     if (flag) {
@@ -21,11 +21,12 @@ static void setFlag() {
     flag = 1;
 }
 
-void unsetFlag(){
+void unsetFrameFlag(){
     flag = 0;
 }
 
-void initFrameTimer() {
-    initTimer2WithFrequency(setFlag, 100);
+void initFrameTimer(uint16_t frequency) {
+    disableTimer2();
+    initTimer2WithFrequency(setFrameFlag, frequency);
     enableTimer2();
 }
