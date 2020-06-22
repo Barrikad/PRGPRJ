@@ -36,9 +36,21 @@ const char WALL[TILE_SIZE] =
 
 // Box sprite
 const char BOX[TILE_SIZE] =
+    "####"
+    "#++#"
+    "####";
+
+// Closed door sprite
+const char DOOR_CLOSED[TILE_SIZE] =
     "+--+"
     "|  |"
     "+--+";
+
+// Open door sprite
+const char DOOR_OPEN[TILE_SIZE] =
+    "+  +"
+    "    "
+    "+  +";
 
 // PowerUp sprite
 const char POWERUP[TILE_SIZE] =
@@ -123,6 +135,13 @@ void drawBox(uint8_t x, uint8_t y, uint8_t color) {
     cursorToXY(x * TILE_WIDTH, y * TILE_HEIGHT);
     fgcolor(color);
     drawSpriteTiles(BOX);
+    resetcolor();
+}
+
+void drawDoor(uint8_t x, uint8_t y, uint8_t color, uint8_t open) {
+    cursorToXY(x * TILE_WIDTH, y * TILE_HEIGHT);
+    fgcolor(color);
+    drawSpriteTiles(open ? DOOR_OPEN : DOOR_CLOSED);
     resetcolor();
 }
 

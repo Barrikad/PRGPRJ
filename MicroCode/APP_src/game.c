@@ -2,6 +2,7 @@
 #include "player.h"
 #include "bullet.h"
 #include "enemy.h"
+#include "powerUp.h"
 #include "level.h"
 #include "ansi.h"
 #include "graphics.h"
@@ -42,7 +43,10 @@ static powerUp_t powerUps[MAX_POWERUPS];
 
 
 void initLevel(level_t level) {
-    renderLevel(level);
+    resetcolor();
+    clrscr();
+    // Render level with doors closed
+    renderLevel(level, 0);
     vector_t position = {createFix(2), createFix(9)};
     addPlayer(position, 0, movementFromJoystick);
 

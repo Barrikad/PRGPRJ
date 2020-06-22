@@ -1,6 +1,4 @@
 #include <stdint.h>
-#include "30010_io.h"
-#include "stm32f30x.h"
 #include "fix_point_math.h"
 #include "entity_representation.h"
 
