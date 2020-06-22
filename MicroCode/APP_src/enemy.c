@@ -27,10 +27,11 @@ void enemyCollideBullet(player_t *players, enemy_t *enemy, bullet_t *bullet) {
 }
 
 void enemyCollidePlayer(enemy_t *enemy, player_t *player) {
-    if (entitiesCollide((*player).placement, (*enemy).placement)) {
-        (*player).points += (*enemy).points;
+    //noop
+    //if (entitiesCollide((*player).placement, (*enemy).placement)) {
+        //(*player).points += (*enemy).points;
         //removeItem(enemy);
-    }
+    //}
 }
 
 void enemyCollideWall(level_t level, enemy_t *enemy) {
