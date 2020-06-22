@@ -322,6 +322,7 @@ void processLivesAndScore(uint8_t previousScore[], player_t* player, uint8_t num
 
 void deleteBullet(bullet_t *bullet){
     // Delete the bullet by moving the last entry into it, and deleting the last entry.
+    undrawBullet(&(*bullet).placement);
     *bullet = bullets[bulletCount - 1];
     bulletCount--;
 }
@@ -357,6 +358,8 @@ level_t processGameTick(level_t level) {
     cursorToXY(40, 0);
     printf("%3i", players[0].placement.rotation);
     processLivesAndScore(previousScore, players, playerCount);
+    cursorToXY(30, 0);
+    printf("%3i", players[0].lives);
 
     // Return invalidLevel to signal we don't want to change the level.
     return invalidLevel;
