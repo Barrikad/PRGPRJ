@@ -5,6 +5,7 @@
 #include "game.h"
 #include "menu.h"
 #include "falling_edge_selection.h"
+#include "player_stat_graphics.h"
 
 typedef enum {
     newGame    = 0,

@@ -101,6 +101,8 @@ void initLevel(level_t level) {
     addDoor(doorPosition2, secondLevel);
     isDoorsOpen = 0;
 
+    // Initializes score and lives screen.
+    livesAndScoreLcd(players, playerCount);
     // TODO: Store current level?
 }
 
