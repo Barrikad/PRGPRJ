@@ -78,7 +78,7 @@ void initLevel(level_t level) {
     vector_t pos = {11 << 14, 6 << 14};
     deg512_t rot = 0;
     placement_t plc = {pos, 1 << 13, 1 << 13, rot};
-    enemy_t enemy = {plc,0,0,0,0};
+    enemy_t enemy = {plc,0,0,2,0};
     addEnemy(enemy);
     vector_t cp1 = {11 << 14, 6 << 14};
     vector_t cp2 = {9 << 14, 3 << 14};
