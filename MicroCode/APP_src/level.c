@@ -82,8 +82,8 @@ static uint8_t collisionAtPosition(const char *data, uint8_t x, uint8_t y) {
 }
 
 // TODO: Move some of this to API?
-uint8_t entityCollidesWall(level_t level, const placement_t *placement) {
-    wallCollision collision = noCollideTopBottom | noCollideLeftRight;
+levelCollision_t entityCollidesWall(level_t level, const placement_t *placement) {
+    levelCollision_t collision = noCollide;
     uint8_t collisionTopLeft     = 0;
     uint8_t collisionTopRight    = 0;
     uint8_t collisionBottomLeft  = 0;

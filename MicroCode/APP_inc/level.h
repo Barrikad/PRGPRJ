@@ -9,15 +9,18 @@ typedef enum {
     secondLevel = 1,
 } level_t;
 
-typedef uint8_t wallCollision;
+// Determines what kind of collision happened:
+// - Bit 1 is set if the collision is with the top side of a wall.
+// - Bit 2 is set if the collision is with the bottom side of a wall.
+// - Bit 3 is set if the collision is with the left side of a wall.
+// - Bit 4 is set if the collision is with the right side of a wall.
+typedef uint8_t levelCollision_t;
 
-#define noCollideTopBottom 0x00
+#define noCollide          0x00
 #define collideTop         0x01
 #define collideBottom      0x02
-
-#define noCollideLeftRight 0x00
-#define collideLeft        0x10
-#define collideRight       0x20
+#define collideLeft        0x04
+#define collideRight       0x08
 
 // Initialize / enter the given level.
 void renderLevel(level_t level, uint8_t doorsOpen);
@@ -26,14 +29,8 @@ void renderLevel(level_t level, uint8_t doorsOpen);
 // TODO: Change return type so caller know which level to enter?
 // uint8_t playerTouchesDoor(const placement_t *placement);
 
-// Detect whether an entity collides with a wall.
-// Returns a value based on where the collision happens:
-// - 1 if the collision is with the top side of a wall.
-// - 2 if the collision is with the right side of a wall.
-// - 4 if the collision is with the bottom side of a wall.
-// - 8 if the collision is with the left side of a wall.
-// TODO: Maybe allow returning 3 if collides with both top side and right side?
+// Detect whether and how an entity collides with a wall.
 // This does no attempt to move the entity back or bounce it.
-wallCollision entityCollidesWall(level_t level, const placement_t *placement);
+levelCollision_t entityCollidesWall(level_t level, const placement_t *placement);
 
 #endif /* LEVEL_H_INCLUDED */
