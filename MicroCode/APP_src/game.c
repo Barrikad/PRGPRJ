@@ -7,6 +7,7 @@
 #include "ansi.h"
 #include "graphics.h"
 #include "enemy_AI.h"
+#include "collision.h"
 #include <stdio.h>
 #include "player_stat_graphics.h"
 
@@ -34,6 +35,9 @@ static powerUp_t powerUps[MAX_POWERUPS];
 #define MAX_DOORS 4
 static uint8_t doorCount = 0;
 static door_t doors[MAX_DOORS];
+
+
+static uint8_t isDoorsOpen;
 
 
 // Purple
@@ -93,6 +97,7 @@ void initLevel(level_t level) {
     addDoor(doorPosition1, secondLevel);
     vector_t doorPosition2 = {createFix(13), createFix(3)};
     addDoor(doorPosition2, secondLevel);
+    isDoorsOpen = 0;
 
     // TODO: Store current level?
 }
@@ -175,9 +180,16 @@ static void processPlayer(player_t *player) {
         playerCollidePowerUp(player, powerUps, i);
     }
 
+    for (i = 0; i < doorCount; i++) {
+        // Note: Door collision is also handled in playerCollideWall!
+        if (isDoorsOpen && entitiesCollide((*player).placement, doors[i].placement)) {
+            // TODO: This
+        }
+    }
+
     playerCollideWall(firstLevel, player);
-    // playerCollidePowerUp(player, powerUp);
-    // playerCollideDoor(player, door);
+
+    playerCollideDoor(player, door);
 
     // Render purple tank
     if (shouldRedraw(&previousPlacement, &(*player).placement)) {

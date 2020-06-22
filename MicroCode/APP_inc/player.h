@@ -7,7 +7,6 @@
 #include "level.h"
 #include "bullet.h"
 #include "powerUp.h"
-#include "door.h"
 
 //notes on the goals of the architecture:
 //  arbitrary number of players with arbitrary input devices
@@ -47,8 +46,5 @@ void playerCollidePowerUp(player_t *player, powerUp_t *powerUps, uint8_t index);
 
 // Detect and handle collision with a wall.
 void playerCollideWall(level_t level, player_t *player);
-
-// TODO
-void playerCollideDoor(player_t *player, const door_t *door);
 
 #endif /* PLAYER_H_INCLUDED */

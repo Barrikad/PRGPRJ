@@ -186,9 +186,3 @@ void playerCollideWall(level_t level, player_t *player) {
     }
 }
 
-
-void playerCollideDoor(player_t *player, const door_t *door) {
-    if (entitiesCollide((*player).placement, (*door).placement)) {
-        // (*player).points += (*door).points;
-    }
-}
