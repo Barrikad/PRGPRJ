@@ -49,19 +49,33 @@ fix14_t cosine(deg512_t degs){
 }
 
 deg512_t asine(fix14_t s){
+    //TODO: too much indentation, should refactor
+    //negative numbers must be treated differently
     if(s < 0){
-        //convert to fix8
-        s >>= 6;
-        //set 9th bit to make negativ
-        s |= 1 << 9;
-        //only consider last 9 bits
-        s &= 0x1FF;
+        //cap at -1
+        if(s < -(1 << 14)){
+            s = 256;
+        }
+        else{
+            //convert to fix8
+            s >>= 6;
+            //set 9th bit to make negative
+            s |= 1 << 9;
+            //only consider last 9 bits
+            s &= 0x1FF;
+        }
     }
     else{
-        //convert to fix8
-        s >>= 6;
-        //only consider last 8 bits
-        s &= 0xFF;
+        //cap at 1
+        if(s >= 1 << 14){
+            s = 255;
+        }
+        else{
+            //convert to fix8
+            s >>= 6;
+            //only consider last 8 bits
+            s &= 0xFF;
+        }
     }
     return ASIN[s];
 }
@@ -72,12 +86,13 @@ deg512_t acosine(fix14_t c){
 }
 
 fix14_t squrt(fix14_t x){
+    uint8_t i;
     //  note: division of fixpoint by int is safe
     //initial estimate
     fix14_t estimate = x/3;
 
     //iterative estimates
-    for(int i = 0; i < 15; i++){
+    for(i = 0; i < 15; i++){
         estimate = (estimate + FIX14_DIV(x,estimate)) / 2;
     }
 
@@ -94,15 +109,15 @@ fix14_t vectorLen(vector_t v){
         v.y = -v.y;
     }
 
-    //convert to fix7
-    v.x >>= 7;
-    v.y >>= 7;
+    //convert to fix5
+    v.x >>= 9;
+    v.y >>= 9;
 
-    //calculate x^2+y^2. multiplication converts back to fix14
+    //calculate x^2+y^2. multiplication converts back to fix10
     fix14_t x2y2 = (v.x * v.x) + (v.y * v.y);
 
-    //return distance
-    return squrt(x2y2);
+    //return distance converted to fix14
+    return squrt(x2y2) << 4;
 }
 
 //private function to round a guaranteed positive number
@@ -137,6 +152,13 @@ int16_t floorFix(fix14_t x){
         x = x >> 14;
         return -1*x;
     }
+}
+
+fix14_t absFix(fix14_t x){
+    if(x < 0){
+        x = -x;
+    }
+    return x;
 }
 
 fix14_t createFix(int16_t x) {

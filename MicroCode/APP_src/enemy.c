@@ -7,14 +7,15 @@
 
 void fireBulletFromEnemy(enemy_t* enemy){
     if(!(*enemy).weaponCooldown){
-        fireBulletFromPlacement((*enemy).placement);
+        fireBulletFromPlacement(&(*enemy).placement);
         (*enemy).weaponCooldown = WEAPON_COOLDOWN;
     }
 }
 
 
 static void incrementPlayerPoints(player_t *players, uint8_t playerCount, enemy_t *enemy) {
-    for (int i = 0; i < playerCount; i++){
+    uint8_t i;
+    for (i = 0; i < playerCount; i++){
         players[i].points += (*enemy).points;
     }
 }

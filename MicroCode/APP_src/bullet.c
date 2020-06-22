@@ -8,37 +8,39 @@ void moveBullet(bullet_t *bullet){
     moveEntity(&((*bullet).placement),(*bullet).velocity);
 }
 
-void copyBullet(bullet_t *toBullet, const bullet_t *fromBullet) {
-    // TODO: Test whether this copy can be done more consisely?
-    (*toBullet).placement.position.x = (*fromBullet).placement.position.x;
-    (*toBullet).placement.position.y = (*fromBullet).placement.position.y;
-    (*toBullet).placement.hitboxWidth = (*fromBullet).placement.hitboxWidth;
-    (*toBullet).placement.hitboxHeight = (*fromBullet).placement.hitboxHeight;
-    (*toBullet).placement.rotation = (*fromBullet).placement.rotation;
-    (*toBullet).velocity.x = (*fromBullet).velocity.x;
-    (*toBullet).velocity.y = (*fromBullet).velocity.y;
-}
-
-void fireBulletFromPlacement(placement_t placement){
+void fireBulletFromPlacementWithVelocity(const placement_t *placement, fix14_t velocity){
     //make the placement of the bullet the same as the given placement, but with bullet hitbox
-    vector_t position = placement.position;
-    deg512_t rotation = placement.rotation;
-    placement_t bulletPlacement = {position, createFix(1), createFix(1), rotation};
+    vector_t position = {(*placement).position.x + (*placement).hitboxWidth / 2, (*placement).position.y + (*placement).hitboxHeight / 2};
+    deg512_t rotation = (*placement).rotation;
+    // Hitbox is 0.25 by 0.25
+    placement_t bulletPlacement = {position, 1 << 12, 1 << 12, rotation};
 
-
-    //set velocity to 1 in the direction the bullet is pointing
-    vector_t bulletVelocity = {BULLET_SPEED << 14,0};
+    // Set velocity to 0.0625 in the direction the bullet is pointing
+    // Note: The velocoty should be smaller than the hitbox!
+    vector_t bulletVelocity = {velocity, 0};
     rotateVector(&bulletVelocity,rotation);
 
     //create bullet specified above
     bullet_t bullet = {bulletPlacement,bulletVelocity};
 
     //move the bullet out of the entity
+    // Done a few times since the velocity is too low to do this the first time
+    // TODO: Do this better!
+    moveBullet(&bullet);
+    moveBullet(&bullet);
+    moveBullet(&bullet);
+    moveBullet(&bullet);
     moveBullet(&bullet);
 
     addBullet(bullet);
 }
 
+void fireBulletFromPlacement(const placement_t *placement){
+    // fire bullet from placement with standard velocity, 0.0625
+    // Set velocity to 0.0625 in the direction the bullet is pointing
+    // Note: The velocoty should be smaller than the hitbox!
+    fireBulletFromPlacementWithVelocity(placement, 1 << 10);
+}
 
 /*
 static void bounceBullet(bullet_t *bullet){

@@ -22,12 +22,50 @@ static bullet_t bullets[MAX_BULLETS];
 //actual number of enemies in enemyCount
 static uint8_t enemyCount = 0;
 static enemy_t enemies[MAX_ENEMIES];
+static vector_t enemyCheckpoints[MAX_ENEMIES][CHECKPOINT_COUNT];
+
+#define MAX_POWERUPS 8
+//actual number of bullets in bulletCount
+static uint8_t powerUpCount = 0;
+static powerUp_t powerUps[MAX_POWERUPS];
+
+
+// Purple
+#define playerColor 5
+// Yellow
+#define enemyColor 11
+// Red
+#define bulletColor 1
 
 
 void initLevel(level_t level) {
     renderLevel(level);
-    vector_t position = {createFix(1), createFix(1)};
+    vector_t position = {createFix(2), createFix(9)};
     addPlayer(position, 0, movementFromJoystick);
+
+    // Test enemy behavior
+    vector_t pos = {11 << 14, 6 << 14};
+    deg512_t rot = 0;
+    placement_t plc = {pos, 1 << 13, 1 << 13, rot};
+    enemy_t enemy = {plc,0,0,0,0};
+    addEnemy(enemy);
+    vector_t cp1 = {11 << 14, 6 << 14};
+    vector_t cp2 = {9 << 14, 3 << 14};
+    enemyCheckpoints[0][0] = cp1;
+    enemyCheckpoints[0][1] = cp2;
+    enemyCheckpoints[0][2] = cp1;
+    enemyCheckpoints[0][3] = cp2;
+    enemyCheckpoints[0][4] = cp1;
+    enemyCheckpoints[0][5] = cp2;
+    enemyCheckpoints[0][6] = cp1;
+    enemyCheckpoints[0][7] = cp2;
+
+    // Test powerup
+    // hardwired application of effect.
+    // powerup collision should work, but can't be bothered to
+    // figure out placement
+    players[0].effects = 1;
+
     // TODO: Store current level?
 }
 
@@ -37,35 +75,39 @@ void addPlayer(vector_t position, deg512_t rotation, action_t (*inputFunction)()
         return;
     }
     initPlayer(&players[playerCount], position, rotation, inputFunction);
+    drawTank(&players[playerCount].placement, playerColor);
     playerCount++;
 }
 
-void addBullet(bullet_t bullet){
-    if(bulletCount < MAX_BULLETS){
-        bullets[bulletCount] = bullet;
-        bulletCount++;
+void addBullet(bullet_t bullet) {
+    if (bulletCount >= MAX_BULLETS) {
+        return;
     }
+    bullets[bulletCount] = bullet;
+    drawBullet(&bullets[bulletCount].placement, bulletColor);
+    bulletCount++;
 }
 
 static void deleteBullet(uint8_t index) {
     bullet_t *thisBullet = &bullets[index];
     const bullet_t *lastBullet = &bullets[bulletCount - 1];
-    copyBullet(thisBullet, lastBullet);
-    thisBullet->placement = lastBullet->placement;
-    thisBullet->velocity = lastBullet->velocity;
+    (*thisBullet).placement = (*lastBullet).placement;
+    (*thisBullet).velocity = (*lastBullet).velocity;
     bulletCount--;
 }
 
-void addEnemy(enemy_t enemy){
-    if(enemyCount < MAX_ENEMIES){
-        enemies[enemyCount] = enemy;
-        enemyCount++;
+void addEnemy(enemy_t enemy) {
+    if (enemyCount >= MAX_ENEMIES) {
+        return;
     }
+    enemies[enemyCount] = enemy;
+    drawTank(&enemies[enemyCount].placement, enemyColor);
+    enemyCount++;
 }
 
 static void processPlayer(player_t *player) {
     uint8_t i;
-    undrawTank(&(*player).placement);
+    placement_t previousPlacement = (*player).placement;
 
     processPlayerActionsInGame(player);
 
@@ -84,34 +126,44 @@ static void processPlayer(player_t *player) {
     // playerCollideDoor(player, door);
 
     // Render purple tank
-    drawTank(&(*player).placement, 5);
+    if (shouldRedraw(&previousPlacement, &(*player).placement)) {
+        undrawTank(&previousPlacement);
+        drawTank(&(*player).placement, playerColor);
+    }
 }
 
 // Returns whether the bullet should be deleted
 static uint8_t processBullet(bullet_t *bullet) {
-    undrawBullet(&(*bullet).placement);
+    placement_t previousPlacement = (*bullet).placement;
 
     moveBullet(bullet);
 
     // Collision
     if (bulletCollideWallAndShouldDelete(firstLevel, bullet)) {
+        undrawBullet(&previousPlacement);
         return 1;
     }
 
     // Rendering
-    drawBullet(&(*bullet).placement, 1);
+    if (shouldRedraw(&previousPlacement, &(*bullet).placement)) {
+        undrawBullet(&previousPlacement);
+        drawBullet(&(*bullet).placement, bulletColor);
+    }
 
     return 0;
 }
 
-static void processEnemy(enemy_t *enemy) {
+static void processEnemy(enemy_t *enemy, vector_t *checkpoints) {
     uint8_t i;
-    undrawTank(&(*enemy).placement);
+    placement_t previousPlacement = (*enemy).placement;
 
     // Enemy attributes
     if ((*enemy).weaponCooldown) {
         (*enemy).weaponCooldown--;
     }
+
+    //move and shoot
+    processEnemyActions(players,playerCount,enemy, checkpoints);
 
     // Collision
     for (i = 0; i < bulletCount; i++) {
@@ -126,14 +178,14 @@ static void processEnemy(enemy_t *enemy) {
     // TODO: More here!
 
     // Render yellow tank
-    drawTank(&(*enemy).placement, 11);
+    if (shouldRedraw(&previousPlacement, &(*enemy).placement)) {
+        undrawTank(&previousPlacement);
+        drawTank(&(*enemy).placement, enemyColor);
+    }
 }
 
 
 void processGameTick() {
-    //test code
-    processEnemyActions(players,playerCount,enemies,enemyCount);
-    //tset
 
     uint8_t i;
     // Process entities.
@@ -148,7 +200,7 @@ void processGameTick() {
         }
     }
     for (i = 0; i < enemyCount; i++) {
-        processEnemy(&enemies[i]);
+        processEnemy(&enemies[i], enemyCheckpoints[i]);
     }
 
     // Debug print current player rotation

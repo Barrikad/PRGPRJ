@@ -20,9 +20,10 @@ static selectedOption_t currentSelectedOption = newGame;
 
 static void renderMainMenu() {
     char* newGame[] = {"New Game     ->Select", "Help         <-Back", "Highscore", "Credits"};
+    uint8_t i, j;
     lcdClear();
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < strlen(newGame[i]); j++) {
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < strlen(newGame[i]); j++) {
             lcdWriteChar(newGame[i][j], j * 6, i * 8);
         }
     }
@@ -45,9 +46,10 @@ uint8_t processInputMainMenu() {
 static void renderHelpMenu() {
     // TODO: This!
     char* helpMenuText[] = {"Control the tank with", "the joystick.", "Shoot by pressing the", "joystick down."};
+    uint8_t i, j;
     lcdClear();
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < strlen(helpMenuText[i]); j++) {
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < strlen(helpMenuText[i]); j++) {
             lcdWriteChar(helpMenuText[i][j], j * 6, i * 8);
         }
     }
@@ -61,32 +63,34 @@ uint8_t processInputHelpMenu() {
     return 0; // Stays in submenu
 }
 
-static void scoreFormatting(char score[3][14], player_t* players, uint8_t numPlayers){
-    for (int i = 0; i < numPlayers; i++) {
+static void scoreFormatting(char score[3][14], const player_t* players, uint8_t numPlayers){
+    uint8_t i;
+    for (i = 0; i < numPlayers; i++) {
         sprintf(score[i], "%13d",players[i].points);
     }
 }
 
-static void renderScoreMenu(uint8_t clearedLevels, player_t* players, uint8_t numPlayers) {
+void renderScoreMenu(const player_t* players, uint8_t numPlayers) {
     char* highscore = "      Highscore      ";
     char* playerNumber[] = {"Player 1", "Player 2", "Player 3"}; // if more than 3 players is wanted then a scroll function is needed
     char score[3][14];
+    uint8_t i, j;
     scoreFormatting(score, players, numPlayers);
 
     lcdClear();
 
-    for (int i = 0; i < strlen(highscore); i++) {
+    for (i = 0; i < strlen(highscore); i++) {
         lcdAntiWriteChar(highscore[i], i * 6, 0);
     }
 
-    for (int i = 1; i < 4; i++) {
-        for (int j = 0; j < strlen(playerNumber[i]); j++) {
+    for (i = 1; i < 4; i++) {
+        for (j = 0; j < strlen(playerNumber[i]); j++) {
             lcdWriteChar(playerNumber[i][j], j * 6, i * 8);
         }
     }
 
-     for (int i = 1; i < 4; i++) {
-        for (int j = 8; j < 21; j++) {
+     for (i = 1; i < 4; i++) {
+        for (j = 8; j < 21; j++) {
                 lcdWriteChar(score[i][j], j * 6, i * 8);
         }
     }
@@ -103,9 +107,10 @@ uint8_t processInputScoreMenu() {
 
 static void renderCreditsMenu() {
     char* credits[] = {"Created by:","Mads Marquart", "Simon Tobias Lund", "Gustav Leth-Espensen"};
+    uint8_t i, j;
     lcdClear();
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < strlen(credits[i]); j++) {
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < strlen(credits[i]); j++) {
             lcdWriteChar(credits[i][j], j * 6, i * 8);
         }
     }
@@ -121,7 +126,8 @@ uint8_t processInputCreditsMenu() {
 
 static void menuOptionNewGame() {
     char* antiNewGame = {"New Game"};
-    for (int j = 0; j < strlen(antiNewGame); j++) {
+    uint8_t j;
+    for (j = 0; j < strlen(antiNewGame); j++) {
         lcdAntiWriteChar(antiNewGame[j], j * 6, 0);
     }
     lcdFlush();
@@ -129,7 +135,8 @@ static void menuOptionNewGame() {
 
 static void menuOptionHelp() {
     char* antiHelp = {"Help"};
-    for (int j = 0; j < strlen(antiHelp); j++) {
+    uint8_t j;
+    for (j = 0; j < strlen(antiHelp); j++) {
         lcdAntiWriteChar(antiHelp[j], j * 6, 8);
     }
     lcdFlush();
@@ -137,7 +144,8 @@ static void menuOptionHelp() {
 
 static void menuOptionHighscore() {
     char* antiHighscore = {"Highscore"};
-    for (int j = 0; j < strlen(antiHighscore); j++) {
+    uint8_t j;
+    for (j = 0; j < strlen(antiHighscore); j++) {
         lcdAntiWriteChar(antiHighscore[j], j * 6, 16);
     }
     lcdFlush();
@@ -145,7 +153,8 @@ static void menuOptionHighscore() {
 
 static void menuOptionCredits() {
     char* antiCredits = {"Credits"};
-    for (int j = 0; j < strlen(antiCredits); j++) {
+    uint8_t j;
+    for (j = 0; j < strlen(antiCredits); j++) {
         lcdAntiWriteChar(antiCredits[j], j * 6, 24);
     }
     lcdFlush();

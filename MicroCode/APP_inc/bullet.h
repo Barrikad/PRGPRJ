@@ -4,8 +4,6 @@
 #include "entity_representation.h"
 #include "level.h"
 
-#define BULLET_SPEED 1
-
 #define WEAPON_COOLDOWN 32
 
 typedef struct{
@@ -16,10 +14,11 @@ typedef struct{
 //move the bullet according to its velocity
 void moveBullet(bullet_t *bullet);
 
-void copyBullet(bullet_t *toBullet, const bullet_t *fromBullet);
+//create a bullet fired from a placement, with standard velocity
+void fireBulletFromPlacement(const placement_t *placement);
 
-//create a bullet fired from a placement
-void fireBulletFromPlacement(placement_t placement);
+//create a bullet fired from a placement, with specified velocity
+void fireBulletFromPlacementWithVelocity(const placement_t *placement, fix14_t velocity);
 
 // Detect and handle collision with wall.
 // Returns true if the bullet should be deleted.

@@ -1,10 +1,11 @@
 #include "graphics.h"
 
 #define DIRECTIONS 4
+#define TILE_SIZE (TILE_WIDTH * TILE_HEIGHT + 1)
 
 // TODO: Use UTF-8 Unicode
 // Sprite for a tank
-const char TANK[DIRECTIONS][TILE_WIDTH * TILE_HEIGHT + 1] = {
+const char TANK[DIRECTIONS][TILE_SIZE] = {
     // Right
     "--- "
     " H->"
@@ -21,10 +22,22 @@ const char TANK[DIRECTIONS][TILE_WIDTH * TILE_HEIGHT + 1] = {
     " /\\ "
     "|HH|"
     "|  |"};
-const char TANK_CLEAR[TILE_WIDTH * TILE_HEIGHT + 1] =
+const char TANK_CLEAR[TILE_SIZE] =
     "    "
     "    "
     "    ";
+
+// Wall sprite
+const char WALL[TILE_SIZE] =
+    "####"
+    "#%%#"
+    "####";
+
+// Box sprite
+const char BOX[TILE_SIZE] =
+    "+--+"
+    "|  |"
+    "+--+";
 
 // The bullet sprite
 const char BULLET = 'o';
@@ -43,10 +56,26 @@ static void drawSpriteTiles(const char sprite[TILE_WIDTH * TILE_HEIGHT]) {
     }
 }
 
+static uint8_t getXCoordinate(fix14_t x) {
+    return roundFix(x * TILE_WIDTH);
+}
+
+static uint8_t getYCoordinate(fix14_t y) {
+    return roundFix(y * TILE_HEIGHT);
+}
+
+static uint8_t getRotationOffset(deg512_t rotation) {
+    // Reduce angle so that 0 <= rotation < 512
+    // Multiply by DIRECTIONS to choose sprite
+    // Divide by 512 to get 0 <= rotationOffset < DIRECTIONS
+    // Ensure within range by using modulus DIRECTIONS
+    return roundFix(((DIRECTIONS * (rotation & 511)) << 14) / 512) % DIRECTIONS;
+}
+
 // Go to the position from where we can start drawing
 static void goToPosition(const vector_t *position) {
-    uint8_t x = roundFix((*position).x * TILE_WIDTH);
-    uint8_t y = roundFix((*position).y * TILE_HEIGHT);
+    uint8_t x = getXCoordinate((*position).x);
+    uint8_t y = getYCoordinate((*position).y);
     cursorToXY(x, y);
 }
 
@@ -55,15 +84,38 @@ void undrawTank(const placement_t *placement) {
     drawSpriteTiles(TANK_CLEAR);
 }
 
+uint8_t shouldRedraw(const placement_t *previousPlacement, const placement_t *currentPlacement) {
+    uint8_t previousX        = getXCoordinate((*previousPlacement).position.x);
+    uint8_t currentX         = getXCoordinate((*currentPlacement).position.x);
+    uint8_t previousY        = getYCoordinate((*previousPlacement).position.y);
+    uint8_t currentY         = getYCoordinate((*currentPlacement).position.y);
+    uint8_t previousRotation = getRotationOffset((*previousPlacement).rotation);
+    uint8_t currentRotation  = getRotationOffset((*currentPlacement).rotation);
+
+    if (previousX == currentX && previousY == currentY && previousRotation == currentRotation) {
+        return 0;
+    }
+    return 1;
+}
+
 void drawTank(const placement_t *placement, uint8_t color) {
     goToPosition(&(*placement).position);
-    //reduce angle so that 0 <= rotation < 512
-    //multiply by four to choose sprite
-    //divide by 512 to get 0 <= rotationOffset < 4
-    uint8_t rotationOffset = roundFix(((DIRECTIONS * ((*placement).rotation & 511)) << 14)/512);
-    rotationOffset %= DIRECTIONS;
     fgcolor(color);
-    drawSpriteTiles(TANK[rotationOffset]);
+    drawSpriteTiles(TANK[getRotationOffset((*placement).rotation)]);
+    resetcolor();
+}
+
+void drawWall(uint8_t x, uint8_t y, uint8_t color) {
+    cursorToXY(x * TILE_WIDTH, y * TILE_HEIGHT);
+    fgcolor(color);
+    drawSpriteTiles(WALL);
+    resetcolor();
+}
+
+void drawBox(uint8_t x, uint8_t y, uint8_t color) {
+    cursorToXY(x * TILE_WIDTH, y * TILE_HEIGHT);
+    fgcolor(color);
+    drawSpriteTiles(BOX);
     resetcolor();
 }
 

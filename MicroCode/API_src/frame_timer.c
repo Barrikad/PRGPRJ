@@ -15,7 +15,7 @@ void unsetFlag(){
     flag = 0;
 }
 
-void initFrameTimer(){
-    initTimer2WithFrequency(setFlag,24);
+void initFrameTimer() {
+    initTimer2WithFrequency(setFlag, 100);
     enableTimer2();
 }
