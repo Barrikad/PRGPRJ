@@ -33,13 +33,13 @@ void initPlayer(player_t *player, vector_t position, deg512_t rotation, action_t
 void movePlayer(player_t *player);
 
 //fire bullet from players placement
-void fireBulletFromPlayer(player_t* player);
+void fireBulletFromPlayer(player_t* players, uint8_t index);
 
 // Get input from player input devices and realize the mapped actions
-void processPlayerActionsInGame(player_t *player);
+void processPlayerActionsInGame(player_t *players, uint8_t index);
 
 // Detect and handle collision with bullet.
-void playerCollideBullet(player_t *player, bullet_t *bullet);
+void playerCollideBullet(player_t *players, uint8_t index, bullet_t *bullet);
 
 // Detect and handle collision with power-up.
 void playerCollidePowerUp(player_t *player, powerUp_t *powerUps, uint8_t index);

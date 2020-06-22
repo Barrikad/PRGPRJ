@@ -46,12 +46,13 @@ static uint8_t isDoorsOpen;
 #define playerColor 5
 // Yellow
 #define enemyColor 11
-// Red
-#define bulletColor 1
-// Cyan
-#define powerUpColor 6
+// Light blue
+#define powerUpColor 12
 // Cyan, same as level walls
 #define doorColor 6
+
+//green,white,brown,blue,red
+static const uint8_t bulletColors[] = {2,15,3,4,1};
 
 
 static void addDoor(vector_t position, level_t nextLevel) {
@@ -77,7 +78,7 @@ void initLevel(level_t level) {
     vector_t pos = {11 << 14, 6 << 14};
     deg512_t rot = 0;
     placement_t plc = {pos, 1 << 13, 1 << 13, rot};
-    enemy_t enemy = {plc,0,0,0,0};
+    enemy_t enemy = {plc,0,0,2,0};
     addEnemy(enemy);
     vector_t cp1 = {11 << 14, 6 << 14};
     vector_t cp2 = {9 << 14, 3 << 14};
@@ -121,7 +122,7 @@ void addBullet(bullet_t bullet) {
         return;
     }
     bullets[bulletCount] = bullet;
-    drawBullet(&bullets[bulletCount].placement, bulletColor);
+    drawBullet(&bullets[bulletCount].placement, bulletColors[bullets[bulletCount].shotBy-1]);
     bulletCount++;
 }
 
@@ -154,41 +155,42 @@ void deletePowerUp(uint8_t index){
     powerUpCount--;
 }
 
-static void processPlayer(player_t *player) {
+static void processPlayer(player_t *players, uint8_t index) {
     uint8_t i;
-    placement_t previousPlacement = (*player).placement;
+    placement_t previousPlacement = players[index].placement;
 
-    processPlayerActionsInGame(player);
+    processPlayerActionsInGame(players, index);
 
     // Player attributes
-    movePlayer(player);
-    if ((*player).weaponCooldown) {
-        (*player).weaponCooldown--;
+    movePlayer(players + index);
+
+    if (players[index].weaponCooldown) {
+        players[index].weaponCooldown--;
     }
 
     // Collision walls
     for (i = 0; i < bulletCount; i++) {
-        playerCollideBullet(player, &bullets[i]);
+        playerCollideBullet(players, index, &bullets[i]);
     }
 
     // Collision powerups
     for (i = 0; i < powerUpCount; i++) {
-        playerCollidePowerUp(player, powerUps, i);
+        playerCollidePowerUp(players + index, powerUps, i);
     }
 
     for (i = 0; i < doorCount; i++) {
         // Note: Door collision is also handled in playerCollideWall!
-        if (isDoorsOpen && entitiesCollide((*player).placement, doors[i].placement)) {
+        if (isDoorsOpen && entitiesCollide(players[index].placement, doors[i].placement)) {
             // TODO: This
         }
     }
 
-    playerCollideWall(firstLevel, player);
+    playerCollideWall(firstLevel, players + index);
 
     // Render purple tank
-    if (shouldRedraw(&previousPlacement, &(*player).placement)) {
+    if (shouldRedraw(&previousPlacement, &players[index].placement)) {
         undrawTank(&previousPlacement);
-        drawTank(&(*player).placement, playerColor);
+        drawTank(&players[index].placement, playerColor);
     }
 }
 
@@ -207,40 +209,40 @@ static uint8_t processBullet(bullet_t *bullet) {
     // Rendering
     if (shouldRedraw(&previousPlacement, &(*bullet).placement)) {
         undrawBullet(&previousPlacement);
-        drawBullet(&(*bullet).placement, bulletColor);
+        drawBullet(&(*bullet).placement, bulletColors[(*bullet).shotBy - 1]);
     }
 
     return 0;
 }
 
-static uint8_t processEnemy(enemy_t *enemy, vector_t *checkpoints) {
+static uint8_t processEnemy(enemy_t *enemies, uint8_t index, vector_t *checkpoints) {
     uint8_t i;
-    placement_t previousPlacement = (*enemy).placement;
+    placement_t previousPlacement = enemies[index].placement;
 
     // Enemy attributes
-    if ((*enemy).weaponCooldown) {
-        (*enemy).weaponCooldown--;
+    if (enemies[index].weaponCooldown) {
+        enemies[index].weaponCooldown--;
     }
 
     //move and shoot
-    processEnemyActions(players,playerCount,enemy, checkpoints);
+    processEnemyActions(players,playerCount,enemies,index, checkpoints);
 
     // Collision
     for (i = 0; i < bulletCount; i++) {
         // TODO: Maybe add fromPlayer property on bullet, so we don't have to pass all players in here?
-        enemyCollideBullet(players, playerCount, enemy, &bullets[i]);
+        enemyCollideBullet(players, enemies + index, &bullets[i]);
     }
     for (i = 0; i < playerCount; i++) {
-        enemyCollidePlayer(enemy, &players[i]);
+        enemyCollidePlayer(enemies + index, &players[i]);
     }
-    enemyCollideWall(firstLevel, enemy);
+    enemyCollideWall(firstLevel, enemies + index);
 
     // TODO: More here!
 
     // Render yellow tank
-    if (shouldRedraw(&previousPlacement, &(*enemy).placement)) {
+    if (shouldRedraw(&previousPlacement, &enemies[index].placement)) {
         undrawTank(&previousPlacement);
-        drawTank(&(*enemy).placement, enemyColor);
+        drawTank(&enemies[index].placement, enemyColor);
     }
 
     return 0;
@@ -291,7 +293,7 @@ void processGameTick() {
     // Process entities.
     // Each of these de-render each tick, so we can simply draw them at the new position in the end.
     for (i = 0; i < playerCount; i++) {
-        processPlayer(&players[i]);
+        processPlayer(players,i);
     }
     for (i = 0; i < bulletCount; i++) {
         if (processBullet(&bullets[i])) {
@@ -302,7 +304,7 @@ void processGameTick() {
         }
     }
     for (i = 0; i < enemyCount; i++) {
-        if (processEnemy(&enemies[i], enemyCheckpoints[i])) {
+        if (processEnemy(enemies, i, enemyCheckpoints[i])) {
             // Delete the enemy by moving the last entry into it, and deleting the last entry.
             enemies[i] = enemies[enemyCount - 1];
             enemyCount--;

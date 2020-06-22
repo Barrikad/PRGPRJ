@@ -51,11 +51,11 @@ player_relation_t findClosestPlayer(player_t *players, uint8_t playerCount, enem
     return pr;
 }
 
-void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemy, vector_t *checkpoints) {
+void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemies, uint8_t index, vector_t *checkpoints) {
     //TODO: shooting and moving should probably be pulled into separate functions
     //---------------SHOT AT PLAYER---------------------------------------
     //find the player closest to the enemy, with distance information
-    player_relation_t closestPR = findClosestPlayer(players, playerCount, *enemy);
+    player_relation_t closestPR = findClosestPlayer(players, playerCount, enemies[index]);
 
 
     //formula for angle between vectors. The two vectors being vector from enemy to player
@@ -78,7 +78,7 @@ void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemy,
     }
 
     //current rotation of enemy
-    deg512_t enemyRotation = (*enemy).placement.rotation;
+    deg512_t enemyRotation = enemies[index].placement.rotation;
 
     //difference between rotation necessary to point at player, and current rotation
     //i.e. what would have to be added to enemy rotation to be aiming at player
@@ -88,15 +88,15 @@ void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemy,
     //rotate towards player
     //this is done even if currently pointing at player, as to create a spraying behavior
     if(rotationDiff > 0){
-        (*enemy).placement.rotation += 2;
+        enemies[index].placement.rotation += 2;
     }
     else{
-        (*enemy).placement.rotation -= 2;
+        enemies[index].placement.rotation -= 2;
     }
 
     //shoot if pointing within approx 20 deg(base 360) to either side
     if(rotationDiff < 30 && rotationDiff > -30){
-        fireBulletFromEnemy(enemy);
+        fireBulletFromEnemy(enemies,index);
     }
 
 
@@ -104,8 +104,8 @@ void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemy,
     //------------------MOVE ENEMY---------------------------
     //TODO: should make a better naming convention, but might want to extract function first
     //distance to checkpoint in either direction
-    fix14_t cpDiffX = checkpoints[(*enemy).checkpointIndex].x - (*enemy).placement.position.x;
-    fix14_t cpDiffY = checkpoints[(*enemy).checkpointIndex].y - (*enemy).placement.position.y;
+    fix14_t cpDiffX = checkpoints[enemies[index].checkpointIndex].x - enemies[index].placement.position.x;
+    fix14_t cpDiffY = checkpoints[enemies[index].checkpointIndex].y - enemies[index].placement.position.y;
 
     //find distance to checkpoint
     vector_t cpDiffV = {cpDiffX,cpDiffY};
@@ -113,8 +113,8 @@ void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemy,
 
     if(cpDist < (1 << 14)){
         //if distance is less than one move on to next checkpoint
-        (*enemy).checkpointIndex++;
-        (*enemy).checkpointIndex %= CHECKPOINT_COUNT;
+        enemies[index].checkpointIndex++;
+        enemies[index].checkpointIndex %= CHECKPOINT_COUNT;
     }else{
         //else move closer to checkpoint
 
@@ -128,7 +128,7 @@ void processEnemyActions(player_t *players, uint8_t playerCount, enemy_t *enemy,
         cpDiffY = cpDiffY >> 5;
 
         //add unit vector pointing to checkpoint to enemy position
-        (*enemy).placement.position.x += cpDiffX;
-        (*enemy).placement.position.y += cpDiffY;
+        enemies[index].placement.position.x += cpDiffX;
+        enemies[index].placement.position.y += cpDiffY;
     }
 }
