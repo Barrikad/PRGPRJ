@@ -24,6 +24,12 @@ static uint8_t enemyCount = 0;
 static enemy_t enemies[MAX_ENEMIES];
 static vector_t enemyCheckpoints[MAX_ENEMIES][CHECKPOINT_COUNT];
 
+#define MAX_POWERUPS 8
+//actual number of bullets in bulletCount
+static uint8_t powerUpCount = 0;
+static powerUp_t powerUps[MAX_POWERUPS];
+
+
 // Purple
 #define playerColor 5
 // Yellow

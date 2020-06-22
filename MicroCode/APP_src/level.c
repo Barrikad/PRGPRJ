@@ -131,6 +131,7 @@ uint8_t entityCollidesWall(level_t level, const placement_t *placement) {
     // Four corners collide
     if (collisionTopLeft && collisionTopRight && collisionBottomLeft && collisionBottomRight) {
         // Inside box, don't know what to do...
+        collision |= collideLeft | collideRight | collideTop | collideBottom;
     }
     // Three corners collide
     else if (collisionTopLeft && collisionBottomLeft && collisionTopRight) {
