@@ -26,6 +26,10 @@ int main(void) {
 
     uart_init(115200);
 
+
+    lcdInit();
+    initMainMenu();
+
     // Initialize joystick both for the game and the menu
     initJoystick();
 
@@ -37,11 +41,25 @@ int main(void) {
     printf("test");
 
     cursorHide();
+
+    uint8_t isGame = 0;
+
     while (1) {
-        if (getFlag()) {
-            unsetFlag();
-            processGameTick();
+        if (isGame) {
+            if (getFlag()) {
+                unsetFlag();
+                processGameTick();
+            }
+
+        }
+        else {
+            if (mainMenuFunction()) {
+                isGame = 1;
+            }
+            helpMenuFunction();
+            scoreMenuFunction();
+            creditsMenuFunction();
+
         }
     }
-
 }
