@@ -214,6 +214,13 @@ void deletePowerUp(uint8_t index){
     powerUpCount--;
 }
 
+static void renderTank(const placement_t *previousPlacement, const placement_t *currentPlacement, uint8_t color) {
+    if (shouldRedraw(previousPlacement, currentPlacement)) {
+        undrawTank(previousPlacement);
+        drawTank(currentPlacement, color);
+    }
+}
+
 static void processPlayer(level_t level, player_t *players, uint8_t index) {
     uint8_t i;
     placement_t previousPlacement = players[index].placement;
@@ -247,10 +254,7 @@ static void processPlayer(level_t level, player_t *players, uint8_t index) {
     playerCollideWall(level, players + index);
 
     // Render purple tank
-    if (shouldRedraw(&previousPlacement, &players[index].placement)) {
-        undrawTank(&previousPlacement);
-        drawTank(&players[index].placement, playerColor);
-    }
+    renderTank(&previousPlacement, &players[index].placement, playerColor);
 }
 
 // Returns whether the bullet should be deleted
@@ -296,13 +300,8 @@ static uint8_t processEnemy(level_t level, enemy_t *enemies, uint8_t index, vect
     }
     enemyCollideWall(level, enemies + index);
 
-    // TODO: More here!
-
     // Render yellow tank
-    if (shouldRedraw(&previousPlacement, &enemies[index].placement)) {
-        undrawTank(&previousPlacement);
-        drawTank(&enemies[index].placement, enemyColor);
-    }
+    renderTank(&previousPlacement, &enemies[index].placement, enemyColor);
 
     return 0;
 }
