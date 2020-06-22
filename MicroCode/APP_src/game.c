@@ -250,11 +250,11 @@ static void processEnemy(enemy_t *enemy, vector_t *checkpoints) {
     }
 }
 
-void processLivesAndScore(uint8_t[] previousScore, player_t* player, uint8_t numPlayers){
-    uint8_t currentScore[];
+void processLivesAndScore(uint8_t previousScore[], player_t* player, uint8_t numPlayers){
+    uint8_t currentScore[MAX_PLAYERS];
     uint8_t i;
     for (i = 0; i < numPlayers; i++) {
-        currentScore[i] = (*players[i]).points;
+        currentScore[i] = players[i].points;
     }
     for (i = 0; i < numPlayers; i++) {
         if (currentScore[i] != previousScore[i]) {
@@ -267,8 +267,9 @@ void processLivesAndScore(uint8_t[] previousScore, player_t* player, uint8_t num
 
 void processGameTick() {
     uint8_t i;
+    uint8_t previousScore[MAX_PLAYERS];
     for (i = 0; i < playerCount; i++) {
-        uint8_t previousScore[] = (*players[i]).points;
+        previousScore[i] = players[i].points;
     }
 
     // Process entities.
