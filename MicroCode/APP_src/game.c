@@ -246,17 +246,31 @@ static uint8_t processEnemy(enemy_t *enemy, vector_t *checkpoints) {
     return 0;
 }
 
-void processLivesAndScore(uint8_t previousScore[], player_t* player, uint8_t numPlayers){
+void processLivesAndScore(uint8_t previousScore[], uint8_t previousLives[], player_t* player, uint8_t numPlayers){
     uint8_t currentScore[MAX_PLAYERS];
+    uint8_t currentLives[MAX_PLAYERS];
     uint8_t i;
     for (i = 0; i < numPlayers; i++) {
         currentScore[i] = players[i].points;
     }
+
+    for (i = 0; i < numPlayers; i++) {
+        currentLives[i] = players[i].lives;
+    }
+
     for (i = 0; i < numPlayers; i++) {
         if (currentScore[i] != previousScore[i]) {
             livesAndScoreLcd(players, playerCount);
         }
     }
+
+    for (i = 0; i < numPlayers; i++) {
+        if (currentLives[i] != previousLives[i]) {
+            livesAndScoreLcd(players, playerCount);
+        }
+    }
+
+
 }
 
 
@@ -264,9 +278,15 @@ void processLivesAndScore(uint8_t previousScore[], player_t* player, uint8_t num
 void processGameTick() {
     uint8_t i;
     uint8_t previousScore[MAX_PLAYERS];
+    uint8_t previousLives[MAX_PLAYERS];
     for (i = 0; i < playerCount; i++) {
         previousScore[i] = players[i].points;
     }
+
+    for (i = 0; i < playerCount; i++) {
+        previousLives[i] = players[i].lives;
+    }
+
 
     // Process entities.
     // Each of these de-render each tick, so we can simply draw them at the new position in the end.
@@ -293,7 +313,7 @@ void processGameTick() {
     // Debug print current player rotation
     cursorToXY(40, 0);
     printf("%3i", players[0].placement.rotation);
-    processLivesAndScore(previousScore, players, playerCount);
+    processLivesAndScore(previousScore, previousLives, players, playerCount);
 }
 
 
