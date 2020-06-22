@@ -3,6 +3,7 @@
 #include "lcd.h"
 #include "player_stat_graphics.h"
 #include <string.h>
+#include "falling_edge_selection.h"
 
 
 // Gets player score and transforms it to a char array.
@@ -58,4 +59,44 @@ void livesAndScoreLcd(player_t* players, uint8_t numPlayers) {
     lcdFlush();
 }
 
+uint8_t scoreAfterDeath(player_t* players, uint8_t numPlayers) {
+    char* gameOver = {"GAMEOVER      Score:"};
+    char* playerName[] = {"Player 1", "Player 2", "Player 3"};
+    char* help = {"              <-Back"};
+    char score[3][14];
+    uint8_t i;
+    uint8_t j;
+    lcdClear();
 
+     for (i = 0; i < strlen(gameOver); i++) {
+        lcdWriteChar(gameOver[i], i * 6, 0);
+    }
+
+    for (i = 0; i < numPlayers; i++) {
+        for (j = 0; j < strlen(playerName[i]); j++) {
+            lcdWriteChar(playerName[i][j], j * 6, (i+1) * 8);
+        }
+    }
+
+    getScore(score, players, numPlayers);
+
+    for (i = 0; i < numPlayers; i++) {
+        for (j = 0; j < 6; j++) {
+                lcdWriteChar(score[i][j], (j + 14) * 6, (i + 1) * 8);
+        }
+    }
+
+    for (j = 0; j < 21; j++) {
+            lcdWriteChar(help[j], j*6, 3*8);
+    }
+
+
+    lcdFlush();
+
+
+
+    if (hasPressedLeft()){
+        return 1;
+    }
+    return 0;
+}
