@@ -8,6 +8,7 @@
 #include "graphics.h"
 #include "enemy_AI.h"
 #include <stdio.h>
+#include "player_stat_graphics.h"
 
 #define MAX_PLAYERS 4
 //array of players, and size of actually contained players
@@ -237,6 +238,7 @@ void processGameTick() {
     // Debug print current player rotation
     cursorToXY(40, 0);
     printf("%3i", players[0].placement.rotation);
+    livesAndScoreLcd(players, playerCount);
 }
 
 
