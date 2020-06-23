@@ -374,7 +374,7 @@ level_t processGameTick(level_t level) {
     //nothing is more important
     //game-stopping while loop, to make totally sure
     if(isBossKeyPressed()){
-        renderBossMode();
+        renderBossMode(level);
     }
 
 

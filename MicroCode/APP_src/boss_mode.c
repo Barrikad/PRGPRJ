@@ -2,7 +2,7 @@
 #include "ansi.h"
 #include "keyboard.h"
 
-void renderBossMode() {
+void renderBossMode(level_t currentLevel) {
     clearKeys();
     clrscr();
 
@@ -11,6 +11,7 @@ void renderBossMode() {
         fin = processInputBossMode();
     }
 
+    renderLevel(currentLevel);
     clearKeys();
 }
 
