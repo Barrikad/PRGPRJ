@@ -12,6 +12,7 @@ void renderBossMode(level_t currentLevel) {
     }
 
     renderLevel(currentLevel);
+    renderPowerUps();
     clearKeys();
 }
 

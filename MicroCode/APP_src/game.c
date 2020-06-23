@@ -229,6 +229,12 @@ void deletePowerUp(uint8_t index){
     powerUpCount--;
 }
 
+void renderPowerUps(){
+    for(int i = 0; i < powerUpCount; i++){
+        drawPowerUp(&powerUps[i].placement, powerUpColor, powerUps[i].effects & 2);
+    }
+}
+
 static void renderTank(const placement_t *previousPlacement, const placement_t *currentPlacement, uint8_t color) {
     if (shouldRedraw(previousPlacement, currentPlacement)) {
         undrawTank(previousPlacement);
