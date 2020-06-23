@@ -400,7 +400,7 @@ level_t processGameTick(level_t level) {
     // Exit game if playerCount is zero
     if (playerCount == 0) {
         // TODO: Move this somewhere else
-        showScoreAfterDeath(players, playerCount);
+        showScoreAfterDeath(previousScore);
         return invalidLevel;
     }
 

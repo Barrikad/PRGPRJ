@@ -13,7 +13,7 @@ void initPlayer(player_t *player, vector_t position, deg512_t rotation, action_t
     (*player).placement.rotation = rotation;
     (*player).velocity.x = 0;
     (*player).velocity.y = 0;
-    (*player).lives = 99;
+    (*player).lives = 9;
     (*player).points = 0;
     (*player).weaponCooldown = 0;
     (*player).effects = 0;
