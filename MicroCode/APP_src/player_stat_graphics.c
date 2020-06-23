@@ -8,7 +8,7 @@
 
 // Gets player score and transforms it to a char array.
 static void getScore(char score[3][14], player_t* players, uint8_t numPlayers){
-    for (int i = 0; i < numPlayers; i++) {
+    for (int i = 0; i < 3; i++) {
         sprintf(score[i], "%6d",players[i].points);
     }
 }
@@ -72,7 +72,7 @@ void showScoreAfterDeath(player_t* players, uint8_t numPlayers) {
         lcdWriteChar(gameOver[i], i * 6, 0);
     }
 
-    for (i = 0; i < numPlayers; i++) {
+    for (i = 0; i < 3; i++) {
         for (j = 0; j < strlen(playerName[i]); j++) {
             lcdWriteChar(playerName[i][j], j * 6, (i+1) * 8);
         }

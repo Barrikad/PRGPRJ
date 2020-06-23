@@ -13,6 +13,7 @@
 #include "frame_timer.h"
 #include <stdio.h>
 #include "player_stat_graphics.h"
+#include "boss_mode.h"
 
 #define MAX_PLAYERS 4
 //array of players, and size of actually contained players
@@ -367,6 +368,13 @@ level_t processGameTick(level_t level) {
 
     for (i = 0; i < playerCount; i++) {
         previousLives[i] = players[i].lives;
+    }
+
+    //check if boss has entered office first of all
+    //nothing is more important
+    //game-stopping while loop, to make totally sure
+    if(isBossKeyPressed()){
+        renderBossMode();
     }
 
 

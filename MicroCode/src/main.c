@@ -14,6 +14,7 @@
 #include "menu.h"
 #include "level.h"
 #include "boss_mode.h"
+#include "keyboard.h"
 #include "movement.h"
 #include "frame_timer.h"
 #include "player_stat_graphics.h"
@@ -26,6 +27,7 @@ int main(void) {
 
     // Initialize the UART as the display during game.
     uart_init(115200);
+    clearKeys();
     // Initialize the LCD for the menu and score/lives during game.
     lcdInit();
     // Initialize joystick both for the game and the menu.
