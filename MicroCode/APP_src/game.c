@@ -66,17 +66,18 @@ static void addDoor(vector_t position, level_t nextLevel) {
 
 
 static void initLevel1() {
-    vector_t position = {createFix(2), createFix(9)};
+    vector_t position;
+    position.x = createFix(2);
+    position.y = createFix(9);
     addPlayer(position, 0, movementFromJoystick);
 
     // Test enemy behavior
-    vector_t pos = {11 << 14, 6 << 14};
-    deg512_t rot = 0;
-    placement_t plc = {pos, 1 << 13, 1 << 13, rot};
-    enemy_t enemy = {plc,5,0,2,0};
-    addEnemy(enemy);
-    vector_t cp1 = {11 << 14, 6 << 14};
-    vector_t cp2 = {9 << 14, 3 << 14};
+    position.x = createFix(11);
+    position.y = createFix(6);
+    addEnemy(position, 0);
+
+    vector_t cp1 = {createFix(11), createFix(6)};
+    vector_t cp2 = {createFix(9), createFix(3)};
     enemyCheckpoints[0][0] = cp1;
     enemyCheckpoints[0][1] = cp2;
     enemyCheckpoints[0][2] = cp1;
@@ -88,37 +89,41 @@ static void initLevel1() {
 
     // Test powerup
     // motorcycle powerup
-    vector_t puPos = {2 << 14,4 << 14};
-    effects_t effect = 1;
-    addPowerUp(puPos,effect);
+    position.x = createFix(2);
+    position.y = createFix(4);
+    addPowerUp(position, 1);
 
     // driftmode powerup
-    vector_t puPos2 = {4 << 14,11 << 14};
-    effects_t effect2 = 2;
-    addPowerUp(puPos2,effect2);
+    position.x = createFix(4);
+    position.y = createFix(11);
+    addPowerUp(position, 2);
 
-    vector_t doorPosition1 = {createFix(13), createFix(2)};
-    addDoor(doorPosition1, secondLevel);
-    vector_t doorPosition2 = {createFix(13), createFix(3)};
-    addDoor(doorPosition2, secondLevel);
+    position.x = createFix(13);
+    position.y = createFix(2);
+    addDoor(position, secondLevel);
+    position.x = createFix(13);
+    position.y = createFix(3);
+    addDoor(position, secondLevel);
 }
 
 
 static void initLevel2() {
     // TODO: Fix the positions of stuff in here!
-    vector_t position = {createFix(2), createFix(9)};
+
+    vector_t position;
+    position.x = createFix(2);
+    position.y = createFix(9);
     addPlayer(position, 0, movementFromJoystick);
 
     // Test enemy behavior
-    vector_t pos = {11 << 14, 2 << 14};
-    deg512_t rot = 0;
-    placement_t plc = {pos, 1 << 13, 1 << 13, rot};
-    enemy_t enemy = {plc,5,0,0,0};
-    addEnemy(enemy);
-    vector_t cp1 = {11 << 14, 2 << 14};
-    vector_t cp2 = {11 << 14, 10 << 14};
-    vector_t cp3 = {2 << 14, 10 << 14};
-    vector_t cp4 = {2 << 14, 2 << 14};
+    position.x = createFix(11);
+    position.y = createFix(2);
+    addEnemy(position, 0);
+
+    vector_t cp1 = {createFix(11), createFix(2)};
+    vector_t cp2 = {createFix(11), createFix(10)};
+    vector_t cp3 = {createFix(2), createFix(10)};
+    vector_t cp4 = {createFix(2), createFix(2)};
     enemyCheckpoints[0][0] = cp1;
     enemyCheckpoints[0][1] = cp2;
     enemyCheckpoints[0][2] = cp3;
@@ -129,14 +134,16 @@ static void initLevel2() {
     enemyCheckpoints[0][7] = cp4;
 
     // Test powerup
-    vector_t puPos = {11 << 14, 6 << 14};
-    effects_t effect = 1;
-    addPowerUp(puPos,effect);
+    position.x = createFix(11);
+    position.y = createFix(6);
+    addPowerUp(position, 1);
 
-    vector_t doorPosition1 = {createFix(0), createFix(2)};
-    addDoor(doorPosition1, firstLevel);
-    vector_t doorPosition2 = {createFix(0), createFix(3)};
-    addDoor(doorPosition2, firstLevel);
+    position.x = createFix(0);
+    position.y = createFix(2);
+    addDoor(position, firstLevel);
+    position.x = createFix(0);
+    position.y = createFix(3);
+    addDoor(position, firstLevel);
 
     // TODO: Make doors that lead to the third level
 }
@@ -206,11 +213,11 @@ void addBullet(bullet_t bullet) {
     bulletCount++;
 }
 
-void addEnemy(enemy_t enemy) {
+void addEnemy(vector_t position, deg512_t rotation) {
     if (enemyCount >= MAX_ENEMIES) {
         return;
     }
-    enemies[enemyCount] = enemy;
+    initEnemy(&enemies[enemyCount], position, rotation);
     drawTank(&enemies[enemyCount].placement, enemyColor);
     enemyCount++;
 }

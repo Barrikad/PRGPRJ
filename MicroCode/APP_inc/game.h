@@ -11,7 +11,7 @@ void initLevel(level_t level);
 
 //add entities to gamestate
 void addPlayer(vector_t position, deg512_t rotation, action_t (*inputFunction)());
-void addEnemy(enemy_t enemy);
+void addEnemy(vector_t position, deg512_t rotation);
 void addBullet(bullet_t bullet);
 void addPowerUp(vector_t position, effects_t effect);
 

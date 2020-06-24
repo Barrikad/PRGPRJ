@@ -17,6 +17,9 @@ typedef struct{
     uint8_t checkpointIndex;
 } enemy_t;
 
+// Initialize an enemy.
+void initEnemy(enemy_t *enemy, vector_t position, deg512_t rotation);
+
 //fire a bullet from an enemy
 void fireBulletFromEnemy(enemy_t* enemies, uint8_t index);
 
