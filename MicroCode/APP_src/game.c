@@ -42,7 +42,9 @@ static door_t doors[MAX_DOORS];
 
 
 // Purple
-#define playerColor 5
+#define playerTankColor 5
+// Light blue
+#define playerMotorcycleColor powerUpColor
 // Yellow
 #define enemyColor 11
 // Light blue
@@ -344,7 +346,7 @@ void addPlayer(vector_t position, deg512_t rotation, action_t (*inputFunction)()
         return;
     }
     initPlayer(&players[playerCount], position, rotation, inputFunction);
-    drawTank(&players[playerCount].placement, playerColor);
+    drawTank(&players[playerCount].placement, playerTankColor);
     playerCount++;
 }
 
@@ -564,8 +566,11 @@ level_t processGameTick(level_t level) {
 
         playerCollideWall(level, players + i);
 
-        // Render purple tank
-        renderTank(&previousPlacement, &players[i].placement, playerColor);
+        if (players[i].effects & 0x01) {
+            renderTank(&previousPlacement, &players[i].placement, playerMotorcycleColor);
+        } else {
+            renderTank(&previousPlacement, &players[i].placement, playerTankColor);
+        }
     }
 
     // Exit game if playerCount is zero
