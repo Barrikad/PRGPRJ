@@ -15,28 +15,28 @@
 #include "player_stat_graphics.h"
 #include "boss_mode.h"
 
-#define MAX_PLAYERS 4
+#define MAX_PLAYERS 1
 //array of players, and size of actually contained players
 static uint8_t playerCount;
 static player_t players[MAX_PLAYERS];
 
-#define MAX_BULLETS 8
+#define MAX_BULLETS 100
 //actual number of bullets in bulletCount
 static uint8_t bulletCount;
 static bullet_t bullets[MAX_BULLETS];
 
-#define MAX_ENEMIES 16
+#define MAX_ENEMIES 4
 //actual number of enemies in enemyCount
 static uint8_t enemyCount;
 static enemy_t enemies[MAX_ENEMIES];
 static vector_t enemyCheckpoints[MAX_ENEMIES][CHECKPOINT_COUNT];
 
-#define MAX_POWERUPS 8
+#define MAX_POWERUPS 2
 //actual number of bullets in bulletCount
 static uint8_t powerUpCount;
 static powerUp_t powerUps[MAX_POWERUPS];
 
-#define MAX_DOORS 4
+#define MAX_DOORS 6
 static uint8_t doorCount;
 static door_t doors[MAX_DOORS];
 
