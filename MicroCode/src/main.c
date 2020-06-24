@@ -25,6 +25,7 @@ int main(void) {
     // TODO: Make a fancy intro-screen?
     level_t currentLevel = invalidLevel;
     level_t nextLevel = invalidLevel;
+    uint8_t shouldEnterGame = 0;
 
     // Initialize the UART as the display during game.
     uart_init(115200);
@@ -43,17 +44,11 @@ int main(void) {
     while (1) {
         // Menu is currently open, game is not running.
         if (currentLevel == invalidLevel) {
-            clearLed(LED_BLUE);
-            clearLed(LED_RED);
-            clearLed(LED_GREEN);
-            if (mainMenuFunction()) {
-                setLed(LED_GREEN);
+            shouldEnterGame = processMenu();
+            if (shouldEnterGame) {
                 currentLevel = firstLevel;
                 initLevel(currentLevel);
             }
-            helpMenuFunction();
-            gamePlayHelpMenuFunction();
-            creditsMenuFunction();
         // Game is running.
         } else {
             // Render on a clock,

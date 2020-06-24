@@ -6,6 +6,7 @@
 #include "menu.h"
 #include "falling_edge_selection.h"
 #include "player_stat_graphics.h"
+#include "led.h"
 
 // Enumerator to represent the selected option on the main menu.
 typedef enum {
@@ -32,7 +33,7 @@ static void renderMainMenu() {
 }
 
 // Processes the input from the joystick in the main menu.
-uint8_t processInputMainMenu() {
+static uint8_t processInputMainMenu() {
     if (hasPressedRight()) {
         return 1;
     }
@@ -60,7 +61,7 @@ static void renderHelpMenu() {
 }
 
 // Processes the input from the joystick in the help menu.
-uint8_t processInputHelpMenu() {
+static uint8_t processInputHelpMenu() {
     if (hasPressedLeft()) {
         return 1;
     }
@@ -68,7 +69,7 @@ uint8_t processInputHelpMenu() {
 }
 
 // Render the game play help menu down to the LCD.
-void renderGameplayMenu() {
+static void renderGameplayMenu() {
     char* gamePlayHelp[] = {"Shoot enemies to earn", "points. Kill all ene-", "mies and go through", "door for a new level."};
     uint8_t i, j;
     lcdClear();
@@ -85,7 +86,7 @@ void renderGameplayMenu() {
 }
 
 // Processes the input from the joystick in the score menu.
-uint8_t processInputScoreMenu() {
+static uint8_t processInputScoreMenu() {
     if (hasPressedLeft()) {
         return 1;
     }
@@ -106,7 +107,7 @@ static void renderCreditsMenu() {
 }
 
 // Processes the input from the joystick in the credits menu.
-uint8_t processInputCreditsMenu() {
+static uint8_t processInputCreditsMenu() {
     if (hasPressedLeft()) {
         return 1;
     }
@@ -159,122 +160,139 @@ static void menuOptionCredits() {
 }
 
 
-// Initializes the main menu
 void initMainMenu() {
     renderMainMenu();
     menuOptionNewGame();
 }
 
 
+// Render the help menu.
+// Check for joystick input to change menu state.
+static void helpMenuFunction() {
+    uint8_t joystickInput = processInputHelpMenu();
+    renderHelpMenu();
+    if (joystickInput == 1) {
+        currentGamestate = mainMenu;
+        renderMainMenu();
+        menuOptionHelp();
+    }
+}
 
+// Render the gameplay menu
+// Check for joystick input to change menu state
+static void gamePlayHelpMenuFunction() {
+    uint8_t joystickInput = processInputScoreMenu();
+    renderGameplayMenu();
+    if (joystickInput == 1) {
+        currentGamestate = mainMenu;
+        renderMainMenu();
+        menuOptionHighscore();
+    }
+}
+
+// Render credits menu.
+// Check for joystick input to change menu state
+static void creditsMenuFunction() {
+    uint8_t joystickInput = processInputCreditsMenu();
+    renderCreditsMenu();
+    if (joystickInput == 1) {
+        currentGamestate = mainMenu;
+        renderMainMenu();
+        menuOptionCredits();
+    }
+}
+
+
+// Render main menu, and check for joystick input to change menu state.
+// Returns 1 if the main game should be started.
 uint8_t mainMenuFunction() {
-    if (currentGamestate == mainMenu) {
-        if (currentSelectedOption == newGame) {
-            uint8_t joystickInput = processInputMainMenu();
-            if (joystickInput == 1) {
-                return 1;
-            }
-            else if (joystickInput == 2) {
-                currentSelectedOption = help;
-                renderMainMenu();
-                menuOptionHelp();
-            }
-            else if (joystickInput == 3) {
-                currentSelectedOption = credits;
-                renderMainMenu();
-                menuOptionCredits();
-            }
+    uint8_t joystickInput = processInputMainMenu();
+    if (currentSelectedOption == newGame) {
+        if (joystickInput == 1) {
+            return 1;
         }
-        else if (currentSelectedOption == help) {
-            uint8_t joystickInput = processInputMainMenu();
-            if (joystickInput == 1) {
-                currentGamestate = helpMenu;
-            }
-            else if (joystickInput == 2) {
-                currentSelectedOption = gameplay;
-                renderMainMenu();
-                menuOptionHighscore();
-            }
-            else if (joystickInput == 3) {
-                currentSelectedOption = newGame;
-                renderMainMenu();
-                menuOptionNewGame();
-            }
+        else if (joystickInput == 2) {
+            currentSelectedOption = help;
+            renderMainMenu();
+            menuOptionHelp();
         }
-        else if (currentSelectedOption == gameplay) {
-            uint8_t joystickInput = processInputMainMenu();
-            if (joystickInput == 1) {
-                currentGamestate = gameplayMenu;
-            }
-            else if (joystickInput == 2) {
-                currentSelectedOption = credits;
-                renderMainMenu();
-                menuOptionCredits();
-            }
-            else if (joystickInput == 3) {
-                currentSelectedOption = help;
-                renderMainMenu();
-                menuOptionHelp();
-            }
+        else if (joystickInput == 3) {
+            currentSelectedOption = credits;
+            renderMainMenu();
+            menuOptionCredits();
         }
-        else if (currentSelectedOption == credits) {
-            uint8_t joystickInput = processInputMainMenu();
-            if (joystickInput == 1) {
-                currentGamestate = creditsMenu;
-            }
-            else if (joystickInput == 2) {
-                currentSelectedOption = newGame;
-                renderMainMenu();
-                menuOptionNewGame();
-            }
-            else if (joystickInput == 3) {
-                currentSelectedOption = gameplay;
-                renderMainMenu();
-                menuOptionHighscore();
-            }
+    }
+    else if (currentSelectedOption == help) {
+        if (joystickInput == 1) {
+            currentGamestate = helpMenu;
+        }
+        else if (joystickInput == 2) {
+            currentSelectedOption = gameplay;
+            renderMainMenu();
+            menuOptionHighscore();
+        }
+        else if (joystickInput == 3) {
+            currentSelectedOption = newGame;
+            renderMainMenu();
+            menuOptionNewGame();
+        }
+    }
+    else if (currentSelectedOption == gameplay) {
+        if (joystickInput == 1) {
+            currentGamestate = gameplayMenu;
+        }
+        else if (joystickInput == 2) {
+            currentSelectedOption = credits;
+            renderMainMenu();
+            menuOptionCredits();
+        }
+        else if (joystickInput == 3) {
+            currentSelectedOption = help;
+            renderMainMenu();
+            menuOptionHelp();
+        }
+    }
+    else if (currentSelectedOption == credits) {
+        if (joystickInput == 1) {
+            currentGamestate = creditsMenu;
+        }
+        else if (joystickInput == 2) {
+            currentSelectedOption = newGame;
+            renderMainMenu();
+            menuOptionNewGame();
+        }
+        else if (joystickInput == 3) {
+            currentSelectedOption = gameplay;
+            renderMainMenu();
+            menuOptionHighscore();
         }
     }
     return 0;
 }
 
 
-void helpMenuFunction() {
-    if (currentGamestate == helpMenu) {
-        renderHelpMenu();
-        uint8_t joystickInput = processInputHelpMenu();
-        if (joystickInput == 1) {
-            currentGamestate = mainMenu;
-            renderMainMenu();
-            menuOptionHelp();
+uint8_t processMenu() {
+    clearLed(LED_BLUE);
+    clearLed(LED_RED);
+    clearLed(LED_GREEN);
+    switch(currentGamestate) {
+    case mainMenu:
+        if (mainMenuFunction()) {
+            setLed(LED_GREEN);
+            return 1;
         }
-     }
-}
-
-void gamePlayHelpMenuFunction() {
-    if (currentGamestate == gameplayMenu) {
-        renderGameplayMenu();
-        uint8_t joystickInput = processInputScoreMenu();
-        if (joystickInput == 1) {
-            currentGamestate = mainMenu;
-            renderMainMenu();
-            menuOptionHighscore();
-        }
+        break;
+    case helpMenu:
+        helpMenuFunction();
+        break;
+    case gameplayMenu:
+        gamePlayHelpMenuFunction();
+        break;
+    case creditsMenu:
+        creditsMenuFunction();
+        break;
     }
+    return 0;
 }
-
-void creditsMenuFunction() {
-    if (currentGamestate == creditsMenu) {
-        renderCreditsMenu();
-        uint8_t joystickInput = processInputCreditsMenu();
-        if (joystickInput == 1) {
-            currentGamestate = mainMenu;
-            renderMainMenu();
-            menuOptionCredits();
-        }
-    }
-}
-
-
-
 
 
