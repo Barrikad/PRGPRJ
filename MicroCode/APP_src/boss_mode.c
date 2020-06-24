@@ -1,6 +1,7 @@
 #include "boss_mode.h"
 #include "ansi.h"
 #include "keyboard.h"
+#include "game.h"
 
 void renderBossMode(level_t currentLevel) {
     clearKeys();
