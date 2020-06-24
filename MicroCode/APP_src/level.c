@@ -39,6 +39,21 @@ static const char * levelData2 =
     "#                                        #"
     "###################################dd#####";
 
+static const char * levelData3 =
+    "###################################dd#####"
+    "#                                        #"
+    "#                                        #"
+    "#                                        #"
+    "#                                        #"
+    "#                                        #"
+    "#                                        #"
+    "#                                        #"
+    "#                                        #"
+    "#                                        #"
+    "#                                        #"
+    "#                                        #"
+    "##########################################";
+
 // Cyan
 #define levelColor 6
 
@@ -48,6 +63,8 @@ static const char * getLevelData(level_t level) {
         return levelData1;
     case secondLevel:
         return levelData2;
+    case thirdLevel:
+        return levelData3;
     default:
         return NULL;
     }

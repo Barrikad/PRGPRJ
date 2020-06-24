@@ -141,6 +141,8 @@ static void initLevel2() {
     // TODO: Make doors that lead to the third level
 }
 
+static void initLevel3() {
+}
 
 void initLevel(level_t level) {
     // Reset all counts
@@ -165,7 +167,11 @@ void initLevel(level_t level) {
         break;
     case secondLevel:
         initLevel2();
-        initFrameTimer(150);
+        initFrameTimer(120);
+        break;
+    case thirdLevel:
+        initLevel3();
+        initFrameTimer(160);
         break;
     default:
         // Unreachable
