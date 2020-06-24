@@ -2,6 +2,7 @@
 #include "30010_io.h"
 #include "stm32f30x.h"
 #include "hardware_io.h"
+#include "ansi.h"
 
 static const uint8_t channels[] = {0,ADC_Channel_1,ADC_Channel_2,ADC_Channel_3,ADC_Channel_4,
                                      ADC_Channel_5,ADC_Channel_6,ADC_Channel_7,ADC_Channel_8,
@@ -41,7 +42,11 @@ uint16_t readADC(uint8_t channel){
 
 void exercise8() {
     initADC();
-    uint16_t x = readADC(1);
-    uint16_t y = readADC(2);
-    printf("\n%04i;%04i",x,y);
+
+    while(1){
+        gotoxy(1,1);
+        uint16_t x = readADC(1);
+        uint16_t y = readADC(2);
+        printf("%04i;%04i",x,y);
+    }
 }
