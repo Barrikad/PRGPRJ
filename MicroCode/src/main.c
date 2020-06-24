@@ -23,6 +23,7 @@
 
 int main(void) {
     // TODO: Make a fancy intro-screen?
+    uint8_t bossMode = 0;
     level_t currentLevel = invalidLevel;
     level_t nextLevel = invalidLevel;
     uint8_t shouldEnterGame = 0;
@@ -42,8 +43,15 @@ int main(void) {
     // The main game loop.
     // We will always return to this, instead of having loops inside functions, since that makes our state explicit.
     while (1) {
+        if (bossMode) {
+            // If should exit boss mode
+            if (processBossMode()) {
+                bossMode = 0;
+                // Reset current level
+                initLevel(currentLevel);
+            }
         // Menu is currently open, game is not running.
-        if (currentLevel == invalidLevel) {
+        } else if (currentLevel == invalidLevel) {
             shouldEnterGame = processMenu();
             if (shouldEnterGame) {
                 currentLevel = initialLevel;
@@ -51,8 +59,12 @@ int main(void) {
             }
         // Game is running.
         } else {
+            // Check if boss has entered office. Nothing is more important!
+            if (isBossKeyPressed()) {
+                initBossMode();
+                bossMode = 1;
             // Render on a clock,
-            if (getFrameFlag()) {
+            } else if (getFrameFlag()) {
                 unsetFrameFlag();
                 // Debug print frame skips
                 // Each time this number rises, a frame was skipped, and the game is running too slowly!

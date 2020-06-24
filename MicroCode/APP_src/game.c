@@ -535,13 +535,6 @@ level_t processGameTick(level_t level) {
         previousLives[i] = players[i].lives;
     }
 
-    //check if boss has entered office first of all
-    //nothing is more important
-    //game-stopping while loop, to make totally sure
-    if(isBossKeyPressed()){
-        renderBossMode(level);
-    }
-
 
     // Process entities.
     // Each of these de-render each tick, so we can simply draw them at the new position in the end.

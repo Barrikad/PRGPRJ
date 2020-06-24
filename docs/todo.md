@@ -9,7 +9,7 @@
 - [ ] Store player score and lives between levels
 - [x] Update help menu
 - [x] Implement initial Boss Key
-- [ ] Implement better Boss Key
+- [x] Implement better Boss Key
 - [x] Graphics for tank / motorcycle
 - [x] Blink sprite / other color on powerup
 - [x] Exercises???
