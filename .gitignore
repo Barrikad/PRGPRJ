@@ -15,3 +15,8 @@ RemoteSystemsTempFiles/
 .project
 .cproject
 *.launch
+
+
+# Wack stuff
+cscope.out
+*.cscope_file_list
