@@ -33,8 +33,7 @@ void livesAndScoreLcd(player_t* players, uint8_t numPlayers) {
     char* playerName[] = {"Player 1", "Player 2", "Player 3"};
     char score[3][14];
     char numLives[3][4];
-    uint8_t i;
-    uint8_t j;
+    uint8_t i, j;
     lcdClear();
 
     for (i = 0; i < strlen(header); i++) {
@@ -79,8 +78,7 @@ void showScoreAfterDeath(uint8_t scores[]) {
     char* playerName[] = {"Player 1", "Player 2", "Player 3"};
     char* help = {"<-Back"};
     char endScore[3][6];
-    uint8_t i;
-    uint8_t j;
+    uint8_t i ,j;
     lcdClear();
 
     for (i = 0; i < 21; i++) {
