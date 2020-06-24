@@ -4,40 +4,40 @@
 #include "fix_point_math.h"
 #include <stdio.h>
 
-#define LEVEL_WIDTH 14
+#define LEVEL_WIDTH 42
 #define LEVEL_HEIGHT 13
 
-// Only the characters #, % and $ are used when inspecting level data, the rest are ignored!
+// Only the characters #, % and d are used when inspecting level data, the rest are ignored!
 
 static const char * levelData1 =
-    "##############"
-    "#            #"
-    "#            d"
-    "#$ ##%%# c   d"
-    "#      #     #"
-    "#      #     #"
-    "#     ##   e #"
-    "#     #      #"
-    "#     #      #"
-    "# p   #%%%#  #"
-    "#            #"
-    "#            #"
-    "##############";
+    "##########################################"
+    "#            #                           #"
+    "#                                        d"
+    "#$ ##%%# c                               d"
+    "#      #     #                           #"
+    "#      #     #                           #"
+    "#     ##   e #                           #"
+    "#     #      #                           #"
+    "#     #      #                           #"
+    "# p   #%%%#  #                           #"
+    "#            #                           #"
+    "#            #                           #"
+    "##########################################";
 
 static const char * levelData2 =
-    "##############"
-    "#            #"
-    "d c        e #"
-    "d            #"
-    "#   #%%%%#   #"
-    "#            #"
-    "# p        $ #"
-    "#            #"
-    "#   #%%%%#   #"
-    "#            #"
-    "# c        c #"
-    "#            #"
-    "##############";
+    "##########################################"
+    "#            #                           #"
+    "d c        e #                           #"
+    "d            #                           #"
+    "#   #%%%%#   #                           #"
+    "#            #                           #"
+    "# p        $ #                           #"
+    "#            #                           #"
+    "#   #%%%%#   #                           #"
+    "#            #                           #"
+    "# c        c                             #"
+    "#                                        #"
+    "###################################dd#####";
 
 // Cyan
 #define levelColor 6
