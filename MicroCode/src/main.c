@@ -52,7 +52,7 @@ int main(void) {
                 initLevel(currentLevel);
             }
             helpMenuFunction();
-            scoreMenuFunction();
+            gamePlayHelpMenuFunction();
             creditsMenuFunction();
         // Game is running.
         } else {

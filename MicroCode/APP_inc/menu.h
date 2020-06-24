@@ -7,7 +7,7 @@ typedef enum {
     game      = 0,
     mainMenu  = 1,
     helpMenu  = 2,
-    scoreMenu = 3,
+    gamePlayHelpMenu = 3,
     creditsMenu  = 4,
     bossMode  = 5
     // miniGame = 6;
@@ -18,7 +18,7 @@ void initMainMenu();
 
 uint8_t mainMenuFunction();
 void helpMenuFunction();
-void scoreMenuFunction();
+void gamePlayHelpMenuFunction();
 void creditsMenuFunction();
 
 
