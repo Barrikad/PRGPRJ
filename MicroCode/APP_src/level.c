@@ -127,9 +127,9 @@ levelCollision_t entityCollidesWall(level_t level, const placement_t *placement)
     fix14_t left   = (*placement).position.x;
     fix14_t right  = (*placement).position.x + (*placement).hitboxWidth;
     fix14_t topDecimal    = (((top >> FIX14_SHIFT) + 1) << FIX14_SHIFT) - top;
-    fix14_t bottomDecimal = ((bottom >> FIX14_SHIFT) << FIX14_SHIFT) - bottom;
+    fix14_t bottomDecimal  = bottom - ((bottom >> FIX14_SHIFT) << FIX14_SHIFT);
     fix14_t leftDecimal   = (((left >> FIX14_SHIFT) + 1) << FIX14_SHIFT) - left;
-    fix14_t rightDecimal  = ((right >> FIX14_SHIFT) << FIX14_SHIFT) - right;
+    fix14_t rightDecimal  = right - ((right >> FIX14_SHIFT) << FIX14_SHIFT);
 
     // Detect outside of map.
     if (top < 0) {
