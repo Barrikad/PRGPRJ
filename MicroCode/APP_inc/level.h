@@ -9,6 +9,7 @@ typedef enum {
     initialLevel = 1,
     blockLevel = 2,
     mazeLevel = 3,
+    chaosLevel = 4,
 } level_t;
 
 // Determines what kind of collision happened:

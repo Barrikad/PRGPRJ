@@ -11,9 +11,9 @@
 
 static const char * levelDataStart =
     "##########################################"
-    "#   #             #       #       #      #"
-    "# p #             #     $ #       #      d"
-    "#   #   #####     #   #   #   #   #      d"
+    "d   #             #       #       #      #"
+    "d p #             #     $ #       #      #"
+    "#   #   #####     #   #   #   #   #      #"
     "#   #       #         #       #          #"
     "#   #       #         #       #          #"
     "#   #            ###################     #"
@@ -41,8 +41,8 @@ static const char * levelDataBlock =
 
 static const char * levelDataMaze =
     "##########################dd##############"
-    "# e   #       #          #p              #"
-    "#     # ## ## # ## ### # #  # #### ##### #"
+    "d e   #       #          #p              #"
+    "d     # ## ## # ## ### # #  # #### ##### #"
     "##### # ## #  # ## #   # #### #    #     #"
     "#   # # #  # ## #  # ###      # #### #####"
     "# # # # #### #  # ## # ########    #     #"
@@ -54,19 +54,37 @@ static const char * levelDataMaze =
     "#           #      #    #        #       #"
     "##########################################";
 
+// Nowhere to hide, haha!!!
+static const char * levelDataChaos =
+    "##########################################"
+    "#                                      p d"
+    "#   e                c                   d"
+    "#                                        #"
+    "#                                        #"
+    "#                    e                   #"
+    "#                                        #"
+    "#                                        #"
+    "#             c      c      c            #"
+    "#                                        #"
+    "#   e                c             e     #"
+    "#                                        #"
+    "##########################################";
+
 // Cyan
 #define levelColor 6
 
 static const char * getLevelData(level_t level) {
     switch(level) {
+    case invalidLevel:
+        return NULL;
     case initialLevel:
         return levelDataStart;
     case blockLevel:
         return levelDataBlock;
     case mazeLevel:
         return levelDataMaze;
-    default:
-        return NULL;
+    case chaosLevel:
+        return levelDataChaos;
     }
 }
 

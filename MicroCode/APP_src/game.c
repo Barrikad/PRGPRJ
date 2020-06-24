@@ -65,7 +65,7 @@ static void addDoor(vector_t position, level_t nextLevel) {
 }
 
 
-static void initLevel1() {
+static void initLevelStart() {
     vector_t position;
 
     // Player at (2, 2) pointing downwards
@@ -104,10 +104,18 @@ static void initLevel1() {
     position.x = createFix(39);
     position.y = createFix(12);
     addDoor(position, blockLevel);
+
+    // Doors to chaos
+    position.x = createFix(0);
+    position.y = createFix(1);
+    addDoor(position, chaosLevel);
+    position.x = createFix(0);
+    position.y = createFix(2);
+    addDoor(position, chaosLevel);
 }
 
 
-static void initLevel2() {
+static void initLevelBlock() {
     vector_t position;
 
     // Player at (38.5, 1) pointing downwards
@@ -177,9 +185,17 @@ static void initLevel2() {
     position.x = createFix(27);
     position.y = createFix(12);
     addDoor(position, mazeLevel);
+
+    // Doors to chaos
+    position.x = createFix(0);
+    position.y = createFix(1);
+    addDoor(position, chaosLevel);
+    position.x = createFix(0);
+    position.y = createFix(2);
+    addDoor(position, chaosLevel);
 }
 
-static void initLevel3() {
+static void initLevelMaze() {
     vector_t position;
 
     // Player at (26.5, 1) pointing right
@@ -209,6 +225,69 @@ static void initLevel3() {
     position.x = createFix(27);
     position.y = createFix(0);
     addDoor(position, blockLevel);
+
+    // Doors to chaos
+    position.x = createFix(0);
+    position.y = createFix(1);
+    addDoor(position, chaosLevel);
+    position.x = createFix(0);
+    position.y = createFix(2);
+    addDoor(position, chaosLevel);
+}
+
+static void initLevelChaos() {
+    vector_t position;
+    uint8_t i;
+
+    // Player at (40, 1.5) pointing left
+    position.x = createFix(40);
+    position.y = createFix(1) + (createFix(1) >> 1);
+    addPlayer(position, 256, movementFromJoystick);
+
+    // Enemy at (3, 2) pointing right
+    position.x = createFix(3);
+    position.y = createFix(2);
+    addEnemy(position, 0);
+
+    // Enemy at (3, 10) pointing right
+    position.x = createFix(3);
+    position.y = createFix(10);
+    addEnemy(position, 0);
+
+    // Enemy at (34, 10) pointing left
+    position.x = createFix(34);
+    position.y = createFix(10);
+    addEnemy(position, 0);
+
+    // Enemy at (20, 5) pointing up
+    position.x = createFix(20);
+    position.y = createFix(5);
+    addEnemy(position, 384);
+
+    // All enemies move in the same way, but start different places
+    vector_t cp_center = {createFix(20), createFix(8)};
+    vector_t cp_right = {createFix(27), createFix(8)};
+    vector_t cp_left = {createFix(13), createFix(8)};
+    vector_t cp_up = {createFix(20), createFix(2)};
+    vector_t cp_down = {createFix(20), createFix(10)};
+    for (i = 0; i < enemyCount; i++) {
+        enemyCheckpoints[i][0] = cp_up;
+        enemyCheckpoints[i][1] = cp_center;
+        enemyCheckpoints[i][2] = cp_down;
+        enemyCheckpoints[i][3] = cp_center;
+        enemyCheckpoints[i][4] = cp_left;
+        enemyCheckpoints[i][5] = cp_center;
+        enemyCheckpoints[i][6] = cp_right;
+        enemyCheckpoints[i][7] = cp_center;
+    }
+
+    // Doors back, in case you survive that long
+    position.x = createFix(41);
+    position.y = createFix(1);
+    addDoor(position, initialLevel);
+    position.x = createFix(41);
+    position.y = createFix(2);
+    addDoor(position, initialLevel);
 }
 
 void initLevel(level_t level) {
@@ -229,16 +308,21 @@ void initLevel(level_t level) {
 
     switch(level) {
     case initialLevel:
-        initLevel1();
+        initLevelStart();
         initFrameTimer(100);
         break;
     case blockLevel:
-        initLevel2();
+        initLevelBlock();
         initFrameTimer(120);
         break;
     case mazeLevel:
-        initLevel3();
+        initLevelMaze();
         initFrameTimer(160);
+        break;
+    case chaosLevel:
+        initLevelChaos();
+        // Run as fast as possible!
+        initFrameTimer(1000);
         break;
     default:
         // Unreachable
