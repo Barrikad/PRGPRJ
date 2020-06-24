@@ -6,7 +6,7 @@
 #include "movement.h"
 #include "level.h"
 #include "bullet.h"
-#include "powerUp.h"
+#include "power_up.h"
 
 //notes on the goals of the architecture:
 //  arbitrary number of players with arbitrary input devices
