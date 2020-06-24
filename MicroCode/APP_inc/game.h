@@ -14,10 +14,11 @@ void addPlayer(vector_t position, deg512_t rotation, action_t (*inputFunction)()
 void addEnemy(enemy_t enemy);
 void addBullet(bullet_t bullet);
 void addPowerUp(vector_t position, effects_t effect);
-void deletePowerUp(uint8_t index);
-void deleteBullet(bullet_t* bullet);
 
+void deletePowerUp(uint8_t index);
 void deleteBullet(bullet_t *bullet);
+
+void renderPowerUps();
 
 
 // Run one tick of the main game loop.
