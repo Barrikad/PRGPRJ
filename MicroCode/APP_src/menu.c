@@ -48,7 +48,7 @@ uint8_t processInputMainMenu() {
 // Render the help menu down to LCD.
 static void renderHelpMenu() {
     // TODO: This!
-    char* helpMenuText[] = {"Control the tank with", "the joystick.", "Shoot by pressing the", "joystick down."};
+    char* helpMenuText[] = {"Up/down to move.", "Left/right to rotate.", "Shoot by pressing", "the joystick down."};
     uint8_t i, j;
     lcdClear();
     for (i = 0; i < 4; i++) {
