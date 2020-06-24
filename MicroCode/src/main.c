@@ -18,6 +18,7 @@
 #include "movement.h"
 #include "frame_timer.h"
 #include "player_stat_graphics.h"
+#include "led.h"
 
 
 int main(void) {
@@ -30,6 +31,8 @@ int main(void) {
     clearKeys();
     // Initialize the LCD for the menu and score/lives during game.
     lcdInit();
+    // Initialize LED for both game and menu
+    initLeds();
     // Initialize joystick both for the game and the menu.
     initJoystick();
     // Initialize the main menu.
@@ -40,7 +43,11 @@ int main(void) {
     while (1) {
         // Menu is currently open, game is not running.
         if (currentLevel == invalidLevel) {
+            clearLed(LED_BLUE);
+            clearLed(LED_RED);
+            clearLed(LED_GREEN);
             if (mainMenuFunction()) {
+                setLed(LED_GREEN);
                 currentLevel = firstLevel;
                 initLevel(currentLevel);
             }

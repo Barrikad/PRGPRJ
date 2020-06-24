@@ -66,42 +66,7 @@ void livesAndScoreLcd(player_t* players, uint8_t numPlayers) {
     lcdFlush();
 }
 
-/*
-void showScoreAfterDeath(player_t* players, uint8_t numPlayers) {
-    char* gameOver = {"GAMEOVER       Score:"};
-    char* playerName[] = {"Player 1", "Player 2", "Player 3"};
-    char* help = {"<-Back"};
-    char score[3][14];
-    uint8_t i;
-    uint8_t j;
-    lcdClear();
 
-     for (i = 0; i < strlen(gameOver); i++) {
-        lcdWriteChar(gameOver[i], i * 6, 0);
-    }
-
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < strlen(playerName[i]); j++) {
-            lcdWriteChar(playerName[i][j], j * 6, (i+1) * 8);
-        }
-    }
-
-    getScore(score, players, numPlayers);
-
-    for (i = 0; i < numPlayers; i++) {
-        for (j = 0; j < 6; j++) {
-                lcdWriteChar(score[i][j], (j + 15) * 6, (i + 1) * 8);
-        }
-    }
-
-    for (j = 0; j < 21; j++) {
-            lcdWriteChar(help[j], j*6, 3*8);
-    }
-
-
-    lcdFlush();
-}
-*/
 uint8_t leaveScoreScreen() {
     if (hasPressedLeft()){
         return 1;
@@ -148,25 +113,3 @@ void showScoreAfterDeath(uint8_t scores[]) {
 
 
 
-/*
-
-pseudo code
-//registring players
-void registerPlayer(index):
-   players[index].lives = 9
-   playerCount |= 1 << index
-   playerCount |= 1 << (index + 4)
-
-
-//registring death
-if players[index].lives == 0:
-    playerCount &= ~(1 << index)
-
-
-//counting scores
-for i = 0, i < 4, i++:
-  if playerCount & (1 << 4 + i):
-    scores[i] = players[i].points
-
-
-*/
