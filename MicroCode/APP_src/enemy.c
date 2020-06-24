@@ -40,17 +40,3 @@ uint8_t enemyCollideBullet(player_t *players, enemy_t *enemy, bullet_t *bullet) 
     }
     return 0;
 }
-
-void enemyCollidePlayer(enemy_t *enemy, player_t *player) {
-    //noop
-    //if (entitiesCollide((*player).placement, (*enemy).placement)) {
-        //(*player).points += (*enemy).points;
-        //removeItem(enemy);
-    //}
-}
-
-void enemyCollideWall(level_t level, enemy_t *enemy) {
-    if (entityCollidesWall(level, &(*enemy).placement)) {
-        // *enemy.velocity = -enemy.velocity;
-    }
-}

@@ -477,10 +477,6 @@ static uint8_t processEnemy(level_t level, enemy_t *enemies, uint8_t index, vect
             return 1;
         }
     }
-    for (i = 0; i < playerCount; i++) {
-        enemyCollidePlayer(enemies + index, &players[i]);
-    }
-    enemyCollideWall(level, enemies + index);
 
     // Render yellow tank
     renderTank(&previousPlacement, &enemies[index].placement, enemyColor);
