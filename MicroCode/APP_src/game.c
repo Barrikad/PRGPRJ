@@ -67,63 +67,22 @@ static void addDoor(vector_t position, level_t nextLevel) {
 
 static void initLevel1() {
     vector_t position;
+
+    // Player at (2, 2) pointing downwards
     position.x = createFix(2);
-    position.y = createFix(9);
-    addPlayer(position, 0, movementFromJoystick);
-
-    // Test enemy behavior
-    position.x = createFix(11);
-    position.y = createFix(6);
-    addEnemy(position, 0);
-
-    vector_t cp1 = {createFix(11), createFix(6)};
-    vector_t cp2 = {createFix(9), createFix(3)};
-    enemyCheckpoints[0][0] = cp1;
-    enemyCheckpoints[0][1] = cp2;
-    enemyCheckpoints[0][2] = cp1;
-    enemyCheckpoints[0][3] = cp2;
-    enemyCheckpoints[0][4] = cp1;
-    enemyCheckpoints[0][5] = cp2;
-    enemyCheckpoints[0][6] = cp1;
-    enemyCheckpoints[0][7] = cp2;
-
-    // Test powerup
-    // motorcycle powerup
-    position.x = createFix(2);
-    position.y = createFix(4);
-    addPowerUp(position, 1);
-
-    // driftmode powerup
-    position.x = createFix(4);
-    position.y = createFix(11);
-    addPowerUp(position, 2);
-
-    position.x = createFix(13);
     position.y = createFix(2);
-    addDoor(position, secondLevel);
-    position.x = createFix(13);
-    position.y = createFix(3);
-    addDoor(position, secondLevel);
-}
+    addPlayer(position, 128, movementFromJoystick);
 
+    // Enemy at (38, 8) pointing downwards
+    position.x = createFix(38);
+    position.y = createFix(8);
+    addEnemy(position, 128);
 
-static void initLevel2() {
-    // TODO: Fix the positions of stuff in here!
-
-    vector_t position;
-    position.x = createFix(2);
-    position.y = createFix(9);
-    addPlayer(position, 0, movementFromJoystick);
-
-    // Test enemy behavior
-    position.x = createFix(11);
-    position.y = createFix(2);
-    addEnemy(position, 0);
-
-    vector_t cp1 = {createFix(11), createFix(2)};
-    vector_t cp2 = {createFix(11), createFix(10)};
-    vector_t cp3 = {createFix(2), createFix(10)};
-    vector_t cp4 = {createFix(2), createFix(2)};
+    // Enemy checkpoints
+    vector_t cp1 = {createFix(38), createFix(11)};
+    vector_t cp2 = {createFix(18), createFix(10)};
+    vector_t cp3 = {createFix(18), createFix(7)};
+    vector_t cp4 = {createFix(38), createFix(7)};
     enemyCheckpoints[0][0] = cp1;
     enemyCheckpoints[0][1] = cp2;
     enemyCheckpoints[0][2] = cp3;
@@ -133,22 +92,123 @@ static void initLevel2() {
     enemyCheckpoints[0][6] = cp3;
     enemyCheckpoints[0][7] = cp4;
 
-    // Test powerup
-    position.x = createFix(11);
-    position.y = createFix(6);
+    // Motorcycle power-up at (24, 2)
+    position.x = createFix(24);
+    position.y = createFix(2);
     addPowerUp(position, 1);
 
-    position.x = createFix(0);
-    position.y = createFix(2);
-    addDoor(position, firstLevel);
-    position.x = createFix(0);
-    position.y = createFix(3);
-    addDoor(position, firstLevel);
+    // Doors at bottom right
+    position.x = createFix(38);
+    position.y = createFix(12);
+    addDoor(position, blockLevel);
+    position.x = createFix(39);
+    position.y = createFix(12);
+    addDoor(position, blockLevel);
+}
 
-    // TODO: Make doors that lead to the third level
+
+static void initLevel2() {
+    vector_t position;
+
+    // Player at (38.5, 1) pointing downwards
+    position.x = createFix(38) + (createFix(1) >> 1);
+    position.y = createFix(1);
+    addPlayer(position, 128, movementFromJoystick);
+
+    // Enemy at (16, 10) pointing right
+    position.x = createFix(16);
+    position.y = createFix(10);
+    addEnemy(position, 0);
+
+    // Enemy movement circle
+    vector_t cp1 = {createFix(28), createFix(11)};
+    vector_t cp2 = {createFix(33), createFix(7)};
+    vector_t cp3 = {createFix(30), createFix(1)};
+    vector_t cp4 = {createFix(19), createFix(2)};
+    vector_t cp5 = {createFix(14), createFix(1)};
+    vector_t cp6 = {createFix(6), createFix(3)};
+    vector_t cp7 = {createFix(5), createFix(7)};
+    vector_t cp8 = {createFix(12), createFix(10)};
+    enemyCheckpoints[0][0] = cp1;
+    enemyCheckpoints[0][1] = cp2;
+    enemyCheckpoints[0][2] = cp3;
+    enemyCheckpoints[0][3] = cp4;
+    enemyCheckpoints[0][4] = cp5;
+    enemyCheckpoints[0][5] = cp6;
+    enemyCheckpoints[0][6] = cp7;
+    enemyCheckpoints[0][7] = cp8;
+
+    // Enemy at (3, 2) pointing downwards
+    position.x = createFix(3);
+    position.y = createFix(2);
+    addEnemy(position, 128);
+
+    // Enemy movement line-ish - forwards then backwards
+    vector_t cp1_2 = {createFix(1), createFix(4)};
+    vector_t cp2_2 = {createFix(1), createFix(9)};
+    vector_t cp3_2 = cp1_2;
+    vector_t cp4_2 = {createFix(3), createFix(1)};
+    enemyCheckpoints[1][0] = cp1_2;
+    enemyCheckpoints[1][1] = cp2_2;
+    enemyCheckpoints[1][2] = cp3_2;
+    enemyCheckpoints[1][3] = cp4_2;
+    enemyCheckpoints[1][4] = cp1_2;
+    enemyCheckpoints[1][5] = cp2_2;
+    enemyCheckpoints[1][6] = cp3_2;
+    enemyCheckpoints[1][7] = cp4_2;
+
+    // Glide power-up at (20, 3)
+    position.x = createFix(20);
+    position.y = createFix(3);
+    addPowerUp(position, 2);
+
+    // Doors back
+    position.x = createFix(38);
+    position.y = createFix(0);
+    addDoor(position, initialLevel);
+    position.x = createFix(39);
+    position.y = createFix(0);
+    addDoor(position, initialLevel);
+
+    // Doors to maze
+    position.x = createFix(26);
+    position.y = createFix(12);
+    addDoor(position, mazeLevel);
+    position.x = createFix(27);
+    position.y = createFix(12);
+    addDoor(position, mazeLevel);
 }
 
 static void initLevel3() {
+    vector_t position;
+
+    // Player at (26.5, 1) pointing right
+    position.x = createFix(26) + (createFix(1) >> 1);
+    position.y = createFix(1);
+    addPlayer(position, 0, movementFromJoystick);
+
+    // Enemy at (1.5, 1.5) pointing right
+    position.x = createFix(1) + (createFix(1) >> 1);
+    position.y = createFix(1) + (createFix(1) >> 1);
+    addEnemy(position, 0);
+
+    // No enemy movement
+    enemyCheckpoints[0][0] = position;
+    enemyCheckpoints[0][1] = position;
+    enemyCheckpoints[0][2] = position;
+    enemyCheckpoints[0][3] = position;
+    enemyCheckpoints[0][4] = position;
+    enemyCheckpoints[0][5] = position;
+    enemyCheckpoints[0][6] = position;
+    enemyCheckpoints[0][7] = position;
+
+    // Doors back
+    position.x = createFix(26);
+    position.y = createFix(0);
+    addDoor(position, blockLevel);
+    position.x = createFix(27);
+    position.y = createFix(0);
+    addDoor(position, blockLevel);
 }
 
 void initLevel(level_t level) {
@@ -168,15 +228,15 @@ void initLevel(level_t level) {
     renderLevel(level);
 
     switch(level) {
-    case firstLevel:
+    case initialLevel:
         initLevel1();
         initFrameTimer(100);
         break;
-    case secondLevel:
+    case blockLevel:
         initLevel2();
         initFrameTimer(120);
         break;
-    case thirdLevel:
+    case mazeLevel:
         initLevel3();
         initFrameTimer(160);
         break;

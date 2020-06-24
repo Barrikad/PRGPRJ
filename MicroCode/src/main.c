@@ -46,7 +46,7 @@ int main(void) {
         if (currentLevel == invalidLevel) {
             shouldEnterGame = processMenu();
             if (shouldEnterGame) {
-                currentLevel = firstLevel;
+                currentLevel = initialLevel;
                 initLevel(currentLevel);
             }
         // Game is running.
