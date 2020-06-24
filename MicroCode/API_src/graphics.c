@@ -1,6 +1,6 @@
 #include "graphics.h"
 
-#define DIRECTIONS 4
+#define DIRECTIONS 12
 //strings end with \0, so we add 1 to array size
 #define TILE_SIZE (TILE_WIDTH * TILE_HEIGHT + 1)
 
@@ -11,18 +11,51 @@ const char TANK[DIRECTIONS][TILE_SIZE] = {
     "--- "
     " H->"
     "--- ",
+    // Right/Down
+    "  \\ "
+    "\\H'\\"
+    " \\ \\",
+    // Down/Right
+    "  - "
+    "\\H.\\"
+    " - -",
     // Down
     "|  |"
     "|HH|"
     " \\/ ",
+    // Down/Left
+    " /  "
+    "/,H/"
+    "/ / ",
+    // Left/Down
+    " -  "
+    "/,H/"
+    "- - ",
     // Left
     " ---"
     "<-H "
     " ---",
+    // Left/Up
+    "\\ \\ "
+    "\\'H\\"
+    " \\  ",
+    // Up/Left
+    "- - "
+    "\\'H\\"
+    " -  ",
     // Up
     " /\\ "
     "|HH|"
-    "|  |"};
+    "|  |",
+    // Up/Right
+    " / /"
+    "/H'/"
+    "  / ",
+    // Right/Up
+    " - -"
+    "/H'/"
+    "  - ",
+};
 const char TANK_CLEAR[TILE_SIZE] =
     "    "
     "    "
