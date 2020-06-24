@@ -501,6 +501,9 @@ level_t processGameTick(level_t level) {
         if (processEnemy(level, enemies, i, enemyCheckpoints[i])) {
             // Delete the enemy by moving the last entry into it, and deleting the last entry.
             enemies[i] = enemies[enemyCount - 1];
+            for (j = 0; j < CHECKPOINT_COUNT; j++) {
+                enemyCheckpoints[i][j] = enemyCheckpoints[enemyCount - 1][j];
+            }
             enemyCount--;
             i--;
             if (isDoorsOpen()) {
