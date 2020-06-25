@@ -139,8 +139,8 @@ static void menuOptionHelp() {
     lcdFlush();
 }
 
-// inverting color of Game Play Help
-static void menuOptionHighscore() {
+// inverting color of Gameplay
+static void menuOptionGameplay() {
     char* antiHighscore = {"Gameplay"};
     uint8_t j;
     for (j = 0; j < strlen(antiHighscore); j++) {
@@ -186,7 +186,7 @@ static void gamePlayHelpMenuFunction() {
     if (joystickInput == 1) {
         currentGamestate = mainMenu;
         renderMainMenu();
-        menuOptionHighscore();
+        menuOptionGameplay();
     }
 }
 
@@ -229,7 +229,7 @@ uint8_t mainMenuFunction() {
         else if (joystickInput == 2) {
             currentSelectedOption = gameplay;
             renderMainMenu();
-            menuOptionHighscore();
+            menuOptionGameplay();
         }
         else if (joystickInput == 3) {
             currentSelectedOption = newGame;
@@ -264,7 +264,7 @@ uint8_t mainMenuFunction() {
         else if (joystickInput == 3) {
             currentSelectedOption = gameplay;
             renderMainMenu();
-            menuOptionHighscore();
+            menuOptionGameplay();
         }
     }
     return 0;

@@ -2,14 +2,11 @@
 #define PLAYER_STAT_GRAPHICS_H_INCLUDED
 
 
-// Show the score and lives on the LCD
+// Show the score and lives on the LCD when the player is alive
 void livesAndScoreLcd(player_t* players, uint8_t numPlayers);
 
 // Show the score of the player after death.
 void showScoreAfterDeath(uint8_t scores[]);
-
-// Tells when the player want to leave the score screen.
-uint8_t leaveScoreScreen();
 
 
 #endif /* PLAYER_STAT_GRAPHICS_H_INCLUDED */
