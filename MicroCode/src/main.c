@@ -30,6 +30,7 @@ int main(void) {
 
     // Initialize the UART as the display during game.
     uart_init(115200);
+
     clearKeys();
     // Initialize the LCD for the menu and score/lives during game.
     lcdInit();

@@ -117,7 +117,7 @@ fix14_t vectorLen(vector_t v){
     fix14_t x2y2 = (v.x * v.x) + (v.y * v.y);
 
     //return distance converted to fix14
-    return squrt(x2y2) << 4;
+    return squrt(x2y2 << 4);
 }
 
 //private function to round a guaranteed positive number
