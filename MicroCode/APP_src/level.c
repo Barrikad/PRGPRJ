@@ -85,6 +85,8 @@ static const char * getLevelData(level_t level) {
         return levelDataMaze;
     case chaosLevel:
         return levelDataChaos;
+    default:
+        return NULL;
     }
 }
 
