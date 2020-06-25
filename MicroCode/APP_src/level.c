@@ -4,52 +4,87 @@
 #include "fix_point_math.h"
 #include <stdio.h>
 
-#define LEVEL_WIDTH 14
+#define LEVEL_WIDTH 42
 #define LEVEL_HEIGHT 13
 
-// Only the characters #, % and $ are used when inspecting level data, the rest are ignored!
+// Only the characters #, % and d are used when inspecting level data, the rest are ignored!
 
-static const char * levelData1 =
-    "##############"
-    "#            #"
-    "#            d"
-    "#$ ##%%# c   d"
-    "#      #     #"
-    "#      #     #"
-    "#     ##   e #"
-    "#     #      #"
-    "#     #      #"
-    "# p   #%%%#  #"
-    "#            #"
-    "#            #"
-    "##############";
+static const char * levelDataStart =
+    "##########################################"
+    "d   #             #       #       #      #"
+    "d p #             #     $ #       #      #"
+    "#   #   #####     #   #   #   #   #      #"
+    "#   #       #         #       #          #"
+    "#   #       #         #       #          #"
+    "#   #            ###################     #"
+    "#   #   #          c                  c  #"
+    "#   #   #                                #"
+    "#       #      ###   ################ e  #"
+    "#       #          c                  c  #"
+    "#       #                                #"
+    "######################################dd##";
 
-static const char * levelData2 =
-    "##############"
-    "#            #"
-    "d c        e #"
-    "d            #"
-    "#   #%%%%#   #"
-    "#            #"
-    "# p        $ #"
-    "#            #"
-    "#   #%%%%#   #"
-    "#            #"
-    "# c        c #"
-    "#            #"
-    "##############";
+static const char * levelDataBlock =
+    "######################################dd##"
+    "d  c #         c     ##        c #### p  #"
+    "d  e #              c             ###    #"
+    "#   ## c      #####  $ ######      ##    #"
+    "#c  #       ##################     ##    #"
+    "#  ##     #####################    ##    #"
+    "#  #      #####################    ###   #"
+    "#  #  c    ####################   c ##   #"
+    "#  #         ##    #########        ##   #"
+    "#  ###             ####                  #"
+    "#c           c   e                       #"
+    "#        ###                 c  ##       #"
+    "##########################dd##############";
+
+static const char * levelDataMaze =
+    "##########################dd##############"
+    "d e   #       #          #p              #"
+    "d     # ## ## # ## ### # #  # #### ##### #"
+    "##### # ## #  # ## #   # #### #    #     #"
+    "#   # # #  # ## #  # ###      # #### #####"
+    "# # # # #### #  # ## # ########    #     #"
+    "# # # ####     ## #  #        # ## ##### #"
+    "# # #    #######  # #########    #     # #"
+    "# # ####      ## ####       ########## # #"
+    "# #    ### ## #  #    #####    #   # #   #"
+    "# ######## ## #### ####   #### # # # ### #"
+    "#           #      #    #        #       #"
+    "##########################################";
+
+// Nowhere to hide, haha!!!
+static const char * levelDataChaos =
+    "##########################################"
+    "#                                      p d"
+    "#   e                c                   d"
+    "#                                        #"
+    "#                                        #"
+    "#                    e                   #"
+    "#                                        #"
+    "#                                        #"
+    "#             c      c      c            #"
+    "#                                        #"
+    "#   e                c             e     #"
+    "#                                        #"
+    "##########################################";
 
 // Cyan
 #define levelColor 6
 
 static const char * getLevelData(level_t level) {
     switch(level) {
-    case firstLevel:
-        return levelData1;
-    case secondLevel:
-        return levelData2;
-    default:
+    case invalidLevel:
         return NULL;
+    case initialLevel:
+        return levelDataStart;
+    case blockLevel:
+        return levelDataBlock;
+    case mazeLevel:
+        return levelDataMaze;
+    case chaosLevel:
+        return levelDataChaos;
     }
 }
 
@@ -92,9 +127,9 @@ levelCollision_t entityCollidesWall(level_t level, const placement_t *placement)
     fix14_t left   = (*placement).position.x;
     fix14_t right  = (*placement).position.x + (*placement).hitboxWidth;
     fix14_t topDecimal    = (((top >> FIX14_SHIFT) + 1) << FIX14_SHIFT) - top;
-    fix14_t bottomDecimal = ((bottom >> FIX14_SHIFT) << FIX14_SHIFT) - bottom;
+    fix14_t bottomDecimal  = bottom - ((bottom >> FIX14_SHIFT) << FIX14_SHIFT);
     fix14_t leftDecimal   = (((left >> FIX14_SHIFT) + 1) << FIX14_SHIFT) - left;
-    fix14_t rightDecimal  = ((right >> FIX14_SHIFT) << FIX14_SHIFT) - right;
+    fix14_t rightDecimal  = right - ((right >> FIX14_SHIFT) << FIX14_SHIFT);
 
     // Detect outside of map.
     if (top < 0) {

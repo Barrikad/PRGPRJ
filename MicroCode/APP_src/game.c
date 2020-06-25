@@ -15,34 +15,36 @@
 #include "player_stat_graphics.h"
 #include "boss_mode.h"
 
-#define MAX_PLAYERS 4
+#define MAX_PLAYERS 1
 //array of players, and size of actually contained players
 static uint8_t playerCount;
 static player_t players[MAX_PLAYERS];
 
-#define MAX_BULLETS 8
+#define MAX_BULLETS 100
 //actual number of bullets in bulletCount
 static uint8_t bulletCount;
 static bullet_t bullets[MAX_BULLETS];
 
-#define MAX_ENEMIES 16
+#define MAX_ENEMIES 4
 //actual number of enemies in enemyCount
 static uint8_t enemyCount;
 static enemy_t enemies[MAX_ENEMIES];
 static vector_t enemyCheckpoints[MAX_ENEMIES][CHECKPOINT_COUNT];
 
-#define MAX_POWERUPS 8
+#define MAX_POWERUPS 2
 //actual number of bullets in bulletCount
 static uint8_t powerUpCount;
 static powerUp_t powerUps[MAX_POWERUPS];
 
-#define MAX_DOORS 4
+#define MAX_DOORS 6
 static uint8_t doorCount;
 static door_t doors[MAX_DOORS];
 
 
 // Purple
-#define playerColor 5
+#define playerTankColor 5
+// Light blue
+#define playerMotorcycleColor powerUpColor
 // Yellow
 #define enemyColor 11
 // Light blue
@@ -65,60 +67,24 @@ static void addDoor(vector_t position, level_t nextLevel) {
 }
 
 
-static void initLevel1() {
-    vector_t position = {createFix(2), createFix(9)};
-    addPlayer(position, 0, movementFromJoystick);
+static void initLevelStart() {
+    vector_t position;
 
-    // Test enemy behavior
-    vector_t pos = {11 << 14, 6 << 14};
-    deg512_t rot = 0;
-    placement_t plc = {pos, 1 << 13, 1 << 13, rot};
-    enemy_t enemy = {plc,5,0,2,0};
-    addEnemy(enemy);
-    vector_t cp1 = {11 << 14, 6 << 14};
-    vector_t cp2 = {9 << 14, 3 << 14};
-    enemyCheckpoints[0][0] = cp1;
-    enemyCheckpoints[0][1] = cp2;
-    enemyCheckpoints[0][2] = cp1;
-    enemyCheckpoints[0][3] = cp2;
-    enemyCheckpoints[0][4] = cp1;
-    enemyCheckpoints[0][5] = cp2;
-    enemyCheckpoints[0][6] = cp1;
-    enemyCheckpoints[0][7] = cp2;
+    // Player at (2, 2) pointing downwards
+    position.x = createFix(2);
+    position.y = createFix(2);
+    addPlayer(position, 128, movementFromJoystick);
 
-    // Test powerup
-    // motorcycle powerup
-    vector_t puPos = {2 << 14,4 << 14};
-    effects_t effect = 1;
-    addPowerUp(puPos,effect);
+    // Enemy at (38, 8) pointing downwards
+    position.x = createFix(38);
+    position.y = createFix(8);
+    addEnemy(position, 128);
 
-    // driftmode powerup
-    vector_t puPos2 = {4 << 14,11 << 14};
-    effects_t effect2 = 2;
-    addPowerUp(puPos2,effect2);
-
-    vector_t doorPosition1 = {createFix(13), createFix(2)};
-    addDoor(doorPosition1, secondLevel);
-    vector_t doorPosition2 = {createFix(13), createFix(3)};
-    addDoor(doorPosition2, secondLevel);
-}
-
-
-static void initLevel2() {
-    // TODO: Fix the positions of stuff in here!
-    vector_t position = {createFix(2), createFix(9)};
-    addPlayer(position, 0, movementFromJoystick);
-
-    // Test enemy behavior
-    vector_t pos = {11 << 14, 2 << 14};
-    deg512_t rot = 0;
-    placement_t plc = {pos, 1 << 13, 1 << 13, rot};
-    enemy_t enemy = {plc,5,0,0,0};
-    addEnemy(enemy);
-    vector_t cp1 = {11 << 14, 2 << 14};
-    vector_t cp2 = {11 << 14, 10 << 14};
-    vector_t cp3 = {2 << 14, 10 << 14};
-    vector_t cp4 = {2 << 14, 2 << 14};
+    // Enemy checkpoints
+    vector_t cp1 = {createFix(38), createFix(11)};
+    vector_t cp2 = {createFix(18), createFix(10)};
+    vector_t cp3 = {createFix(18), createFix(7)};
+    vector_t cp4 = {createFix(38), createFix(7)};
     enemyCheckpoints[0][0] = cp1;
     enemyCheckpoints[0][1] = cp2;
     enemyCheckpoints[0][2] = cp3;
@@ -128,19 +94,203 @@ static void initLevel2() {
     enemyCheckpoints[0][6] = cp3;
     enemyCheckpoints[0][7] = cp4;
 
-    // Test powerup
-    vector_t puPos = {11 << 14, 6 << 14};
-    effects_t effect = 1;
-    addPowerUp(puPos,effect);
+    // Motorcycle power-up at (24, 2)
+    position.x = createFix(24);
+    position.y = createFix(2);
+    addPowerUp(position, 1);
 
-    vector_t doorPosition1 = {createFix(0), createFix(2)};
-    addDoor(doorPosition1, firstLevel);
-    vector_t doorPosition2 = {createFix(0), createFix(3)};
-    addDoor(doorPosition2, firstLevel);
+    // Doors at bottom right
+    position.x = createFix(38);
+    position.y = createFix(12);
+    addDoor(position, blockLevel);
+    position.x = createFix(39);
+    position.y = createFix(12);
+    addDoor(position, blockLevel);
 
-    // TODO: Make doors that lead to the third level
+    // Doors to chaos
+    position.x = createFix(0);
+    position.y = createFix(1);
+    addDoor(position, chaosLevel);
+    position.x = createFix(0);
+    position.y = createFix(2);
+    addDoor(position, chaosLevel);
 }
 
+
+static void initLevelBlock() {
+    vector_t position;
+
+    // Player at (38.5, 1) pointing downwards
+    position.x = createFix(38) + (createFix(1) >> 1);
+    position.y = createFix(1);
+    addPlayer(position, 128, movementFromJoystick);
+
+    // Enemy at (16, 10) pointing right
+    position.x = createFix(16);
+    position.y = createFix(10);
+    addEnemy(position, 0);
+
+    // Enemy movement circle
+    vector_t cp1 = {createFix(28), createFix(11)};
+    vector_t cp2 = {createFix(33), createFix(7)};
+    vector_t cp3 = {createFix(30), createFix(1)};
+    vector_t cp4 = {createFix(19), createFix(2)};
+    vector_t cp5 = {createFix(14), createFix(1)};
+    vector_t cp6 = {createFix(6), createFix(3)};
+    vector_t cp7 = {createFix(5), createFix(7)};
+    vector_t cp8 = {createFix(12), createFix(10)};
+    enemyCheckpoints[0][0] = cp1;
+    enemyCheckpoints[0][1] = cp2;
+    enemyCheckpoints[0][2] = cp3;
+    enemyCheckpoints[0][3] = cp4;
+    enemyCheckpoints[0][4] = cp5;
+    enemyCheckpoints[0][5] = cp6;
+    enemyCheckpoints[0][6] = cp7;
+    enemyCheckpoints[0][7] = cp8;
+
+    // Enemy at (3, 2) pointing downwards
+    position.x = createFix(3);
+    position.y = createFix(2);
+    addEnemy(position, 128);
+
+    // Enemy movement line-ish - forwards then backwards
+    vector_t cp1_2 = {createFix(1), createFix(4)};
+    vector_t cp2_2 = {createFix(1), createFix(9)};
+    vector_t cp3_2 = cp1_2;
+    vector_t cp4_2 = {createFix(3), createFix(1)};
+    enemyCheckpoints[1][0] = cp1_2;
+    enemyCheckpoints[1][1] = cp2_2;
+    enemyCheckpoints[1][2] = cp3_2;
+    enemyCheckpoints[1][3] = cp4_2;
+    enemyCheckpoints[1][4] = cp1_2;
+    enemyCheckpoints[1][5] = cp2_2;
+    enemyCheckpoints[1][6] = cp3_2;
+    enemyCheckpoints[1][7] = cp4_2;
+
+    // Glide power-up at (20, 3)
+    position.x = createFix(20);
+    position.y = createFix(3);
+    addPowerUp(position, 2);
+
+    // Doors back
+    position.x = createFix(38);
+    position.y = createFix(0);
+    addDoor(position, initialLevel);
+    position.x = createFix(39);
+    position.y = createFix(0);
+    addDoor(position, initialLevel);
+
+    // Doors to maze
+    position.x = createFix(26);
+    position.y = createFix(12);
+    addDoor(position, mazeLevel);
+    position.x = createFix(27);
+    position.y = createFix(12);
+    addDoor(position, mazeLevel);
+
+    // Doors to chaos
+    position.x = createFix(0);
+    position.y = createFix(1);
+    addDoor(position, chaosLevel);
+    position.x = createFix(0);
+    position.y = createFix(2);
+    addDoor(position, chaosLevel);
+}
+
+static void initLevelMaze() {
+    vector_t position;
+
+    // Player at (26.5, 1) pointing right
+    position.x = createFix(26) + (createFix(1) >> 1);
+    position.y = createFix(1);
+    addPlayer(position, 0, movementFromJoystick);
+
+    // Enemy at (1.5, 1.5) pointing right
+    position.x = createFix(1) + (createFix(1) >> 1);
+    position.y = createFix(1) + (createFix(1) >> 1);
+    addEnemy(position, 0);
+
+    // No enemy movement
+    enemyCheckpoints[0][0] = position;
+    enemyCheckpoints[0][1] = position;
+    enemyCheckpoints[0][2] = position;
+    enemyCheckpoints[0][3] = position;
+    enemyCheckpoints[0][4] = position;
+    enemyCheckpoints[0][5] = position;
+    enemyCheckpoints[0][6] = position;
+    enemyCheckpoints[0][7] = position;
+
+    // Doors back
+    position.x = createFix(26);
+    position.y = createFix(0);
+    addDoor(position, blockLevel);
+    position.x = createFix(27);
+    position.y = createFix(0);
+    addDoor(position, blockLevel);
+
+    // Doors to chaos
+    position.x = createFix(0);
+    position.y = createFix(1);
+    addDoor(position, chaosLevel);
+    position.x = createFix(0);
+    position.y = createFix(2);
+    addDoor(position, chaosLevel);
+}
+
+static void initLevelChaos() {
+    vector_t position;
+    uint8_t i;
+
+    // Player at (40, 1.5) pointing left
+    position.x = createFix(40);
+    position.y = createFix(1) + (createFix(1) >> 1);
+    addPlayer(position, 256, movementFromJoystick);
+
+    // Enemy at (3, 2) pointing right
+    position.x = createFix(3);
+    position.y = createFix(2);
+    addEnemy(position, 0);
+
+    // Enemy at (3, 10) pointing right
+    position.x = createFix(3);
+    position.y = createFix(10);
+    addEnemy(position, 0);
+
+    // Enemy at (34, 10) pointing left
+    position.x = createFix(34);
+    position.y = createFix(10);
+    addEnemy(position, 0);
+
+    // Enemy at (20, 5) pointing up
+    position.x = createFix(20);
+    position.y = createFix(5);
+    addEnemy(position, 384);
+
+    // All enemies move in the same way, but start different places
+    vector_t cp_center = {createFix(20), createFix(8)};
+    vector_t cp_right = {createFix(27), createFix(8)};
+    vector_t cp_left = {createFix(13), createFix(8)};
+    vector_t cp_up = {createFix(20), createFix(2)};
+    vector_t cp_down = {createFix(20), createFix(10)};
+    for (i = 0; i < enemyCount; i++) {
+        enemyCheckpoints[i][0] = cp_up;
+        enemyCheckpoints[i][1] = cp_center;
+        enemyCheckpoints[i][2] = cp_down;
+        enemyCheckpoints[i][3] = cp_center;
+        enemyCheckpoints[i][4] = cp_left;
+        enemyCheckpoints[i][5] = cp_center;
+        enemyCheckpoints[i][6] = cp_right;
+        enemyCheckpoints[i][7] = cp_center;
+    }
+
+    // Doors back, in case you survive that long
+    position.x = createFix(41);
+    position.y = createFix(1);
+    addDoor(position, initialLevel);
+    position.x = createFix(41);
+    position.y = createFix(2);
+    addDoor(position, initialLevel);
+}
 
 void initLevel(level_t level) {
     // Reset all counts
@@ -159,13 +309,22 @@ void initLevel(level_t level) {
     renderLevel(level);
 
     switch(level) {
-    case firstLevel:
-        initLevel1();
+    case initialLevel:
+        initLevelStart();
         initFrameTimer(100);
         break;
-    case secondLevel:
-        initLevel2();
-        initFrameTimer(150);
+    case blockLevel:
+        initLevelBlock();
+        initFrameTimer(120);
+        break;
+    case mazeLevel:
+        initLevelMaze();
+        initFrameTimer(160);
+        break;
+    case chaosLevel:
+        initLevelChaos();
+        // Run as fast as possible!
+        initFrameTimer(1000);
         break;
     default:
         // Unreachable
@@ -187,7 +346,7 @@ void addPlayer(vector_t position, deg512_t rotation, action_t (*inputFunction)()
         return;
     }
     initPlayer(&players[playerCount], position, rotation, inputFunction);
-    drawTank(&players[playerCount].placement, playerColor);
+    drawTank(&players[playerCount].placement, playerTankColor);
     playerCount++;
 }
 
@@ -200,11 +359,11 @@ void addBullet(bullet_t bullet) {
     bulletCount++;
 }
 
-void addEnemy(enemy_t enemy) {
+void addEnemy(vector_t position, deg512_t rotation) {
     if (enemyCount >= MAX_ENEMIES) {
         return;
     }
-    enemies[enemyCount] = enemy;
+    initEnemy(&enemies[enemyCount], position, rotation);
     drawTank(&enemies[enemyCount].placement, enemyColor);
     enemyCount++;
 }
@@ -318,10 +477,6 @@ static uint8_t processEnemy(level_t level, enemy_t *enemies, uint8_t index, vect
             return 1;
         }
     }
-    for (i = 0; i < playerCount; i++) {
-        enemyCollidePlayer(enemies + index, &players[i]);
-    }
-    enemyCollideWall(level, enemies + index);
 
     // Render yellow tank
     renderTank(&previousPlacement, &enemies[index].placement, enemyColor);
@@ -376,13 +531,6 @@ level_t processGameTick(level_t level) {
         previousLives[i] = players[i].lives;
     }
 
-    //check if boss has entered office first of all
-    //nothing is more important
-    //game-stopping while loop, to make totally sure
-    if(isBossKeyPressed()){
-        renderBossMode(level);
-    }
-
 
     // Process entities.
     // Each of these de-render each tick, so we can simply draw them at the new position in the end.
@@ -407,8 +555,11 @@ level_t processGameTick(level_t level) {
 
         playerCollideWall(level, players + i);
 
-        // Render purple tank
-        renderTank(&previousPlacement, &players[i].placement, playerColor);
+        if (players[i].effects & 0x01) {
+            renderTank(&previousPlacement, &players[i].placement, playerMotorcycleColor);
+        } else {
+            renderTank(&previousPlacement, &players[i].placement, playerTankColor);
+        }
     }
 
     // Exit game if playerCount is zero
@@ -428,6 +579,9 @@ level_t processGameTick(level_t level) {
         if (processEnemy(level, enemies, i, enemyCheckpoints[i])) {
             // Delete the enemy by moving the last entry into it, and deleting the last entry.
             enemies[i] = enemies[enemyCount - 1];
+            for (j = 0; j < CHECKPOINT_COUNT; j++) {
+                enemyCheckpoints[i][j] = enemyCheckpoints[enemyCount - 1][j];
+            }
             enemyCount--;
             i--;
             if (isDoorsOpen()) {

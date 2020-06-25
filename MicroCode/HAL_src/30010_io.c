@@ -18,8 +18,10 @@ uint8_t uart_get_char(){
 }
 
 void uart_put_char(uint8_t c) {
-    USART_SendData(USART2, (uint8_t)c);
+    // Changed to check the status before reading instead of after.
+    // That way, we don't waste unnecessary cycles afterwards, but instead only when we need to!
     while(USART_GetFlagStatus(USART2, USART_FLAG_TXE)  == RESET){}
+    USART_SendData(USART2, (uint8_t)c);
 }
 
 int _write_r(struct _reent *r, int file, char *ptr, int len) {

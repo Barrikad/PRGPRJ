@@ -4,12 +4,12 @@
 #include <stdint.h>
 #include "level.h"
 
-// Renders the boss mode / HackerTyper screen. This should (FOR NOW) determine by itself how often it wants to render!
-void renderBossMode(level_t currentLevel);
+// Initializes / enters the boss mode.
+void initBossMode();
 
 // Processes input from the user, changing the shown content when the user types.
 // Returns 0 if should stay in boss mode, and 1 if should return to main game again.
-uint8_t processInputBossMode();
+uint8_t processBossMode();
 
 // Whether the boss key has been pressed, and the boss mode should be entered.
 uint8_t isBossKeyPressed();

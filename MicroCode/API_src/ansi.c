@@ -103,28 +103,28 @@ void cursorHide() {
 void cursorShow() {
     printf("\x1b[?25h");
 }
-void cursorToXY(int8_t x, int8_t y) {
+void cursorToXY(uint8_t x, uint8_t y) {
     printf("%c[%d;%dH", ESC, y + 1, x + 1);
 }
-void cursorUp(int8_t x) {
+void cursorUp(uint8_t x) {
     printf("%c[%dA", ESC, x);
 }
-void cursorDown(int8_t x) {
+void cursorDown(uint8_t x) {
     printf("%c[%dB", ESC, x);
 }
-void cursorRight(int8_t x) {
+void cursorRight(uint8_t x) {
     printf("%c[%dC", ESC, x);
 }
-void cursorLeft(int8_t x) {
+void cursorLeft(uint8_t x) {
     printf("%c[%dD", ESC, x);
 }
-void underline(int8_t on) {
+void underline(uint8_t on) {
     printf("%c[%dm", ESC, on ? 4 : 24);
 }
-void blink(int8_t on) {
+void blink(uint8_t on) {
     printf("%c[%dm", ESC, on ? 5 : 25);
 }
-void inverse(int8_t on) {
+void inverse(uint8_t on) {
     printf("%c[%dm", ESC, on ? 7 : 27);
 }
 

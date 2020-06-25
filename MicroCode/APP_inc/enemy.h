@@ -17,17 +17,14 @@ typedef struct{
     uint8_t checkpointIndex;
 } enemy_t;
 
+// Initialize an enemy.
+void initEnemy(enemy_t *enemy, vector_t position, deg512_t rotation);
+
 //fire a bullet from an enemy
 void fireBulletFromEnemy(enemy_t* enemies, uint8_t index);
 
 // Detect and handle collision with bullet.
 // TODO: Fix need to pass all players down here!
 uint8_t enemyCollideBullet(player_t *players, enemy_t *enemy, bullet_t *bullet);
-
-// Detect and handle collision with player.
-void enemyCollidePlayer(enemy_t *enemy, player_t *player);
-
-// Detect and handle collision with wall.
-void enemyCollideWall(level_t level, enemy_t *enemy);
 
 #endif /* ENEMY_H_INCLUDED */
